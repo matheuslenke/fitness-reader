@@ -1,7 +1,6 @@
 import type {
   AppData,
   Exercise,
-  Session,
   SessionExerciseStatus,
 } from "../types/fitness";
 import { getSeriesById, getSessionById } from "../lib/storage";

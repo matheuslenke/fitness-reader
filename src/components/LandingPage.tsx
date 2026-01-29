@@ -48,7 +48,6 @@ export function LandingPage({
   onOpenMetricsModal,
   onGoToMetrics,
   onOpenSeriesModal,
-  onCreateFromTemplate,
   onEditSeries,
   onPlayVideo,
   onEditWeightInSeries,
