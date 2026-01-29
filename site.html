@@ -1,0 +1,2015 @@
+<html lang="pt-Br" class="wf-poppins-n3-active wf-poppins-n4-active wf-poppins-n6-active wf-poppins-n5-active wf-poppins-n7-active wf-roboto-n4-active wf-roboto-n3-active wf-roboto-n6-active wf-roboto-n5-active wf-roboto-n7-active wf-active"><head>
+    <script>
+var browser = (function() {
+var test = function(regexp) {return regexp.test(window.navigator.userAgent)}
+switch (true) {
+    case test(/edg/i): return "Microsoft Edge";
+    case test(/trident/i): return "Microsoft Internet Explorer";
+    case test(/firefox|fxios/i): return "Mozilla Firefox";
+    case test(/opr\//i): return "Opera";
+    case test(/ucbrowser/i): return "UC Browser";
+    case test(/samsungbrowser/i): return "Samsung Browser";
+    case test(/chrome|chromium|crios/i): return "Google Chrome";
+    case test(/safari/i): return "Apple Safari";
+    default: return "Other";
+}
+})();
+</script>      
+    <meta charset="utf-8">
+    <title>Ptrainer - App para Personal Trainer</title>
+    <link rel="shortcut icon" href="assets/img/logo/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CRoboto:300,400,500,600,700" media="all"><script>
+      WebFont.load({
+        google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+        active: function() {
+            sessionStorage.fonts = true;
+        }
+      });
+    </script>
+    <link href="https://app.ptrainer.com.br/css/fullcalendar.bundle.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/vendors.bundle.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/style.bundle.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/app.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/selectize.css" rel="stylesheet" type="text/css">
+    <link href="https://app.ptrainer.com.br/css/auto-complete.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://app.ptrainer.com.br/assets/libs/fontawesome-free-5.12.0-web/css/all.css">
+    <script href="https://app.ptrainer.com.br/assets/libs/fontawesome-free-5.12.0-web/js/all.js"></script>
+    <link href="https://app.ptrainer.com.br/css/custom.css" rel="stylesheet" type="text/css">
+    <script>
+        var cmd = cmd || [];
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script><style type="text/css">span.im-caret {
+-webkit-animation: 1s blink step-end infinite;
+animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+from, to {
+    border-right-color: black;
+}
+50% {
+    border-right-color: transparent;
+}
+}
+
+@-webkit-keyframes blink {
+from, to {
+    border-right-color: black;
+}
+50% {
+    border-right-color: transparent;
+}
+}
+
+span.im-static {
+color: grey;
+}
+
+div.im-colormask {
+display: inline-block;
+border-style: inset;
+border-width: 2px;
+-webkit-appearance: textfield;
+-moz-appearance: textfield;
+appearance: textfield;
+}
+
+div.im-colormask > input {
+position: absolute;
+display: inline-block;
+background-color: transparent;
+color: transparent;
+-webkit-appearance: caret;
+-moz-appearance: caret;
+appearance: caret;
+border-style: none;
+left: 0; /*calculated*/
+}
+
+div.im-colormask > input:focus {
+outline: none;
+}
+
+div.im-colormask > input::-moz-selection{
+background: none;
+}
+
+div.im-colormask > input::selection{
+background: none;
+}
+div.im-colormask > input::-moz-selection{
+background: none;
+}
+
+div.im-colormask > div {
+color: black;
+display: inline-block;
+width: 100px; /*calculated*/
+}</style><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script><style type="text/css">span.im-caret {
+-webkit-animation: 1s blink step-end infinite;
+animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+from, to {
+    border-right-color: black;
+}
+50% {
+    border-right-color: transparent;
+}
+}
+
+@-webkit-keyframes blink {
+from, to {
+    border-right-color: black;
+}
+50% {
+    border-right-color: transparent;
+}
+}
+
+span.im-static {
+color: grey;
+}
+
+div.im-colormask {
+display: inline-block;
+border-style: inset;
+border-width: 2px;
+-webkit-appearance: textfield;
+-moz-appearance: textfield;
+appearance: textfield;
+}
+
+div.im-colormask > input {
+position: absolute;
+display: inline-block;
+background-color: transparent;
+color: transparent;
+-webkit-appearance: caret;
+-moz-appearance: caret;
+appearance: caret;
+border-style: none;
+left: 0; /*calculated*/
+}
+
+div.im-colormask > input:focus {
+outline: none;
+}
+
+div.im-colormask > input::-moz-selection{
+background: none;
+}
+
+div.im-colormask > input::selection{
+background: none;
+}
+div.im-colormask > input::-moz-selection{
+background: none;
+}
+
+div.im-colormask > div {
+color: black;
+display: inline-block;
+width: 100px; /*calculated*/
+}</style><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><meta id="dcngeagmmhegagicpcmpinaoklddcgon"></head>
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default m-scroll-top--shown" style="">
+
+
+    <!-- begin:: Page -->
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+        <!-- BEGIN: Header -->
+        <header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
+            <div class="m-container m-container--fluid m-container--full-height">
+                <div class="m-stack m-stack--ver m-stack--desktop">
+                    <!-- BEGIN: Brand -->
+                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                        <div class="m-stack m-stack--ver m-stack--general">
+                            <div class="m-stack__item m-stack__item--middle m-brand__logo">
+                                <a href="/" class="m-brand__logo-wrapper">
+                                    <img alt="" src="/assets/img/logo/logo_default_dark.png">
+                                </a>
+                            </div>
+                            <div class="m-stack__item m-stack__item--middle m-brand__tools">
+                                <!-- BEGIN: Left Aside Minimize Toggle -->
+                                <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Header Menu Toggler -->
+                                <a id="m_aside_header_menu_mobile_toggle" href="javascript:;" class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Topbar Toggler -->
+                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+                                    <i class="flaticon-more"></i>
+                                </a>
+                                <!-- BEGIN: Topbar Toggler -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Brand -->
+                    <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+                        <!-- BEGIN: Horizontal Menu -->
+                        <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn">
+                            <i class="la la-close"></i>
+                        </button>
+                                                                                <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
+                            <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
+                                <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" aria-haspopup="true">
+                                    <a href="https://app.ptrainer.com.br/painel/perfis" class="m-menu__link">
+                                        <span class="m-menu__item-here"></span>
+                                        <i class="m-menu__link-icon flaticon-analytics"></i>
+                                        <span class="m-menu__link-text">
+                                            Início
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
+                                    <a href="https://app.ptrainer.com.br/painel/planos" class="m-menu__link">
+                                        <span class="m-menu__item-here"></span>
+                                        <i class="m-menu__link-icon flaticon-refresh"></i>
+                                        <span class="m-menu__link-text">
+                                            Renovar Treinos
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                                                    <!-- END: Horizontal Menu -->								
+                        <!-- BEGIN: Topbar -->
+                        <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
+                            <div class="m-stack__item m-topbar__nav-wrapper">
+                                <ul class="m-topbar__nav m-nav m-nav--inline">
+                                    <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" m-dropdown-toggle="click">
+                                        <a href="#" class="m-nav__link m-dropdown__toggle">
+                                            <span class="m-topbar__userpic">
+                                                <img src="https://app.ptrainer.com.br/assets/img/users/user4.jpg" class="m--img-rounded m--marginless m--img-centered" alt="">
+                                            </span>
+                                        </a>
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                            <div class="m-dropdown__inner">
+                                                <div class="m-dropdown__header m--align-center" style="background: url(/assets/img/misc/user_profile_bg.jpg); background-size: cover;">
+                                                    <div class="m-card-user m-card-user--skin-dark">
+                                                        <div class="m-card-user__pic">
+                                                            <img src="https://app.ptrainer.com.br/assets/img/users/user4.jpg" class="m--img-rounded m--marginless" alt="">
+                                                        </div>
+                                                        <div class="m-card-user__details">
+                                                            <span class="m-card-user__name m--font-weight-500">
+                                                            Matheus Lenke Coutinho 																</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="m-dropdown__body">
+                                                    <div class="m-dropdown__content">
+                                                        <ul class="m-nav m-nav--skin-light">
+                                                            <li class="m-nav__item">
+                                                                <a href="https://app.ptrainer.com.br/painel/perfis" class="m-nav__link">
+                                                                    <i class="m-nav__link-icon 	fa fa-user-circle"></i>
+                                                                    <span class="m-nav__link-title">
+                                                                        <span class="m-nav__link-wrap">
+                                                                            <span class="m-nav__link-text">
+                                                                                Dados cadastrais
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                            <li class="m-nav__item">
+                                                                <div class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                                                    <a class="dropdown-item" href="https://app.ptrainer.com.br/logout" onclick="event.preventDefault();
+                                                                                     document.getElementById('logout-form').submit();">
+                                                                        Sair
+                                                                    </a>
+                                                                    <form id="logout-form" action="https://app.ptrainer.com.br/logout" method="POST" style="display: none;">
+                                                                        <input type="hidden" name="_token" value="XLmBKk3aHAOtn0W9QRHOUh3d50DZ1bXY7eUYbMXD">																		</form>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END: Topbar -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END: Header -->
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+<!-- BEGIN: Left Aside -->
+        <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn">
+            <i class="la la-close"></i>
+        </button>
+    <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
+<!-- BEGIN: Aside Menu -->
+<div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" m-menu-vertical="1" m-menu-scrollable="0" m-menu-dropdown-timeout="500">
+            <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
+            <!-- BEGIN: Área do Aluno (User) -->
+                                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
+                    <a href="https://app.ptrainer.com.br/painel/perfis" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-squares"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Início
+                                </span>
+                                <span class="m-menu__link-badge">
+                                    <!-- Numero de Alertas
+                                    <span class="m-badge m-badge--danger">
+                                        2
+                                    </span>
+                                    -->
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li class="m-menu__section ">
+                    <h4 class="m-menu__section-text">
+                        Área do Aluno (User)
+                    </h4>
+                    <i class="m-menu__section-icon flaticon-more-v3"></i>
+                </li>
+                <li class="m-menu__item" aria-haspopup="true">
+                    <a href="https://app.ptrainer.com.br/painel/planos" class="m-menu__link">
+                        <i class="m-menu__link-icon flaticon-refresh"></i>
+                        <span class="m-menu__link-text">
+                            Renovar Treinos
+                        </span>
+                    </a>
+                </li>
+                
+                <!-- END: Área do Aluno (User) -->
+                                                    </ul>
+        </div>
+    <!-- END: Aside Menu -->
+</div>
+<!-- END: Left Aside -->
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+       <div class="m-content">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4">
+                <div class="m-portlet m-portlet--full-height  ">
+                    <div class="m-portlet__body">
+                        <div class="m-card-profile">
+                            <div class="m-card-profile__title m--hide">
+                                Your Profile
+                            </div>
+                            <div class="m-card-profile__pic">
+                                <div class="m-card-profile__pic-wrapper">
+                                    <img src="https://app.ptrainer.com.br/assets/img/users/user4.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="m-card-profile__details">
+                                <span class="m-card-profile__name m-link" style="word-break: break-all;">
+                                    Matheus Lenke Coutinho 									</span>
+                                <a href="" class="m-card-profile__email" style="word-break: break-all;">
+                                    matheuslenke@gmail.com 									</a>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body-separator"></div>
+                        <div class="m-widget1 m-widget1--paddingless">
+                                                                                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Aluno desde
+                                        </h3>
+                                    </div>
+                                    <div class="col m--align-right">
+                                        <span class="m-widget1__number m--font-brand">
+                                            07/01/2026 											</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Último treino recebido
+                                        </h3>
+                                    </div>
+                                    <div class="col m--align-right">
+                                        <span class="m-widget1__number m--font-success">
+                                         
+                                            08/01/2026 
+                                                                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Data última compra
+                                        </h3>
+                                    </div>
+                                    <div class="col m--align-right">
+                                                                                    <span class="m-widget1__number m--font-success">
+                                                                                        07/01/2026
+                                                                                    </span>
+                                                                                </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Última compra
+                                        </h3>
+                                    </div>
+                                    <div class="col m--align-right">
+                                        <span class="m-widget1__number m--font-success">
+                                                                                        Plano Anual
+                                                                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">
+                                            Status da compra
+                                        </h3>
+                                    </div>
+                                                                        </div>
+                            </div>
+                                                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8">
+                <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-tools">
+                            <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                                <li class="nav-item m-tabs__item">
+                                    <a class="nav-link m-tabs__link" style="font-weight: 700;font-size: 20px;color: #745d80;margin-top: 0px;padding-top: 30px;" data-toggle="tab" href="#m_user_profile_tab_1" role="tab" aria-selected="false">
+                                        <i class="flaticon-share m--hide"></i>
+                                        Seu perfil
+                                    </a>
+                                </li>
+                                                                    <li class="nav-item m-tabs__item">
+                                    <a class="nav-link m-tabs__link active show" data-toggle="tab" style="font-weight: 700;font-size: 20px;color: #745d80;margin-top: 6px;margin-top: 0px;padding-top: 30px;" href="#m_user_profile_tab_2" role="tab" aria-selected="true">
+                                        Treinos
+                                    </a>
+                                </li>
+                                <li class="nav-item m-tabs__item">
+                                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab" style="font-weight: 700;font-size: 20px;color: #745d80;">
+                                        Questionário 
+                                        <span class="m-badge m-badge--brand m-badge--wide" style="padding: 3px 2px 3px 6px;border-radius: 15px;width: 26px;">
+                                            <i class="flaticon-warning-2" style="font-size: 14px;color: white;"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                                                    <li class="nav-item m-tabs__item">
+                                    <a class="nav-link m-tabs__link" style="font-weight: 700;font-size: 20px;color: #745d80;margin-top: 6px;margin-top: 0px;padding-top: 30px;" data-toggle="tab" href="#m_user_profile_tab_4" role="tab">
+                                        Compras 
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="m_user_profile_tab_1">
+                            <form class="m-form m-form--fit m-form--label-align-right" action="https://app.ptrainer.com.br/painel/perfis/atualizar" id="fm-perfil" method="POST" role="form">
+                                <input type="hidden" name="_token" value="XLmBKk3aHAOtn0W9QRHOUh3d50DZ1bXY7eUYbMXD">
+                                <input type="hidden" name="id" value="15204">
+                                <div class="m-portlet__body">
+                                    <div class="form-group m-form__group m--margin-top-10 m--hide">
+                                        <div class="alert m-alert m-alert--default" role="alert">
+                                            The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-9 ml-auto">
+                                            <h3 class="m-form__section">
+                                                1. Dados Pessoais
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Nome completo
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" readonly="" name="name" type="text" value="Matheus Lenke Coutinho ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Email
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" readonly="" type="text" value="matheuslenke@gmail.com ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Whatsapp
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input phone_br" type="text" name="celular" pattern=".[0-9]{2}.\s?[0-9]{4,5}.[0-9]{4}" placeholder="(99) 9999-9999" required="" value="(27) 99940-5527 ">
+                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Data Nascimento
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input date" type="text" name="datanascimento" required="" pattern="\d{2}[/]\d{2}[/]\d{4}" placeholder="99/99/9999" value="21/07/1998 " maxlength="10">
+                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Peso (kg)
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input peso-msk" type="text" name="peso" placeholder="Ex: 65,00" required="" pattern="\d+,\d{2}" value="78,00">
+                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Altura (m)
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input altura-msk" type="text" name="altura" placeholder="Ex: 1,70" required="" pattern="\d+,\d{2}" value="1,78" maxlength="4">
+                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                    <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-9 ml-auto">
+                                            <h3 class="m-form__section">
+                                                2. Endereço
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Estado
+                                        </label>
+                                        <div class="col-7">
+                                            
+
+                                            <select class="form-control" name="estado" id="estado">
+                                                <option value="Não Informado">Não Informado</option>
+                                                <option value="Acre">Acre</option>
+                                                <option value="Alagoas">Alagoas</option>
+                                                <option value="Amapá">Amapá</option>
+                                                <option value="Amazonas">Amazonas</option>
+                                                <option value="Bahia">Bahia</option>
+                                                <option value="Ceará">Ceará</option>
+                                                <option value="Distrito Federal">Distrito Federal</option>
+                                                <option value="Espírito Santo" selected="">Espírito Santo</option>
+                                                <option value="Goiás">Goiás</option>
+                                                <option value="Maranhão">Maranhão</option>
+                                                <option value="Mato Grosso">Mato Grosso</option>
+                                                <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+                                                <option value="Minas Gerais">Minas Gerais</option>
+                                                <option value="Pará">Pará</option>
+                                                <option value="Paraíba">Paraíba</option>
+                                                <option value="Paraná">Paraná</option>
+                                                <option value="Pernambuco">Pernambuco</option>
+                                                <option value="Piauí">Piauí</option>
+                                                <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                                <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+                                                <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+                                                <option value="Rondônia">Rondônia</option>
+                                                <option value="Roraima">Roraima</option>
+                                                <option value="Santa Catarina">Santa Catarina</option>
+                                                <option value="São Paulo">São Paulo</option>
+                                                <option value="Sergipe">Sergipe</option>
+                                                <option value="Tocantins">Tocantins</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            Cidade
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="cidade" value="Vitória ">
+                                        </div>
+                                    </div>
+                                    <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-9 ml-auto">
+                                            <h3 class="m-form__section">
+                                                3. Social Links
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-3 col-form-label">
+                                            instagram.com/
+                                        </label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="instagram" value="matheuslenke ">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions">
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-7">
+                                                <button type="reset" id="bt-salvar-perfil" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                                    Salvar Perfil
+                                                </button>
+                                                &nbsp;&nbsp;
+                                                <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">
+                                                    Cancelar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane active show" id="m_user_profile_tab_2">
+                            <div class="m-portlet">
+                                <div class="m-portlet__body m-portlet__body--no-padding">
+                                    <div class="m-invoice-2">
+                                        <div class="m-invoice__wrapper">
+                                            <!-- treino -->
+                                                                                            <div class="m-invoice__head" style="background-image: url(../../assets/app/media/img//logos/bg-6.jpg);">
+                                                <div class="m-invoice__container m-invoice__container--centered">
+                                                    <div class="m-invoice__logo">
+                                                        <a href="#">
+                                                            <h1 style="font-size: 2.8em;">
+                                                                Treino de Matheus Lenke Coutinho 																</h1>
+                                                        </a>
+                                                        <a href="#">
+                                                            
+                                                            <img src="/assets/img/client-logos/001_icon.png" style="width: 185px;margin: 10px 0 0 0;">
+                                                        </a>
+                                                    </div>
+                                                    <span class="m-invoice__desc">
+                                                        <span>
+                                                            DATA DA COMPRA: 
+                                                            <strong> 
+                                                                                                                            01, 2026
+                                                             </strong>
+                                                        </span>
+                                                        <span>
+                                                            PRODUTO: <strong>  Plano Anual  </strong>
+                                                        </span>
+                                                        <span>
+                                                            ENTREGA: <strong>  1/12  </strong>
+                                                        </span>
+                                                    </span>
+                                                    <div class="m-invoice__items">
+                                                        <div class="m-invoice__item">
+                                                            <span class="m-invoice__subtitle" style="text-align: center;">
+                                                                DATA DA ENTREGA
+                                                            </span>
+                                                            <span class="m-invoice__text" style="text-align: center;">
+                                                             08/01/2026 																</span>
+                                                        </div>
+                                                        <div class="m-invoice__item">
+                                                            <span class="m-invoice__subtitle" style="text-align: center;">
+                                                                REPETIÇÕES
+                                                            </span>
+                                                            <span class="m-invoice__text" style="text-align: center;">
+                                                                                                                            </span>
+                                                        </div>
+                                                        <div class="m-invoice__item">
+                                                            <span class="m-invoice__subtitle" style="text-align: center;">
+                                                                CADÊNCIA
+                                                            </span>
+                                                            <span class="m-invoice__text" style="text-align: center;">
+                                                             2020  
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-invoice__item">
+                                                            <span class="m-invoice__subtitle" style="text-align: center;">
+                                                                RECUPERAÇÃO
+                                                            </span>
+                                                            <span class="m-invoice__text" style="text-align: center;">
+                                                             40 segundos  
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="m-invoice__body m-invoice__body--centered" style="width: 85%;">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 50%;text-align: center;">
+                                                                    EXERCÍCIOS
+                                                                </th>
+                                                                <th style="width: 15%;text-align: center;">
+                                                                    SÉRIES																				</th>
+                                                                
+                                                                <th style="width: 15%;text-align: center;">
+                                                                    REPETIÇÕES																				</th>
+                                                                
+                                                                <th style="width: 15%;text-align: center;">
+                                                                    CARGA
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="lista-exercicios">
+                                                        <input type="hidden" name="_token" value="XLmBKk3aHAOtn0W9QRHOUh3d50DZ1bXY7eUYbMXD">
+                                                                                                                                                                                
+                                                                                                                            <tr><td style="padding: 8px;text-align: center;color: #ffffff;background-color: #3490dc;" colspan="4">Grupo A </td></tr>
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     SUPINO MAQUINA VERTICAL 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484203"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288136]" id="carga[1288136]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     CRUCIFIXO RETO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484454"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288137]" id="carga[1288137]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     SUPINO INCLINADO NA BARRA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484433"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288138]" id="carga[1288138]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     CRUCIFIXO INCLINADO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484399"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288139]" id="carga[1288139]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     CRUCIFIXO INFRA NO CROSS 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559514568"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288140]" id="carga[1288140]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS PULLEY BARRA W 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492039"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288141]" id="carga[1288141]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS TESTA C/ HALTERES 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559491765"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288142]" id="carga[1288142]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS INVERTIDO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559491857"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288143]" id="carga[1288143]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr><td style="padding: 8px;text-align: center;color: #ffffff;background-color: #3490dc;" colspan="4">Grupo B </td></tr>
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     CADEIRA EXTENSORA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559522622"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288144]" id="carga[1288144]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     AGACHAMENTO NO SMITH 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/555997114"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288145]" id="carga[1288145]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     LEG PRESS 45 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/555992051"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288146]" id="carga[1288146]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     STIFF NA BARRA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559522213"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288147]" id="carga[1288147]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     MESA FLEXORA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559522501"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288148]" id="carga[1288148]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     PANTURRILHA NO BANCO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559521870"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 15 a 20 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288149]" id="carga[1288149]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ABDOME MAQUINA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559521074"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 12 a 15 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288150]" id="carga[1288150]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ABDOME INFRA SOLO 																																				<i class="fas fa-play-circle player-video" data-src="https://www.youtube.com/watch?v=cbyRrPirULo"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 12 a 15 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288151]" id="carga[1288151]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr><td style="padding: 8px;text-align: center;color: #ffffff;background-color: #3490dc;" colspan="4">Grupo C </td></tr>
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     REMADA BAIXA ABERTA PRONADA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559485127"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288152]" id="carga[1288152]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     REMADA BAIXA TRIÂNGULO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559485176"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288153]" id="carga[1288153]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     PULL DOWN POLIA PRONADO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559514652"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288154]" id="carga[1288154]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     PULLEY FRENTE ABERTO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559490899"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288155]" id="carga[1288155]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA ALTERNADA NO HALTERES 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559490224"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 16 a 20 ao todo 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288156]" id="carga[1288156]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA SCOTH 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492161"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288157]" id="carga[1288157]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA UNILATERAL EM PÉ NO CROSS 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559513345"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288158]" id="carga[1288158]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr><td style="padding: 8px;text-align: center;color: #ffffff;background-color: #3490dc;" colspan="4">Grupo D </td></tr>
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     REMADA ALTA POLIA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559485320"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288159]" id="carga[1288159]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ENCOLHIMENTO C/HALTERES 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484690"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288160]" id="carga[1288160]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     FLY INVERTIDO 																																				<i class="fas fa-play-circle player-video" data-src="https://youtube.com/shorts/us3SsaPp310?si=4RQ0T3q6HwxhPA33"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288161]" id="carga[1288161]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ELEVAÇÃO LATERAL HALTERES 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559514210"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288162]" id="carga[1288162]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ELEVAÇÃO FRONTAL NA POLIA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559514150"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288163]" id="carga[1288163]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     DESENVOLVIMENTO LATERAL HALTERES 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559527736"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288164]" id="carga[1288164]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ABDOME PERNA E TRONCO DIRETO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559515198"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 12 a 15 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288165]" id="carga[1288165]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ABDOME BANCO INFRA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559513148"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 12 a 15 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288166]" id="carga[1288166]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr><td style="padding: 8px;text-align: center;color: #ffffff;background-color: #3490dc;" colspan="4">Grupo E </td></tr>
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA DIRETA NA BARRA W 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559520881"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288167]" id="carga[1288167]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA CONCENTRADA UNILATERAL NO BANCO 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492263"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288168]" id="carga[1288168]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA SCOTH 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492161"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288169]" id="carga[1288169]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     ROSCA INVERSA NA POLIA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559513443"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288170]" id="carga[1288170]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     SUPINO RETO FECHADO BARRA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559484493"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288171]" id="carga[1288171]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS CORDA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492003"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288172]" id="carga[1288172]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS COICE NA POLIA UNILATERAL 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559491899"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288173]" id="carga[1288173]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                                                                                            <tr>
+                                                                <td style="text-align: center;">
+                                                                     TRÍCEPS PULLEY BARRA RETA 																																				<i class="fas fa-play-circle player-video" data-src="https://vimeo.com/559492064"></i>																			
+                                                                                                                                        </td>
+                                                                <td style="text-align: center;">
+                                                                  4 																	</td>
+                                                                <td style="text-align: center;">
+                                                                 8 a 12 																	</td>
+                                                                <td style="text-align: center;"> 
+                                                                    <input type="text" name="carga[1288174]" id="carga[1288174]" value="" class="form-control m-input m-input--air" placeholder="carga" style="text-align: center;">
+                                                                </td>
+                                                            </tr>
+                                                                                                                                                                                                
+                                                        </tbody>
+                                                        
+                                                    </table>
+                                                        <div class=" col-12" style="margin-bottom: 30px;">
+                                                        <button type="button" style="float:right;" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="btn-salvar-cargas">Salvar Cargas</button>
+                                                        </div>
+                                                        <br>
+                                                        <span class="m-invoice__subtitle" style="text-align: center;">
+                                                                <b>OBSERVAÇÃO:</b>
+                                                        </span>
+                                                        <br>
+                                                        <span class="m-invoice__text" style="text-align: center;">
+                                                         Antes de iniciar, aquecer por 7 minutos na esteira ou bike.  
+                                                        <br>
+                                                        <span class="m-invoice__text" style="text-align: center;">
+                                                         Fazer 1 treino por dia. EX: Segunda (A), terça (B), quarta (C), quinta (D), sexta (E), se for treinar sábado (repetir B).  
+                                                        <br>
+                                                        <span class="m-invoice__text" style="text-align: center;">
+                                                         Colocar carga para fazer as repetições especificadas em cada exercício, chegando a uma fadiga leve a moderada da musculatura trabalhada.  
+                                                        <br>
+                                                        <span class="m-invoice__text" style="text-align: center;">
+                                                        Pelo menos 3x na semana ao final dos treinos, fazer 20 min de caminhada acelerada na esteira. Desejo ótimos treinos! 
+                                                        </span>
+                                                    <br>
+                                                </span></span></span></div>
+                                            </div>
+                                            <div class="m-invoice__footer" style="background-color: #4bbfa3;color: #fff;">
+                                                <div class="m-invoice__table  m-invoice__table--centered table-responsive">
+                                                    <div class="m-invoice__item">
+                                                        <span class="m-invoice__text" style="text-align: center;">
+                                                            <p>
+                                                                <b>Como extrair o melhor desempenho da consultoria</b>
+                                                            </p>
+                                                            <p>
+                                                            Novos resultados nos convidam a adotar novos comportamentos.
+                                                            </p>
+                                                            <p>
+                                                            -Tire uma foto 30 dias depois, e escreva sobre como foi sua experiência. O que mudou na sua forma de pensar, sentir e agir? Como você se enxerga? Compartilhe isso comigo - é também a partir disso que criaremos a estrat égia para a próxima etapa.
+                                                            </p>
+                                                            <p>
+                                                            A largada está dada, vamos com tudo!
+                                                            </p>
+                                                        </span>
+                                                    </div>															
+                                                </div>
+                                            </div>
+                                                                                            <!-- /treino -->														
+                                        </div>														
+                                    </div>
+                                </div>
+                            </div>																						
+                        </div>
+                        <div class="tab-pane " id="m_user_profile_tab_3">
+                            <form class="m-form m-form--fit m-form--label-align-right" id="perfil-anamnese-form"> 
+                                <input type="hidden" name="_token" value="XLmBKk3aHAOtn0W9QRHOUh3d50DZ1bXY7eUYbMXD">
+                                <div class="m-portlet__body">
+                                    <div class="form-group m-form__group m--margin-top-9 m--hide">
+                                        <div class="alert m-alert m-alert--default" role="alert">
+                                            The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Qual é o seu objetivo? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3664">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> Ganhar força, massa magra e reduzir porcentagem de gordura </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Qual é sua altura? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3665">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> 1,78 </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Qual é seu peso atual? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3666">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> 78kg </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Você já treina? Se sim, há quanto tempo, quantas vezes por semana e qual modalidade de treino você faz? (EX: Musculação, corrida, crossfit...) 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3667">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> Já treinei várias vezes durante a vida, 5x por semana, atualmente não estou treinando, mas corro na praia semanalmente. Fiz musculação somente </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Quantas vezes por semana você pretende treinar a partir de agora e quais dias da semana? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="4841">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> 4 a 5 vezes </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Onde você pretende treinar a partir de agora? (EX: em casa, academia, ao ar livre...) 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3669">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> academia </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        O que mais te incomoda no seu corpo e que gostaria de mudar? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3670">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> barriga, peitoral e braço. </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Possui alguma disfunção, qualquer tipo de doença, problemas articulares, musculares,dores,que atrapalhe a prática de exercícios físicos?Se sim, quais? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3671">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> não </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Atualmente, você está sendo acompanhado por algum nutricionista? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="3672">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> não </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Liste aqui, informações relevantes p/ a preparação dos treinos. EX:músculos que você tem mais dificuldade para desenvolver, preferência de treinos... 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="4819">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> Sinto que tenho dificuldade em alguns exercícios por falta de força, em geral </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Você faz uso de anabolizantes ou alguma reposição hormonal? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="4820">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> não </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Qual é a sua idade? 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="4294">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> 27 </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                                                                                                            <div class="form-group m-form__group row" style="padding-bottom: 0;">
+                                        <label for="example-text-input" class="col-4 col-form-label" style="padding-top: 0;margin:auto 0;">
+                                        Você têm dificuldade para seguir um plano alimentar/dieta? Se sim, explique: 
+                                        </label>
+                                        <div class="col-6" style="margin: auto 0;">
+                                            <input type="hidden" name="pergunta_id[]" value="5036">
+                                            <input type="hidden" name="anamneses_id[]" value="22770">
+                                                                                            <textarea class="form-control m-input m_maxlength_resposta" maxlength="250" required="" max="250" name="resposta[]" rows="3"> Intolerante a lactose, então tendo a não tomar iogurte e evitar queijos </textarea>
+                                                                                            <div class="form-control-feedback"></div>
+                                            <span class="m-form__help"></span>
+                                        </div>
+                                    </div>
+                                                                             
+                                                                                        
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions">
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-7">
+                                                <button type="reset" id="perfil-anamnese-submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                                    Salvar Respostas
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane " id="m_user_profile_tab_4">
+                            <div class="m-portlet__body">
+                                <div class="form-group m-form__group m--margin-top-10 m--hide">
+                                    <div class="alert m-alert m-alert--default" role="alert">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="m-timeline-3">
+                                    <div class="m-timeline-3__items">
+                                                                                                                                                                        <div class="m-timeline-3__item m-timeline-3__item--info">
+                                            <span class="m-timeline-3__item-time m--font-focus" style="width: 65px;font-size: 16px;">
+                                                                                                    07/01/26
+                                                                                                </span>
+                                            <div class="m-timeline-3__item-desc">
+                                                <span class="m-timeline-3__item-text">
+                                                                                                        Júnior Teixeira
+                                                                                                        </span>
+                                                <br>
+                                                <span class="m-timeline-3__item-user-name">
+                                                    <a href="#" class="m-link m-link--metal m-timeline-3__item-link">
+                                                        Plano Anual
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                                                                    
+                                                                                                                                                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="m_user_profile_tab_5">
+                            <div class="m-portlet__body">
+                                <div class="form-group m-form__group m--margin-top-10 m--hide">
+                                    <div class="alert m-alert m-alert--default" role="alert">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="m-timeline-3">
+                                    <div class="m-timeline-3__items">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--begin::Modal Termos de Uso -->
+                    <div class="modal fade" id="m_modal_1_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        Termos e Condições de Uso do Ptrainer™
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-max-height="600" style="max-height: 600px; overflow: auto;">
+                                        <article>
+                                            <!-- <h1><strong>Estes são os termos que determinarão nossa relação.</strong> Antes de utilizar o Ptrainer, é necessário que você leia, entenda e concorde com estes termos.</h1> -->
+                                            <p>			
+                                            </p><h3> Aceite dos Termos</h3>
+                                            <p></p>
+                                            <p>
+                                                Este Contrato de Licença de Usuário Final (“EULA”) é um acordo legal entre o licenciado (pessoa física ou jurídica) (o “LICENCIADO”) e a PTRAINER™, com sede em Vitória, Espírito Santo – Brasil, (a “LICENCIANTE”) para uso do programa de computador denominado Ptrainer™, disponibilizado neste ato pela LICENCIANTE (o “SOFTWARE”) por meio do site “ptrainer.com” (“Site”), pelo determinado pelo LICENCIADO no ato do licenciamento do SOFTWARE, compreendendo o programa de computador e podendo incluir os meios físicos associados, bem como quaisquer materiais impressos e qualquer documentação online ou eletrônica. Ao utilizar o SOFTWARE, mesmo que parcialmente ou a título de teste, o LICENCIADO estará vinculado aos termos deste EULA, concordando com suas disposições, principalmente com relação ao CONSENTIMENTO PARA o ACESSO, COLETA, USO, ARMAZENAMENTO, TRATAMENTO E TÉCNICAS DE PROTEÇÃO ÀS INFORMAÇÕES do LICENCIADO pela LICENCIANTE, necessárias para a integral execução das funcionalidades ofertadas pelo SOFTWARE. Em caso de discordância com os termos aqui apresentados, a utilização do SOFTWARE deve ser imediatamente interrompida pelo LICENCIADO.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Da Propriedade Intelectual</h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO não adquire, pelo presente instrumento ou pela utilização do SOFTWARE, nenhum direito de propriedade intelectual ou outros direitos exclusivos, incluindo patentes, desenhos, marcas, direitos autorais ou quaisquer direitos sobre informações confidenciais ou segredos de negócio, bem como todo o conteúdo disponibilizado no Site, incluindo, mas não se limitando a textos, gráficos, imagens, logotipos, ícones, fotografias, conteúdo editorial, notificações, softwares e qualquer outro material, sobre ou relacionados ao SOFTWARE ou nenhuma parte dele. O LICENCIADO também não adquire nenhum direito sobre ou relacionado ao SOFTWARE ou qualquer componente dele, além dos direitos expressamente licenciados ao LICENCIADO sob o presente EULA ou em qualquer outro contrato mutuamente acordado por escrito entre o LICENCIADO e a LICENCIANTE. Quaisquer direitos não expressamente concedidos sob o presente instrumento são reservados.
+                                                Também será de propriedade exclusiva da LICENCIANTE, ou está devidamente licenciado, todo o conteúdo disponibilizado no site, incluindo, mas não se limitando a textos, gráficos, imagens, logos, ícones, fotografias, conteúdo editorial, notificações, softwares e qualquer outro material.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Declarações do LICENCIADO</h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO declara ter pleno conhecimento dos direitos e obrigações decorrentes do presente EULA, constituindo este instrumento o acordo completo entre as partes. Declara, ainda, ter lido, compreendido e aceito todos os seus termos e condições.
+                                                O LICENCIADO declara que foi devidamente informado da política de confidencialidade e ambientes de proteção de informações confidenciais, dados pessoais e registros de acesso da LICENCIANTE, consentindo livre e expressamente às ações de coleta, uso, armazenamento e tratamento das referidas informações e dados.
+                                                O LICENCIADO declara estar ciente de que as operações que correspondam à aceitação do presente EULA, de determinadas condições e opções, bem como eventual rescisão do presente instrumento e demais alterações, serão registradas nos bancos de dados da LICENCIANTE, juntamente com a data e hora em que foram realizadas pelo LICENCIADO, podendo tais informações serem utilizadas como prova pelas partes, independentemente do cumprimento de qualquer outra formalidade.
+                                                O LICENCIADO declara que está ciente de que, em qualquer hipótese, deve atender rigorosamente a legislação, especialmente no que se refere às suas obrigações tributárias, fiscais, trabalhistas e previdenciárias, seja de natureza principal ou acessória, bem como quaisquer outras, entendendo que o Software objeto deste EULA trata-se de uma condição de meio e não de resultado, não dispensando, portanto, a correta alimentação das informações e parametrizações necessárias pelo LICENCIADO com base na legislação em vigor.
+                                                O LICENCIADO poderá acessar aplicativo de terceiros através de API’s de conexão com a finalidade de compartilhar suas Informações ou por meio de download sobre determinados Aplicativos Terceiros. O LICENCIADO compreende e concorda que tais Informações poderão ser atribuídas à sua conta no Aplicativo de Terceiros e poderão ser publicadas em tal serviço. Embora essas informações possam ser automaticamente compartilhadas por definição, o LICENCIADO poderá, a qualquer tempo, suspender o compartilhamento ou quando for o caso desinstalar tais Aplicativos Terceiros. O Aplicativo de Terceiros também poderá fornecer controles semelhantes, porém o acesso deverá ser feito diretamente através do Aplicativo de Terceiros, objetivando suspender tal acesso.
+                                                O LICENCIADO compreende e concorda que o uso de suas Informações por um Aplicativo de Terceiros coletadas junto ao mesmo (ou conforme autorizado pelo LICENCIADO) é regido pelas políticas de privacidade do Aplicativo de Terceiros e por suas configurações no respectivo serviço, e o uso de tais informações por parte do LICENCIADO é regido por esse Termo de Uso e pelas configurações da sua conta no SOFTWARE da LICENCIANTE. A LICENCIANTE não será responsável, sob qualquer hipótese, pelo tratamento dado pelas informações por um Aplicativo Terceiro.
+                                                O LICENCIADO declara ainda que está ciente de que para usufruir de algumas das funcionalidades do SOFTWARE, em especial, dos serviços de integração com Gateways de Pagamentos, deverá disponibilizar à LICENCIANTE as INFORMAÇÕES DE CONTA para que o SOFTWARE, de maneira automatizada, colete informações diretamente nos sites e/ou outros meios virtuais disponibilizados pelos Processadores de Pagamentos, com as quais mantenha relacionamento, agindo a LICENCIANTE, neste caso, como representante e mandatária do LICENCIADO nestes atos.
+                                                Compartilhamos informações relacionadas a nossos usuários com terceiros selecionados que nos fornecem uma variedade de serviços que suportam a entrega dos nossos serviços (chamaremos eles de “Processadores Terceirizados”). Esses Processadores Terceirizados variam de fornecedores de infraestrutura técnica a serviço de atendimento ao cliente e ferramentas de autenticação. Asseguramos que o gerenciamento de informações feito em nosso nome por Processadores Terceirizados será feito de acordo com termos contratuais, que requerem que essas informações sejam mantidas seguras, sejam processadas de acordo com as leis de proteção de dados e usadas somente conforme instruímos e não para os propósitos dos Processadores Terceirizados (a menos que tenham a sua autorização).
+                                                Processadores Terceirizados podem estar alocados ou processar suas informações fora do país onde você está baseado. Nos casos em que o nosso uso de Processadores Terceirizados envolver a transferência de dados pessoais nós tomaremos as medidas necessárias para garantir que os dados pessoais sejam devidamente protegidos.
+                                                </p><p>
+                                                Os tipos de Processadores Terceirizados com os quais podemos compartilhar elementos dos seus dados pessoais incluem:
+                                                </p>
+                                                <p>
+                                                    - processadores de pagamento acionados por nós para armazenar ou gerenciar informações de pagamento com segurança, como detalhes de cartão de crédito ou débito.
+                                                </p>
+                                                <p>
+                                                    - fornecedores de gerenciamento de e-mail e ferramentas de distribuição, por exemplo, se você assinar o recebimento de newsletters do da LICENCIANTE ou outras mensagens comerciais, alertas e avisos gerenciaremos seu envio usando uma ferramenta terceirizada de distribuição de e-mail;
+                                                </p>
+                                                <p>
+                                                    - fornecedores de serviços de segurança e prevenção de fraudes. Por exemplo, usamos esses fornecedores para identificar agentes de software automatizado que podem prejudicar nossos serviços ou para prevenir o uso indevido de nossas APIs;
+                                                </p>
+                                                <p>
+                                                    - fornecedores de plataformas de software que nos ajudam na comunicação ou no fornecimento de serviços de atendimento ao cliente, por exemplo, gerenciamos e respondemos todas as mensagens enviadas por meio da nossa central de ajuda usando uma ferramenta terceirizada de gerenciamento de comunicações;
+                                                </p>
+                                                <p>
+                                                    - fornecedores de serviços de armazenamento na nuvem online e outros serviços de TI essenciais; e
+                                                </p>
+                                                <p>
+                                                    Quando processamos seus dados pessoais somente com a sua autorização, você pode retirar essa autorização a qualquer momento usando a funcionalidade disponível no recurso respectivo do produto ou entrando em contato através do seguinte endereço eletrônico: contato@ptrainer.com.br. A partir do momento que você retira alguma autorização poderá ficar impedido de gerar automaticamente alguma atividade que era realizada de forma automatizada. Ao revogar seu consentimento, você não vai mais poder usar os serviços e recursos que exigem a coleta ou o uso das informações que coletávamos ou usávamos com base no consentimento.
+                                                </p>
+                                            <p>			
+                                            </p><h3> Licença de Uso do Software</h3>
+                                            <p></p>
+                                            <p>
+                                                Sujeito aos termos e condições aqui estabelecidos, este EULA concede ao LICENCIADO uma licença revogável, não exclusiva e intransferível para uso do SOFTWARE. O LICENCIADO não poderá utilizar e nem permitir que o SOFTWARE seja utilizado para outra finalidade que não seja o processamento de suas informações ou de pessoas jurídicas indicadas pelo LICENCIADO no ato do cadastramento, exceto caso o LICENCIADO seja empresa de contabilidade que utiliza o SOFTWARE para processar informações de seus clientes, observados os limites estabelecidos neste EULA. Esta licença não implica a capacidade de acessar outros softwares além daqueles originalmente localizados no SOFTWARE. Em nenhuma hipótese o LICENCIADO terá acesso ao código fonte do SOFTWARE ora licenciado, por este se tratar de propriedade intelectual da LICENCIANTE.
+                                            </p>			
+                                            <p>			
+                                            </p><h3> Das Restrições</h3>
+                                            <p></p>
+                                            <p>
+                                                Em hipótese alguma é permitido ao LICENCIADO ou a terceiros, de forma geral:
+                                            </p>
+                                                Copiar, ceder, sublicenciar, vender, dar em locação ou em garantia, reproduzir, doar, alienar de qualquer forma, transferir total ou parcialmente, sob quaisquer modalidades, gratuita ou onerosamente, provisória ou permanentemente, o SOFTWARE objeto deste EULA, assim como seus módulos, partes, manuais ou quaisquer informações a ele relativas;
+                                                Retirar ou alterar, total ou parcialmente, os avisos de reserva de direito existente no SOFTWARE e na documentação;
+                                                Praticar engenharia reversa, descompilação ou desmontagem do SOFTWARE.
+                                            <p></p>
+                                            <p>			
+                                            </p><h3> Do Prazo</h3>
+                                            <p></p>
+                                            <p>
+                                                O presente EULA entra em vigor na data de seu aceite pelo LICENCIADO e vigorará pelo prazo do Plano contratado pelo LICENCIADO. Este EULA será automaticamente renovado por iguais períodos caso o LICENCIADO não se manifeste expressamente em contrário, nos mesmos termos e condições, inclusive no que se refere à eventuais penalidades. Este EULA poderá ser rescindido conforme estabelecido abaixo neste instrumento.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Da Remuneração e Forma de Pagamento</h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO deverá pagar à LICENCIANTE o valor do plano de licenciamento escolhido e de acordo com a periodicidade definida entre as opções de pagamento disponibilizadas ao LICENCIADO no ato da contratação.
+                                                Caso o LICENCIADO, no decorrer da vigência do presente instrumento, opte por outro plano de licenciamento superior (upgrade), os valores serão alterados de acordo com o respectivo plano escolhido.
+                                                A falta de pagamento de quaisquer valores nas respectivas datas de vencimento não acarretará na rescisão automática do EULA, mas causará a suspensão do acesso do LICENCIADO ao SOFTWARE até que as pendências financeiras tenham sido regularizadas. O acesso ao SOFTWARE somente será restabelecido após a identificação pela LICENCIANTE do pagamento integral de todos os valores devidos enquanto o mesmo esteve suspenso. A identificação poderá ocorrer em até dois dias úteis após a data de pagamento pelo LICENCIADO. Caso o LICENCIADO não resolva a pendência financeira no prazo de 90 (noventa) dias contados do vencimento do valor não pago, a LICENCIANTE se reserva o direito de rescindir o presente EULA e apagar de forma definitiva e irrecuperável todas as informações do LICENCIADO que por ventura estejam armazenadas no SOFTWARE.
+                                                Os valores dos planos de licenciamento estabelecidos no ato do licenciamento do SOFTWARE poderão ser atualizados anualmente pelos índices de reajuste acumulados no período, que serão informados previamente. Eventualmente poderão ocorrer alterações nos preços dos planos e adicionais contratados, caso isto ocorra o LICENCIADO será informado com no mínimo 7 dias de antecedência da sua próxima renovação.
+                                                A LICENCIANTE poderá, a seu critério, por mera liberalidade, oferecer descontos nos valores dos planos de licenciamento. Neste caso, os descontos serão válidos por até 12 (doze) meses. A LICENCIANTE poderá renovar ou não os percentuais de desconto, podendo ainda cancelar os descontos após o período de validade, sem aviso prévio.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Restituição das Informações</h3>
+                                            <p></p>
+                                            <p>
+                                                Suspenso o acesso do LICENCIADO ao SOFTWARE, a LICENCIANTE manterá as informações do LICENCIADO armazenadas no SOFTWARE pelo período de 90 (noventa) dias, contados da suspensão de acesso. Durante este período, a LICENCIANTE tornará as informações do LICENCIADO disponíveis para serem extraídas do SOFTWARE em formato .csv.
+                                                Conforme descrito na cláusula 6 acima, passados 90 (noventa) dias da suspensão do acesso do LICENCIADO ao SOFTWARE, todas as INFORMAÇÕES do LICENCIADO, incluindo as INFORMAÇÕES PESSOAIS, INFORMAÇÕES DE CONTA e INFORMAÇÕES FINANCEIRAS, em poder da LICENCIANTE serão excluídos permanentemente do banco de dados da LICENCIANTE, independentemente de terem sido extraídas ou não pelo LICENCIADO.
+                                                Não obstante o disposto acima, as informações referentes à data e hora de acesso e ao endereço de protocolo de internet utilizado pelo LICENCIADO para acessar o Site e o SOFTWARE permanecerão armazenadas pela LICENCIANTE por 6 (meses) a contar da data de cada acesso realizado, independentemente do término da relação jurídica e comercial entre a LICENCIANTE e o LICENCIADO, em cumprimento ao disposto no Artigo 15 da Lei nº 12.965/2014, podendo ser armazenados por um período maior de tempo mediante ordem judicial.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Das Obrigações do Licenciado</h3>
+                                            <p></p>
+                                            <p>
+                                                Obriga-se o LICENCIADO a:
+                                                Manter pessoal treinado para a operação do SOFTWARE e para a comunicação com a LICENCIANTE e prover, sempre que ocorrerem quaisquer problemas com o SOFTWARE, toda a documentação, relatórios e demais informações que relatem as circunstâncias em que os problemas ocorreram, objetivando facilitar e agilizar os trabalhos;
+                                                Manter, às suas expensas, linha de telecomunicação, modem, software de comunicação, endereço de correio eletrônico e outros recursos necessários à comunicação com a LICENCIANTE;
+                                                Responder pelas INFORMAÇÕES inseridas no SOFTWARE, pelo cadastramento, permissões, senhas e modo de utilização de seus usuários, incluindo, mas não se limitando, às informações fornecidas no que diz respeito aos métodos e números de contas de processamentos de pagamento (Gateways). A LICENCIANTE em hipótese alguma será responsável pelo conteúdo (INFORMAÇÕES, senhas, cópias de informações, etc.) incluído no SOFTWARE, não sendo, portanto, estas INFORMAÇÕES revisadas em momento algum. A responsabilidade pelas INFORMAÇÕES inseridas ou excluídas no SOFTWARE é sempre do LICENCIADO, sendo este o único responsável pela realização de backup das informações, especialmente antes da exclusão. A LICENCIANTE não será responsável pelo armazenamento de informações excluídas pelo LICENCIADO;
+                                                Certificar-se de que não está proibido por determinação legal e/ou contratual de passar INFORMAÇÕES, INFORMAÇÕES FINANCEIRAS, INFORMAÇÕES DE CONTA e INFORMAÇÕES PESSOAIS, bem como quaisquer outros dados à LICENCIANTE, necessários para a execução do serviço oferecido por este EULA;
+                                                A qualquer tempo a LICENCIANTE poderá bloquear acesso ao SOFTWARE caso constate qualquer prática pelo LICENCIADO ou terceiros de violação ao presente Termo de uso e/ou qualquer tentativa de fraude ou dê a entender tratar-se de uma tentativa, não reduzindo essa ação a responsabilidade do LICENCIADO sobre seus atos.
+                                                Não utilizar o SOFTWARE de qualquer forma que possa implicar em ato ilícito, infração, violação de direitos ou danos à LICENCIANTE ou terceiros, incluindo, mas não se limitando ao uso para invasão de dispositivo informático com o objetivo de obter, adulterar ou destruir dados ou informações sem a autorização expressa do titular de tais dados ou do dispositivo ou servidor nos quais estes estejam armazenados;
+                                                Não publicar, enviar ou transmitir qualquer arquivo que contenha vírus, worms, cavalos de tróia ou qualquer outro programa que possa contaminar, destruir ou interferir no bom funcionamento do SOFTWARE;
+                                                Informar a LICENCIANTE sempre que houver qualquer alteração das INFORMAÇÕES fornecidas à LICENCIANTE e que possam impedir, limitar ou prejudicar o acesso da LICENCIANTE às INFORMAÇÕES necessárias para a execução das funcionalidades ofertadas pelo SOFTWARE;
+                                                Atender rigorosamente a legislação brasileira e toda obrigação legal imposta e/ou decorrente de sua atividade e em razão da utilização deste SOFTWARE.
+                                                Caso o LICENCIADO acredite que seu login e senha de acesso ao SOFTWARE tenham sido roubados ou sejam de conhecimento de outras pessoas, por qualquer razão, o LICENCIADO deverá imediatamente comunicar tal fato à LICENCIANTE, sem prejuízo da alteração da sua senha imediatamente, por meio do SOFTWARE.
+                                                Quando o LICENCIADO se tratar de empresa de consultoria, deverá indicar no ato do cadastramento os usuários autorizados a acessar a base cadastrada, assim como indicar o responsável financeiro pelo pagamento.
+                                                Para a utilização dos recursos oferecidos pelo SOFTWARE, no que diz respeito a funcionalidades, cancelamentos, versões do SOFTWARE, backup das informações implementadas, entre outros, o LICENCIADO deve verificar e se manter informado, através do site ajuda.ptrainer.com.br ou de nossa central de atendimento. Uma vez aceito os termos deste EULA, isso garante também a aceitação das especificações do produto conforme definido em nosso site.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Das Obrigações do Licenciante</h3>
+                                            <p></p>
+                                            <p>
+                                                Obriga-se a LICENCIANTE a:
+                                                A LICENCIANTE garante ao LICENCIADO que o SOFTWARE deverá funcionar regularmente, se respeitadas as condições de uso definidas na documentação. Na ocorrência de falhas de programação (“bugs”), a LICENCIANTE obrigar-se-á a corrigir tais falhas, podendo a seu critério substituir a cópia dos programas com falhas por cópias corrigidas;
+                                                A LICENCIANTE manterá atualizada as funções existentes no SOFTWARE com relação às variáveis normalmente alteradas pela legislação. A interpretação legal das normas editadas será efetuada com base no entendimento majoritário dos “usuários” do SOFTWARE, doutrinadores e jurisprudência pátria. Ficam excluídas da manutenção as alterações no SOFTWARE originárias de obrigações assumidas pelo LICENCIADO junto a sindicatos ou associações, tais como convenções coletivas de trabalho e outras, bem como necessidades específicas de certos segmentos, além do atendimento de legislações municipais e/ou estaduais.
+                                                Fornecer, ato contínuo ao aceite deste EULA, acesso ao SOFTWARE durante a vigência deste EULA;
+                                                Suspender o acesso ao SOFTWARE do LICENCIADO que esteja desrespeitando as regras de conteúdo aqui estabelecidas ou as normas legais em vigor;
+                                                Alterar as especificações e/ou características do SOFTWARE licenciados para a melhoria e/ou correções de erros, de acordo com o plano de produtos definido pela LICENCIANTE;
+                                                Disponibilizar acesso aos serviços de suporte compreendido de segunda a sexta-feira, a) das 08:00h às 18:00h (horário de Brasília), sem intervalo, via chat (localizado no interior do SOFTWARE), b) das 08:30h às 12:30h e das 13:20h às 18:00h (horário de Brasília) via atendimento telefônico e por meio de correio eletrônico (suporte@ptrainer.com.br), e ainda, c) através da página de suporte (https://suporte.ptrainer.com.br, disponível 24 horas por dia e todos os dias da semana) para esclarecimento de dúvidas de ordem não técnica diretamente relacionadas ao SOFTWARE (conforme o plano contratado).
+                                                Manter as INFORMAÇÕES DE CONTA e INFORMAÇÕES PESSOAIS do LICENCIADO, bem como seus registros de acesso, em sigilo, sendo que as referidas INFORMAÇÕES serão armazenadas em ambiente seguro, sendo respeitadas a intimidade, a vida privada, a honra e a imagem do LICENCIADO, em conformidade com as disposições da Lei nº 12.965/2014. A LICENCIANTE não será responsável pelo armazenamento de informações excluídas pelo LICENCIADO.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Nível de Serviço</h3>
+                                            <p></p>
+                                            <p>
+                                                A LICENCIANTE empreenderá esforços comercialmente razoáveis para tornar o SOFTWARE disponível, no mínimo, 99,7% (noventa e nove vírgula sete por cento) durante cada Ano de Serviço (conforme definido abaixo) (“Compromisso de Nível de Serviço”). Na hipótese de a LICENCIANTE não cumprir o Compromisso de Nível de Serviço, o LICENCIADO terá o direito de receber o crédito correspondente a 1 (um) mês de mensalidade, 1/3 avos (para planos trimestrais) ou 1/12 avos (para planos anuais) (“Crédito de Serviço”).
+                                                Por “Ano de Serviço” entende-se os 365 dias precedentes à data de uma reivindicação relacionada ao nível de serviço. Se o LICENCIADO estiver se utilizando do SOFTWARE durante período inferior a 365 dias, o Ano de Serviço que lhe corresponde será, ainda assim, considerado como os 365 dias precedentes; no entanto, os dias anteriores a seu uso dos serviços serão considerados como de 100% de disponibilidade. Os períodos de inatividade operacional que ocorrerem antes de uma reivindicação bem-sucedida de Crédito de Serviço não poderão ser usados para efeito de reivindicações futuras.
+                                                O Compromisso de Nível de Serviço não se aplica caso as circunstâncias de indisponibilidade resultem (i) de uma interrupção do fornecimento de energia elétrica ou paradas emergenciais não superiores a 2 (duas) horas ou que ocorram no período das 24h às 6:00h (horário de Brasília); (ii) forem causadas por fatores que fujam ao razoável controle da LICENCIANTE, inclusive casos de força maior ou de acesso à Internet e problemas correlatos; (iii) resultem de quaisquer atos ou omissões do LICENCIADO, de terceiros ou de aplicativos terceiros; (iv) resultem do equipamento, software ou outras tecnologias que o LICENCIADO usar que impeçam o acesso regular do SOFTWARE; (v) resultem de falhas de instâncias individuais não atribuíveis à indisponibilidade do LICENCIADO; (vi) resultem de alterações realizadas na forma de acesso a INFORMAÇÕES FINANCEIRAS e/ou INFORMAÇÕES DE CONTA do LICENCIADO pelos processadores de pagamentos (Gateways); (vii) resultem de práticas de gerenciamento da rede que possam afetar sua qualidade.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Isenção de Responsabilidade da Licenciante</h3>
+                                            <p></p>
+                                            <p>
+                                                A LICENCIANTE não se responsabiliza:
+                                                Por falha de operação, operação por pessoas não autorizadas ou qualquer outra causa em que não exista culpa da LICENCIANTE;
+                                                Pelo cumprimento dos prazos do LICENCIADO para a entrega de documentos ou pagamentos de impostos;
+                                                Pelos danos ou prejuízos decorrentes de decisões administrativas, gerenciais ou comerciais tomadas com base nas informações fornecidas pelo SOFTWARE;
+                                                Por problemas definidos como “caso fortuito” ou “força maior”, contemplados pelo Art. 393 do Código Civil Brasileiro;
+                                                Por eventuais problemas oriundos de ações de terceiros que possam interferir na qualidade do serviço;
+                                                Por danos causados a terceiros em razão de conteúdo gerado pelo LICENCIANTE através de SOFTWARE;
+                                                Pela indisponibilidade ou lentidão de aplicativos terceiros que se conectam com o SOFTWARE por meio de API ou ainda, de fornecedores de telecomunicação do LICENCIADO;
+                                                Por revisar as INFORMAÇÕES DE CONTA fornecidas pelo LICENCIADO, bem como as INFORMAÇÕES DE PROCESSADORES DE PAGAMENTOS (GATEWAYS) obtidas junto aos sites e/ou meios virtuais das PLATAFORMAS DE PRODUTORES DE CONTEUDOS, seja no que tange à precisão dos dados, seja quanto à legalidade ou ameaça de violação em função do fornecimento destas informações;
+                                                Por quaisquer produtos e/ou serviços oferecidos por meio dos sites e/ou meios virtuais das PLATAFORMAS DE PRODUTORES DE CONTEUDOS, ainda que de maneira solidária ou subsidiária;
+                                                Por eventuais infrações legais cometidas pelo LICENCIADO, de ordem fiscal, tributária, trabalhista, previdenciária, criminal, ou qualquer outra.
+                                                Pela geração e envio de obrigações fiscais acessórias, cabendo este procedimento somente ao LICENCIADO.
+                                                O acesso às INFORMAÇÕES DE CONTA e às INFORMAÇÕES DE PROCESSADORES DE PAGAMENTOS (GATEWAYS) do LICENCIADO dependem de serviços prestados pelas PLATAFORMAS DE TERCEIROS. Sendo assim, a LICENCIANTE não assume qualquer responsabilidade quanto à qualidade, precisão, pontualidade, entrega ou falha na obtenção das referidas INFORMAÇÕES junto aos sites e/ou meios virtuais das PLATAFORMAS DE TERCEIROS.
+                                                A LICENCIANTE adota as medidas de segurança adequadas de acordo com os padrões de mercado para a proteção das INFORMAÇÕES do LICENCIADO armazenadas no SOFTWARE, assim como para o acesso às INFORMAÇÕES DE PROCESSADORES DE PAGAMENTOS (GATEWAYS) do LICENCIADO. Contudo, o LICENCIADO reconhece que nenhum sistema, servidor ou software está absolutamente imune a ataques e/ou invasões de hackers e outros agentes maliciosos, não sendo a LICENCIANTE responsável por qualquer exclusão, obtenção, utilização ou divulgação não autorizada de INFORMAÇÕES resultantes de ataques que a LICENCIANTE não poderia razoavelmente evitar por meio dos referidos padrões de segurança.
+                                            </p>
+                                            <p>			
+                                            </p><h3> Da Retomada dos Softwares </h3>
+                                            <p></p>
+                                            <p>
+                                                A LICENCIANTE se reserva o direito de cancelar imediatamente o acesso do LICENCIADO ao SOFTWARE nos casos em que o LICENCIADO usar o SOFTWARE de forma diversa daquela estipulada no presente instrumento.		</p>
+                                            <p>			
+                                            </p><h3> Das Garantias Limitadas </h3>
+                                            <p></p>
+                                            <p>
+                                                Na extensão máxima permitida pela lei em vigor, o SOFTWARE é fornecido “no estado em que se encontra” e “conforme a disponibilidade”, com todas as falhas e sem garantia de qualquer espécie.
+                                                Não obstante o disposto no item 9.a acima, a LICENCIANTE não garante que as funções contidas no SOFTWARE atendam às suas necessidades, que a operação do SOFTWARE será ininterrupta ou livre de erros, que qualquer serviço continuará disponível, que os defeitos no SOFTWARE serão corrigidos ou que o SOFTWARE será compatível ou funcione com qualquer SOFTWARE, aplicações ou serviços de terceiros.
+                                                Além disso, o LICENCIADO reconhece que o SOFTWARE não deve ser utilizado ou não é adequado para ser utilizado em situações ou ambientes nos quais a falha ou atrasos, os erros ou inexatidões de conteúdo, dados ou informações fornecidas pelo SOFTWARE possam levar à morte, danos pessoais, ou danos físicos ou ambientais graves, incluindo, mas não se limitando, à operação de instalações nucleares, sistemas de navegação ou de comunicação aérea, controle de tráfego aéreo, sistemas de suporte vital ou de armas.
+                                            </p><p>			
+                                            </p><h3> Limitação de Responsabilidade </h3>
+                                            <p></p>
+                                            <p>
+                                                Em nenhum caso a LICENCIANTE será responsável por danos pessoais ou qualquer prejuízo incidental, especial, indireto ou consequente, incluindo, sem limitação, prejuízos por perda de lucro, corrupção ou perda de dados, falha de transmissão ou recepção de dados, não continuidade do negócio ou qualquer outro prejuízo ou perda comercial, decorrentes ou relacionados ao seu uso ou sua inabilidade em usar o SOFTWARE, por qualquer outro motivo. Sob nenhuma circunstância a responsabilidade integral da LICENCIANTE com relação ao LICENCIADO por todos os danos excederá a quantia correspondente ao último plano de licenciamento pago pelo LICENCIADO à LICENCIANTE pela obtenção da presente licença de SOFTWARE.
+                                            </p><p>			
+                                            </p><h3> Consentimento livre, expresso e informado para acesso a informações confidenciais e dados pessoais </h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO, ao aceitar utilizar o SOFTWARE, além de aceitar integralmente este “EULA”, também consente, livre e expressamente, que a LICENCIANTE colete, use, armazene e faça o tratamento de suas INFORMAÇÕES, incluindo seus dados pessoais, financeiros, de conta de processadores de pagamentos (Gateways), os quais serão necessários para que o serviço ofertado seja prestado em sua integralidade.
+                                                Para tanto, o LICENCIADO consente, livre e expressamente, em fornecer os dados que permitam o acesso às INFORMAÇÕES necessárias para que o SOFTWARE execute todas as funções para as quais foi projetado.
+                                                Ainda, o LICENCIADO declara e reconhece que para a prestação dos serviços e funcionalidades de integração a conta de processadores de pagamentos (Gateways) ofertadas pelo SOFTWARE, a LICENCIANTE acessa INFORMAÇÕES FINANCEIRAS diretamente no site e/ou outros meios virtuais dos processadores de pagamentos (Gateways), sem fazer qualquer emulação de medidas de segurança, utilizando-se apenas das INFORMAÇÕES PESSOAIS, INFORMAÇÕES DE CONTA, bem como outras eventualmente necessárias, fornecidas pelo LICENCIADO, conforme autorizado.
+                                                O LICENCIADO, por meio deste EULA e fornecendo as INFORMAÇÕES DE CONTA, autoriza e consente expressamente que a LICENCIANTE acesse suas INFORMAÇÕES DE CONTA e INFORMAÇÕES FINANCEIRAS na qualidade de mandatária.
+                                                A LICENCIANTE declara que todas as INFORMAÇÕES DE CONTA serão utilizadas única e exclusivamente para a visualização das informações financeiras nos sites e/ou meios virtuais dos processadores de pagamentos (Gateways), sendo absolutamente vedada a LICENCIANTE a realização de quaisquer transações.
+                                                O LICENCIADO consente que, ao acessar o site da LICENCIANTE, esta poderá coletar informações técnicas de navegação, tais como tipo de navegador do computador utilizado para acesso ao site, endereço de protocolo de Internet, páginas visitadas e tempo médio gasto no site. Tais informações poderão ser usadas para orientar o próprio LICENCIADO e melhorar os serviços ofertados.
+                                                O LICENCIADO consente livre e expressamente que suas INFORMAÇÕES poderão ser transferidas a terceiros em decorrência da venda, aquisição, fusão, reorganização societária ou qualquer outra mudança no controle da LICENCIANTE. A LICENCIANTE, contudo, compromete-se, nestes casos, a informar o LICENCIADO.
+                                                O LICENCIADO consente livre e expressamente que a LICENCIANTE utilize cookies apenas para controlar a audiência e a navegação em seu site e possibilitar a identificação de serviços segmentados e personalizados ao perfil do LICENCIADO. A LICENCIANTE garante que estas informações coletadas por meio de cookies são estatísticas e não pessoais, bem como que não serão utilizadas para propósitos diversos dos expressamente previstos neste EULA, comprometendo-se a adotar todas as medidas necessárias a fim de evitar o acesso e o uso de tais informações por quaisquer terceiros, sem a devida autorização.
+                                            </p><p>			
+                                            </p><h3> Da Rescisão </h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO poderá solicitar devolução total dos valores pagos em até 7 (sete) dias após a data de contratação ou conforme a adesão de campanhas promocionais. Após este prazo o LICENCIADO poderá solicitar somente o cancelamento da renovação automática, desde que comunique à LICENCIANTE, por escrito, com antecedência mínima de 15 (quinze) dias da próxima renovação, devendo pagar o saldo devedor do plano de licenciamento contratado, se existente. Para os planos de licenciamento com pagamento antecipado, caso o LICENCIADO decida rescindir este EULA antes do término do prazo contratado, o LICENCIANTE não restituirá ao LICENCIADO o saldo restante do plano de licenciamento contratado (exceto em campanhas promocionais que prevejam a devolução dos valores pagos). Este valor será retido pela LICENCIANTE para cobrir os custos operacionais. Aplicam-se as mesmas regras para a contratação do Suporte Premium e demais adicionais.
+                                                A LICENCIANTE poderá rescindir este EULA a qualquer tempo, desde que comunique ao LICENCIADO, com antecedência mínima de 15 (quinze) dias, devendo neste caso restituir ao LICENCIADO o saldo devedor do plano de licenciamento contratado, se existente. Este prazo de antecedência mínima e a obrigação de restituição acima não se aplicarão nos casos previstos na cláusula 12 acima e nos casos de violação do presente instrumento.
+                                                A LICENCIANTE poderá rescindir o EULA a qualquer momento em caso de violação pelo LICENCIADO dos termos e condições ora acordados, ou em caso de atraso de pagamento não sanado no prazo de 90 (noventa) dias, conforme cláusula 6 acima.
+                                                No caso de rescisão do presente contrato, os dados pessoais, de processadores de pagamentos (Gateways) e demais informações do LICENCIADO ficarão disponíveis conforme cláusula 7 deste termo, sendo excluídos permanentemente após 90 (noventa) dias da data da rescisão.
+                                            </p><p>			
+                                            </p><h3> Das disposições Legais </h3>
+                                            <p></p>
+                                            <p>
+                                                O LICENCIADO não poderá prestar serviços a terceiros utilizando o SOFTWARE da LICENCIANTE sem autorização prévia e expressa da LICENCIANTE. A autorização de uso do SOFTWARE é fornecida por CPF ou CNPJ. Desta forma, o SOFTWARE não pode operar sob o regime de multiempresa, necessitando para cada CPF ou CNPJ uma licença específica;
+                                                Caso o LICENCIADO venha a desenvolver um novo módulo ou produto que caracterize cópia, de todo ou em parte, quer seja do dicionário de dados quer seja do programa, será considerado como parte do SOFTWARE fornecido pela LICENCIANTE, ficando, portanto, sua propriedade incorporada pela LICENCIANTE e seu uso condicionado a estas cláusulas contratuais;
+                                                Este EULA obriga as partes e seus sucessores e somente o LICENCIADO possui licença não exclusiva para a utilização do SOFTWARE, sendo-lhe, entretanto, vedado transferir os direitos e obrigações acordados por este instrumento. Tal limitação, no entanto, não atinge a LICENCIANTE, que poderá, a qualquer tempo, ceder, no todo ou em parte, os direitos e obrigações inerentes ao presente EULA;
+                                                A tolerância de uma parte para com a outra quanto ao descumprimento de qualquer uma das obrigações assumidas neste instrumento não implicará em novação ou renúncia de direito. A parte tolerante poderá, a qualquer tempo, exigir da outra parte o fiel e cabal cumprimento deste instrumento;
+                                                Não constitui causa de rescisão contratual o não cumprimento das obrigações aqui assumidas em decorrência de fatos que independam da vontade das partes, tais como os que configuram o caso fortuito ou força maior, conforme previsto no artigo 393 do Código Civil Brasileiro;
+                                                Se qualquer disposição deste EULA for considerada nula, anulável, inválida ou inoperante, nenhuma outra disposição deste EULA será afetada como consequência disso e, portanto, as disposições restantes deste EULA permanecerão em pleno vigor e efeito como se tal disposição nula, anulável, inválida ou inoperante não estivesse contida neste EULA;
+                                                O LICENCIADO concorda que a LICENCIANTE possa divulgar a celebração deste instrumento para fins comerciais, fazendo menção ao nome e à marca do LICENCIADO em campanhas comerciais, podendo, inclusive, divulgar mensagens enviadas de forma escrita ou oral, por telefone, para uso em sites, jornais, revistas e outras campanhas, enquanto vigorar o presente EULA. O LICENCIADO aceita, ainda, receber comunicações via correio eletrônico sobre treinamentos, parcerias e campanhas relacionadas ao SOFTWARE;
+                                                Neste ato, o LICENCIANTE expressamente autoriza o LICENCIADO a colher e utilizar seus dados técnicos e operacionais presentes no SOFTWARE, para fins de estudos e melhorias no SOFTWARE;
+                                                A LICENCIANTE poderá, a seu exclusivo critério, a qualquer tempo e sem a necessidade de comunicação prévia ao LICENCIADO:
+                                                a. Encerrar, modificar ou suspender, total ou parcialmente, o acesso do LICENCIADO ao SOFTWARE, quando referido acesso ou cadastro estiver em violação das condições estabelecidas neste EULA;
+                                                b. Excluir, total ou parcialmente, as informações cadastradas pelo LICENCIADO que não estejam em consonância com as disposições deste EULA;
+                                                c. Acrescentar, excluir ou modificar o Conteúdo oferecido no site;
+                                                d. Alterar quaisquer termos e condições deste EULA mediante simples comunicação ao LICENCIADO.
+                                                A LICENCIANTE ainda poderá, a seu exclusivo critério, suspender, modificar ou encerrar as atividades do SOFTWARE, mediante comunicação prévia ao LICENCIADO, com antecedência mínima de 15 (quinze) dias, disponibilizando formas e alternativas de extrair do Site as informações, salvo nas hipóteses de caso fortuito ou força maior.
+                                                A LICENCIANTE poderá, por meio de comunicação ao endereço eletrônico indicado pelo LICENCIADO em seu cadastro ou por meio de aviso no Site, definir preços para a oferta de determinados conteúdos e/ou serviços, ainda que inicialmente tais serviços tenham sido ofertados de forma gratuita, sendo a utilização destes, após o referido aviso, considerada como concordância do LICENCIADO com a cobrança de tais preços.
+                                                Fica certo e entendido pelo LICENCIADO que somente a pessoa cadastrada pelo próprio LICENCIADO como administradora de conta poderá solicitar que as informações do LICENCIADO inseridas no Software sejam apagadas. Ainda, o LICENCIADO declara sua ciência de que uma vez apagadas, estas não poderão mais ser recuperadas, ficando a LICENCIANTE isenta de qualquer responsabilidade por quaisquer perdas ou danos decorrentes deste procedimento solicitado pelo LICENCIADO.
+                                            </p><p>			
+                                            </p><h3> Da Lei Aplicável </h3>
+                                            <p></p>
+                                            <p>
+                                                Este EULA será regido, interpretado e se sujeitará às leis brasileiras e, o LICENCIADO e a LICENCIANTE desde logo elegem, de forma irrevogável e irretratável, o foro da Comarca da Cidade de Vitória, Estado do Espírito Santo, para dirimir quaisquer dúvidas ou controvérsias oriundas deste EULA, com a exclusão de qualquer outro, por mais privilegiado que seja.			
+                                            </p><p>			
+                                            </p>
+                                            <p>
+                                                 
+                                                Vitória, Maio de 2020
+                                                PTRAINER™
+                                    
+                                    
+                                        </p></article>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Eu li e concordo com os Termos de Uso</label>
+                                      </div>
+                                    <button type="button" class="btn btn-primary">
+                                        Aceitar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--end::Modal Termos de Uso -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- end:: Body -->
+
+
+</div>
+<!-- begin::Footer -->
+        <footer class="m-grid__item	m-footer ">
+            <div class="m-container m-container--fluid m-container--full-height m-page__container">
+                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                        <span class="m-footer__copyright">
+                            2020 © Direitos Reservados
+                            
+                        </span>
+                    </div>
+                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                        <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                            <li class="m-nav__item">
+                                <a href="https://ptrainer.com.br/" target="_blank" class="m-nav__link">
+                                    <span class="m-nav__link-text">
+                                        Sobre
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="https://ptrainer.com.br/termo.html" target="_blank" class="m-nav__link">
+                                    <span class="m-nav__link-text">
+                                        Termos de Uso
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="https://ptrainer.com.br/politica.html" target="_blank" class="m-nav__link">
+                                    <span class="m-nav__link-text">
+                                        Política de Privacidade
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item m-nav__item">
+                                <a href="https://app.ptrainer.com.br/painel/faqs" class="m-nav__link" data-toggle="m-tooltip" title="" data-placement="left" data-original-title="Central de ajuda">
+                                    <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end::Footer -->
+    
+    <!-- end:: Page -->
+
+    <!-- begin::Scroll Top -->
+    <div id="m_scroll_top" class="m-scroll-top">
+        <i class="la la-arrow-up"></i>
+    </div>		
+    <script src="https://app.ptrainer.com.br/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/vendors.bundle.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/scripts.bundle.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/dashboard.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/fullcalendar.bundle.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/jquery.mask.min.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/selectize.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/auto-complete.min.js" type="text/javascript"></script>
+    <script src="https://app.ptrainer.com.br/js/custom-app.js" type="text/javascript">ptrainer.init();</script>
+        <script type="text/javascript">
+$('document').ready(function(){
+     
+    $('.player-video').parent().on('click', function(event){
+        $('#player-video-modal').remove();
+        html =  '<div class="modal fade" id="player-video-modal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">';
+        html += '<div class="modal-dialog modal-dialog-centered modal-lg" role="document">';
+        html += '<div class="modal-content">';
+        html += '<div class="modal-header">';
+        html += '<h5 class="modal-title" id="TituloModalCentralizado">Vídeo do Exercício</h5>';
+        html += '<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">';
+        html += '<span aria-hidden="true">&times;</span>';
+        html += '</button>';
+        html += '</div>';
+        html += '<div class="modal-body">';
+        var link_video = $(this).find('.player-video').attr('data-src');
+        var regex_you = /youtu/g;
+        if(regex_you.test(link_video)) {
+            html += '<iframe src="https://www.youtube.com/embed/' + link_video.replace('https://youtu.be/', '').replace('https://www.youtube.com/watch?v=', '').replace('https://youtube.com/shorts/', '').replace('&feature=youtu.be', '') +'" width="640" height="360" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin: auto;display: block;"></iframe>';
+        } else {
+            var regex_vimeo2 = /vimeo\.com\/\d+\/\w+/gm;
+            if(regex_vimeo2.test(link_video)) {
+                arrLink = link_video.split("/");
+                link_video = link_video.replace("/" + arrLink[4], '');
+            }
+            html += '<iframe src="https://player.vimeo.com/video/' + link_video.replace('https://vimeo.com/', '') +'?byline=0&portrait=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="margin: auto;display: block;"></iframe>';
+        }
+        html += '</div>';
+        html += '<div class="modal-footer">';
+        html += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        $('body').append(html);
+        $('#player-video-modal').modal('show');
+    });
+    $('#bt-salvar-perfil').on('click', function(event){
+        
+        event.preventDefault();
+        var form_id = '#fm-perfil',
+            form = $(form_id),
+            perfil = form.serialize()
+            form_data = form.serializeArray(),
+            error_free = validateForm(form_id,form_data) || false;
+
+        if (!error_free) {
+            swal('Formulário com erros!');
+        } else {
+            $.ajax({
+                url: form.attr('action'),
+                data: perfil,
+                dataType: 'json',
+                type: 'POST',
+                success: function (json) {
+                    swal(json[0]);
+                }
+            });
+        }
+
+    });
+    $('#btn-salvar-cargas').on('click', function(event) {
+        event.preventDefault();
+        var cargas =  $('#lista-exercicios').find('input').serialize();
+        $.ajax({
+            url: "https://app.ptrainer.com.br/painel/perfis/cargas",
+            data: cargas,
+            dataType: 'json',
+            type: 'POST',
+            success: function (json) {
+                swal(json[0]);
+            }
+        });
+        swal('Carga Salva!');
+    });
+
+    $('#perfil-anamnese-submit').on('click', function(event){
+        event.preventDefault();
+        var respostas = $('#perfil-anamnese-form').serialize();
+        var form_data=$('#perfil-anamnese-form').serializeArray();
+        
+        var error_free=true;
+        for (var input in form_data){
+
+            var element=$('#perfil-anamnese-form input, #perfil-anamnese-form textarea').eq(input);
+            var _required = element.attr("required");
+
+            if (typeof _required !== typeof undefined && _required !== false) {
+
+                var box = element.parent(), 
+                    feedback = box.find('.form-control-feedback').eq(0),
+                    help = box.find('.m-form__help').eq(0),
+                    _value = element.val();
+
+                box.removeClass('has-success has-danger');
+                feedback.text('');
+                help.text('');
+
+                var _pattern = element.attr("pattern");
+                if(typeof _pattern !== typeof undefined && _pattern !== false) { 
+                    var regex = new RegExp(element.attr("pattern"));
+                    if(!regex.test(_value)) {
+                        box.addClass('has-danger');
+                        feedback.text('Formato errado');
+                        help.text('Exemplo 21,60');
+                        error_free=false;
+                    }
+                }
+
+                var _max = element.attr("max");
+                if(typeof _max !== typeof undefined && _max !== false) { 
+                    if(parseInt(_value.length) > parseInt(_max)) {
+                        box.addClass('has-danger');
+                        feedback.text('Texto excedendo tamanho');
+                        help.text('Máximo ' + element.attr("max") + ' caracteres');
+                        error_free=false;
+                    }
+                }
+
+                if(_value == ""){
+                    box.addClass('has-danger');
+                    feedback.text('Valor inválido');
+                    help.text('Campo vazio');
+                    error_free=false;
+                }
+
+            }
+        }
+
+        if (!error_free){
+            swal('Formulário com erros!');
+        }
+        else{
+            $.ajax({
+                url: "https://app.ptrainer.com.br/painel/perfis/responder",
+                data: respostas,
+                dataType: 'json',
+                type: 'POST',
+                success: function (json) {
+                    swal(json[0]);
+                }
+            });
+        }
+    });
+    $('.peso-msk').mask('##0,00', {
+        reverse: true
+    });
+    $('.altura-msk').mask('0,00', {
+        reverse: true
+    });
+    $('.phone_with_ddd').mask('(00) 0000-0000');
+    $('.date').mask('00/00/0000');
+    $(".m_maxlength_resposta").maxlength({
+        threshold:5,
+        warningClass:"m-badge m-badge--primary m-badge--rounded m-badge--wide",
+        limitReachedClass:"m-badge m-badge--brand m-badge--rounded m-badge--wide"
+    });
+});
+</script>
+    
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;4d948a32ff46427e86bf3962f8f40dfc&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<div class="modal fade" id="player-video-modal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" style="display: none;" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="TituloModalCentralizado">Vídeo do Exercício</h5><button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">×</span></button></div><div class="modal-body"><iframe src="https://player.vimeo.com/video/559491857?byline=0&amp;portrait=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen="" style="margin: auto;display: block;"></iframe></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button></div></div></div></div></body></html>

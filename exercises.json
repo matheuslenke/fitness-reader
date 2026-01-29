@@ -1,0 +1,655 @@
+{
+  "groups": [
+    {
+      "group": "A",
+      "exercises": [
+        {
+          "id": "1288136",
+          "name": "SUPINO MAQUINA VERTICAL",
+          "videoUrl": "https://vimeo.com/559484203",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288137",
+          "name": "CRUCIFIXO RETO",
+          "videoUrl": "https://vimeo.com/559484454",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288138",
+          "name": "SUPINO INCLINADO NA BARRA",
+          "videoUrl": "https://vimeo.com/559484433",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288139",
+          "name": "CRUCIFIXO INCLINADO",
+          "videoUrl": "https://vimeo.com/559484399",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288140",
+          "name": "CRUCIFIXO INFRA NO CROSS",
+          "videoUrl": "https://vimeo.com/559514568",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288141",
+          "name": "TRÍCEPS PULLEY BARRA W",
+          "videoUrl": "https://vimeo.com/559492039",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288142",
+          "name": "TRÍCEPS TESTA C/ HALTERES",
+          "videoUrl": "https://vimeo.com/559491765",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        },
+        {
+          "id": "1288143",
+          "name": "TRÍCEPS INVERTIDO",
+          "videoUrl": "https://vimeo.com/559491857",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "A"
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "exercises": [
+        {
+          "id": "1288144",
+          "name": "CADEIRA EXTENSORA",
+          "videoUrl": "https://vimeo.com/559522622",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "B"
+        },
+        {
+          "id": "1288145",
+          "name": "AGACHAMENTO NO SMITH",
+          "videoUrl": "https://vimeo.com/555997114",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "B"
+        },
+        {
+          "id": "1288146",
+          "name": "LEG PRESS 45",
+          "videoUrl": "https://vimeo.com/555992051",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "B"
+        },
+        {
+          "id": "1288147",
+          "name": "STIFF NA BARRA",
+          "videoUrl": "https://vimeo.com/559522213",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "B"
+        },
+        {
+          "id": "1288148",
+          "name": "MESA FLEXORA",
+          "videoUrl": "https://vimeo.com/559522501",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "B"
+        },
+        {
+          "id": "1288149",
+          "name": "PANTURRILHA NO BANCO",
+          "videoUrl": "https://vimeo.com/559521870",
+          "sets": "4",
+          "reps": "15 a 20",
+          "group": "B"
+        },
+        {
+          "id": "1288150",
+          "name": "ABDOME MAQUINA",
+          "videoUrl": "https://vimeo.com/559521074",
+          "sets": "4",
+          "reps": "12 a 15",
+          "group": "B"
+        },
+        {
+          "id": "1288151",
+          "name": "ABDOME INFRA SOLO",
+          "videoUrl": "https://www.youtube.com/watch?v=cbyRrPirULo",
+          "sets": "4",
+          "reps": "12 a 15",
+          "group": "B"
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "exercises": [
+        {
+          "id": "1288152",
+          "name": "REMADA BAIXA ABERTA PRONADA",
+          "videoUrl": "https://vimeo.com/559485127",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        },
+        {
+          "id": "1288153",
+          "name": "REMADA BAIXA TRIÂNGULO",
+          "videoUrl": "https://vimeo.com/559485176",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        },
+        {
+          "id": "1288154",
+          "name": "PULL DOWN POLIA PRONADO",
+          "videoUrl": "https://vimeo.com/559514652",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        },
+        {
+          "id": "1288155",
+          "name": "PULLEY FRENTE ABERTO",
+          "videoUrl": "https://vimeo.com/559490899",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        },
+        {
+          "id": "1288156",
+          "name": "ROSCA ALTERNADA NO HALTERES",
+          "videoUrl": "https://vimeo.com/559490224",
+          "sets": "4",
+          "reps": "16 a 20 ao todo",
+          "group": "C"
+        },
+        {
+          "id": "1288157",
+          "name": "ROSCA SCOTH",
+          "videoUrl": "https://vimeo.com/559492161",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        },
+        {
+          "id": "1288158",
+          "name": "ROSCA UNILATERAL EM PÉ NO CROSS",
+          "videoUrl": "https://vimeo.com/559513345",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "C"
+        }
+      ]
+    },
+    {
+      "group": "D",
+      "exercises": [
+        {
+          "id": "1288159",
+          "name": "REMADA ALTA POLIA",
+          "videoUrl": "https://vimeo.com/559485320",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288160",
+          "name": "ENCOLHIMENTO C/HALTERES",
+          "videoUrl": "https://vimeo.com/559484690",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288161",
+          "name": "FLY INVERTIDO",
+          "videoUrl": "https://youtube.com/shorts/us3SsaPp310?si=4RQ0T3q6HwxhPA33",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288162",
+          "name": "ELEVAÇÃO LATERAL HALTERES",
+          "videoUrl": "https://vimeo.com/559514210",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288163",
+          "name": "ELEVAÇÃO FRONTAL NA POLIA",
+          "videoUrl": "https://vimeo.com/559514150",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288164",
+          "name": "DESENVOLVIMENTO LATERAL HALTERES",
+          "videoUrl": "https://vimeo.com/559527736",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "D"
+        },
+        {
+          "id": "1288165",
+          "name": "ABDOME PERNA E TRONCO DIRETO",
+          "videoUrl": "https://vimeo.com/559515198",
+          "sets": "4",
+          "reps": "12 a 15",
+          "group": "D"
+        },
+        {
+          "id": "1288166",
+          "name": "ABDOME BANCO INFRA",
+          "videoUrl": "https://vimeo.com/559513148",
+          "sets": "4",
+          "reps": "12 a 15",
+          "group": "D"
+        }
+      ]
+    },
+    {
+      "group": "E",
+      "exercises": [
+        {
+          "id": "1288167",
+          "name": "ROSCA DIRETA NA BARRA W",
+          "videoUrl": "https://vimeo.com/559520881",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288168",
+          "name": "ROSCA CONCENTRADA UNILATERAL NO BANCO",
+          "videoUrl": "https://vimeo.com/559492263",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288169",
+          "name": "ROSCA SCOTH",
+          "videoUrl": "https://vimeo.com/559492161",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288170",
+          "name": "ROSCA INVERSA NA POLIA",
+          "videoUrl": "https://vimeo.com/559513443",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288171",
+          "name": "SUPINO RETO FECHADO BARRA",
+          "videoUrl": "https://vimeo.com/559484493",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288172",
+          "name": "TRÍCEPS CORDA",
+          "videoUrl": "https://vimeo.com/559492003",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288173",
+          "name": "TRÍCEPS COICE NA POLIA UNILATERAL",
+          "videoUrl": "https://vimeo.com/559491899",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        },
+        {
+          "id": "1288174",
+          "name": "TRÍCEPS PULLEY BARRA RETA",
+          "videoUrl": "https://vimeo.com/559492064",
+          "sets": "4",
+          "reps": "8 a 12",
+          "group": "E"
+        }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "1288136",
+      "name": "SUPINO MAQUINA VERTICAL",
+      "videoUrl": "https://vimeo.com/559484203",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288137",
+      "name": "CRUCIFIXO RETO",
+      "videoUrl": "https://vimeo.com/559484454",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288138",
+      "name": "SUPINO INCLINADO NA BARRA",
+      "videoUrl": "https://vimeo.com/559484433",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288139",
+      "name": "CRUCIFIXO INCLINADO",
+      "videoUrl": "https://vimeo.com/559484399",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288140",
+      "name": "CRUCIFIXO INFRA NO CROSS",
+      "videoUrl": "https://vimeo.com/559514568",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288141",
+      "name": "TRÍCEPS PULLEY BARRA W",
+      "videoUrl": "https://vimeo.com/559492039",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288142",
+      "name": "TRÍCEPS TESTA C/ HALTERES",
+      "videoUrl": "https://vimeo.com/559491765",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288143",
+      "name": "TRÍCEPS INVERTIDO",
+      "videoUrl": "https://vimeo.com/559491857",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "A"
+    },
+    {
+      "id": "1288144",
+      "name": "CADEIRA EXTENSORA",
+      "videoUrl": "https://vimeo.com/559522622",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "B"
+    },
+    {
+      "id": "1288145",
+      "name": "AGACHAMENTO NO SMITH",
+      "videoUrl": "https://vimeo.com/555997114",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "B"
+    },
+    {
+      "id": "1288146",
+      "name": "LEG PRESS 45",
+      "videoUrl": "https://vimeo.com/555992051",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "B"
+    },
+    {
+      "id": "1288147",
+      "name": "STIFF NA BARRA",
+      "videoUrl": "https://vimeo.com/559522213",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "B"
+    },
+    {
+      "id": "1288148",
+      "name": "MESA FLEXORA",
+      "videoUrl": "https://vimeo.com/559522501",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "B"
+    },
+    {
+      "id": "1288149",
+      "name": "PANTURRILHA NO BANCO",
+      "videoUrl": "https://vimeo.com/559521870",
+      "sets": "4",
+      "reps": "15 a 20",
+      "group": "B"
+    },
+    {
+      "id": "1288150",
+      "name": "ABDOME MAQUINA",
+      "videoUrl": "https://vimeo.com/559521074",
+      "sets": "4",
+      "reps": "12 a 15",
+      "group": "B"
+    },
+    {
+      "id": "1288151",
+      "name": "ABDOME INFRA SOLO",
+      "videoUrl": "https://www.youtube.com/watch?v=cbyRrPirULo",
+      "sets": "4",
+      "reps": "12 a 15",
+      "group": "B"
+    },
+    {
+      "id": "1288152",
+      "name": "REMADA BAIXA ABERTA PRONADA",
+      "videoUrl": "https://vimeo.com/559485127",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288153",
+      "name": "REMADA BAIXA TRIÂNGULO",
+      "videoUrl": "https://vimeo.com/559485176",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288154",
+      "name": "PULL DOWN POLIA PRONADO",
+      "videoUrl": "https://vimeo.com/559514652",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288155",
+      "name": "PULLEY FRENTE ABERTO",
+      "videoUrl": "https://vimeo.com/559490899",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288156",
+      "name": "ROSCA ALTERNADA NO HALTERES",
+      "videoUrl": "https://vimeo.com/559490224",
+      "sets": "4",
+      "reps": "16 a 20 ao todo",
+      "group": "C"
+    },
+    {
+      "id": "1288157",
+      "name": "ROSCA SCOTH",
+      "videoUrl": "https://vimeo.com/559492161",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288158",
+      "name": "ROSCA UNILATERAL EM PÉ NO CROSS",
+      "videoUrl": "https://vimeo.com/559513345",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "C"
+    },
+    {
+      "id": "1288159",
+      "name": "REMADA ALTA POLIA",
+      "videoUrl": "https://vimeo.com/559485320",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288160",
+      "name": "ENCOLHIMENTO C/HALTERES",
+      "videoUrl": "https://vimeo.com/559484690",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288161",
+      "name": "FLY INVERTIDO",
+      "videoUrl": "https://youtube.com/shorts/us3SsaPp310?si=4RQ0T3q6HwxhPA33",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288162",
+      "name": "ELEVAÇÃO LATERAL HALTERES",
+      "videoUrl": "https://vimeo.com/559514210",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288163",
+      "name": "ELEVAÇÃO FRONTAL NA POLIA",
+      "videoUrl": "https://vimeo.com/559514150",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288164",
+      "name": "DESENVOLVIMENTO LATERAL HALTERES",
+      "videoUrl": "https://vimeo.com/559527736",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "D"
+    },
+    {
+      "id": "1288165",
+      "name": "ABDOME PERNA E TRONCO DIRETO",
+      "videoUrl": "https://vimeo.com/559515198",
+      "sets": "4",
+      "reps": "12 a 15",
+      "group": "D"
+    },
+    {
+      "id": "1288166",
+      "name": "ABDOME BANCO INFRA",
+      "videoUrl": "https://vimeo.com/559513148",
+      "sets": "4",
+      "reps": "12 a 15",
+      "group": "D"
+    },
+    {
+      "id": "1288167",
+      "name": "ROSCA DIRETA NA BARRA W",
+      "videoUrl": "https://vimeo.com/559520881",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288168",
+      "name": "ROSCA CONCENTRADA UNILATERAL NO BANCO",
+      "videoUrl": "https://vimeo.com/559492263",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288169",
+      "name": "ROSCA SCOTH",
+      "videoUrl": "https://vimeo.com/559492161",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288170",
+      "name": "ROSCA INVERSA NA POLIA",
+      "videoUrl": "https://vimeo.com/559513443",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288171",
+      "name": "SUPINO RETO FECHADO BARRA",
+      "videoUrl": "https://vimeo.com/559484493",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288172",
+      "name": "TRÍCEPS CORDA",
+      "videoUrl": "https://vimeo.com/559492003",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288173",
+      "name": "TRÍCEPS COICE NA POLIA UNILATERAL",
+      "videoUrl": "https://vimeo.com/559491899",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    },
+    {
+      "id": "1288174",
+      "name": "TRÍCEPS PULLEY BARRA RETA",
+      "videoUrl": "https://vimeo.com/559492064",
+      "sets": "4",
+      "reps": "8 a 12",
+      "group": "E"
+    }
+  ]
+}

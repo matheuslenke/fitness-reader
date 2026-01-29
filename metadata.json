@@ -1,0 +1,15 @@
+{
+  "language": "pt-Br",
+  "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no",
+  "title": "Ptrainer - App para Personal Trainer",
+  "favicon": "https://app.ptrainer.com.br/painel/assets/img/logo/favicon.ico",
+  "scrapeId": "019c09e6-4f40-750e-8255-a882c8f2fbc8",
+  "sourceURL": "https://app.ptrainer.com.br/painel/perfis",
+  "url": "https://app.ptrainer.com.br/painel/perfis",
+  "statusCode": 200,
+  "contentType": "text/html; charset=UTF-8",
+  "timezone": "America/New_York",
+  "proxyUsed": "basic",
+  "creditsUsed": 1,
+  "concurrencyLimited": false
+}
