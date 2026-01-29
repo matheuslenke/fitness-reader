@@ -2,15 +2,15 @@ import { useState } from "react";
 import type { Exercise, Series } from "../types/fitness";
 
 interface HistoryPageProps {
+  groups: string[];
   exercisesFlat: Exercise[];
   series: Series;
   onBack: () => void;
   onExport?: () => void;
 }
 
-const GROUPS = ["A", "B", "C", "D", "E"];
-
 export function HistoryPage({
+  groups,
   exercisesFlat,
   series,
   onBack,
@@ -18,6 +18,7 @@ export function HistoryPage({
 }: HistoryPageProps) {
   const [filter, setFilter] = useState("all");
   const exerciseWeights = series?.exerciseWeights ?? {};
+  const groupList = groups.length > 0 ? groups : ["A", "B", "C", "D", "E"];
   const filtered =
     filter === "all"
       ? exercisesFlat
@@ -45,7 +46,7 @@ export function HistoryPage({
           onChange={(e) => setFilter(e.target.value)}
         >
           <option value="all">Todos</option>
-          {GROUPS.map((g) => (
+          {groupList.map((g) => (
             <option key={g} value={g}>
               Grupo {g}
             </option>

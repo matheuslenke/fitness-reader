@@ -24,6 +24,10 @@ export interface WeightEntry {
 
 export type SeriesStatus = "active" | "completed" | "archived";
 
+/**
+ * Training block (program instance). An instance of a plan template with its own
+ * dates, weights, and editable exercise list. The library acts as a template.
+ */
 export interface Series {
   id: string;
   name: string;
@@ -32,6 +36,10 @@ export interface Series {
   status: SeriesStatus;
   exerciseWeights: Record<string, WeightEntry[]>;
   metrics?: Metric[];
+  /** Id of the plan template this block was created from, if any. */
+  templateId?: string;
+  /** Exercises per day/group (e.g. "A", "B"). Copied from template, editable per instance. */
+  exercisesByGroup?: Record<string, Exercise[]>;
 }
 
 export interface AppData {
@@ -53,9 +61,26 @@ export interface ExerciseGroup {
   exercises: Exercise[];
 }
 
+/** Legacy shape for imported JSON: single set of groups (one implicit template). */
 export interface ExerciseLibrary {
   groups: ExerciseGroup[];
   exercises?: Exercise[];
+}
+
+/**
+ * Plan template: reusable blueprint (e.g. "5-day ABCDE") with exercises per day/group.
+ */
+export interface PlanTemplate {
+  id: string;
+  name: string;
+  groups: ExerciseGroup[];
+}
+
+/**
+ * Template library: collection of plan templates. Imported from JSON.
+ */
+export interface TemplateLibrary {
+  templates: PlanTemplate[];
 }
 
 export type ViewKey = "landing" | "series" | "metrics" | "history";

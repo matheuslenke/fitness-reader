@@ -1,5 +1,19 @@
-import type { ExerciseLibrary } from "../types/fitness";
+import type { ExerciseLibrary, TemplateLibrary } from "../types/fitness";
 
 import exercisesJson from "../../exercises.json";
 
-export const defaultExerciseLibrary = exercisesJson as ExerciseLibrary;
+const legacy = exercisesJson as ExerciseLibrary;
+
+export const defaultExerciseLibrary = legacy;
+
+const DEFAULT_TEMPLATE_ID = "default";
+
+export const defaultTemplateLibrary: TemplateLibrary = {
+  templates: [
+    {
+      id: DEFAULT_TEMPLATE_ID,
+      name: "Default",
+      groups: Array.isArray(legacy.groups) ? legacy.groups : [],
+    },
+  ],
+};

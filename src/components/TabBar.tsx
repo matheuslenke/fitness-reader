@@ -1,14 +1,14 @@
 interface TabBarProps {
+  groups: string[];
   active: string;
   onChange: (group: string) => void;
 }
 
-const GROUPS = ["A", "B", "C", "D", "E"];
-
-export function TabBar({ active, onChange }: TabBarProps) {
+export function TabBar({ groups, active, onChange }: TabBarProps) {
+  const list = groups.length > 0 ? groups : ["A", "B", "C", "D", "E"];
   return (
     <div className="tw-flex tw-gap-1 tw-p-2 tw-bg-background/80 tw-rounded-2xl tw-border tw-border-slate-700/50">
-      {GROUPS.map((g) => (
+      {list.map((g) => (
         <button
           key={g}
           type="button"

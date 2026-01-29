@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import type { AppData, Exercise, ExerciseLibrary, Series, ToastState } from "./types/fitness";
+import type { AppData, Exercise, ExerciseLibrary, Series, TemplateLibrary, ToastState } from "./types/fitness";
 import {
   loadAppData,
   saveAppData,
@@ -14,9 +14,12 @@ import {
   addExerciseWeightEntry,
   getGlobalMetrics,
   getCurrentExerciseWeight,
-  loadExerciseLibrary,
-  saveExerciseLibrary,
+  loadTemplateLibrary,
+  saveTemplateLibrary,
+  exerciseLibraryToTemplateLibrary,
+  applyTemplateToSeries,
 } from "./lib/storage";
+import type { SeriesManagerSavePayload } from "./components/SeriesManagerModal";
 import { formatDate } from "./lib/utils";
 import { LandingPage } from "./components/LandingPage";
 import { MetricsPage } from "./components/MetricsPage";
@@ -34,16 +37,18 @@ type ViewKey = "landing" | "series" | "metrics" | "history";
 
 function App() {
   const [data, setData] = useState<AppData>(loadAppData);
-  const [exerciseData, setExerciseData] = useState<ExerciseLibrary>(
-    loadExerciseLibrary
+  const [templateLibrary, setTemplateLibrary] = useState<TemplateLibrary>(
+    loadTemplateLibrary
   );
   const [view, setView] = useState<ViewKey>("landing");
   const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(null);
   const [activeGroup, setActiveGroup] = useState("A");
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [weightExercise, setWeightExercise] = useState<Exercise | null>(null);
+  const [weightModalSeriesId, setWeightModalSeriesId] = useState<string | null>(null);
   const [seriesModalOpen, setSeriesModalOpen] = useState(false);
   const [seriesToEdit, setSeriesToEdit] = useState<Series | null>(null);
+  const [defaultTemplateIdForModal, setDefaultTemplateIdForModal] = useState<string | null>(null);
   const [metricsModalOpen, setMetricsModalOpen] = useState(false);
   const [photoModalOpen, setPhotoModalOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -51,19 +56,44 @@ function App() {
   const [toast, setToast] = useState<ToastState | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const groups = exerciseData.groups ?? [];
-  const exercisesFlat = useMemo(
-    () => groups.flatMap((g) => g.exercises ?? []),
-    [groups]
+  const templates = templateLibrary.templates ?? [];
+  const fallbackGroups = useMemo(
+    () =>
+      templates[0]?.groups?.map((g) => g.group) ?? ["A", "B", "C", "D", "E"],
+    [templates]
   );
+  const fallbackExercisesByGroup = useMemo(() => {
+    const m: Record<string, Exercise[]> = {};
+    for (const g of templates[0]?.groups ?? []) {
+      m[g.group] = g.exercises ?? [];
+    }
+    return m;
+  }, [templates]);
+
   const currentSeries = selectedSeriesId
     ? getSeriesById(data, selectedSeriesId)
     : null;
-  const currentExercises = useMemo(
-    () => groups.find((g) => g.group === activeGroup)?.exercises ?? [],
-    [activeGroup, groups]
+  const seriesGroups = useMemo(
+    () =>
+      currentSeries?.exercisesByGroup &&
+      Object.keys(currentSeries.exercisesByGroup).length > 0
+        ? Object.keys(currentSeries.exercisesByGroup)
+        : fallbackGroups,
+    [currentSeries, fallbackGroups]
   );
+  const currentExercises = useMemo(() => {
+    const byGroup = currentSeries?.exercisesByGroup ?? fallbackExercisesByGroup;
+    return byGroup[activeGroup] ?? [];
+  }, [currentSeries, activeGroup, fallbackExercisesByGroup]);
+  const exercisesFlat = useMemo(() => {
+    const byGroup = currentSeries?.exercisesByGroup ?? fallbackExercisesByGroup;
+    return Object.values(byGroup).flat();
+  }, [currentSeries, fallbackExercisesByGroup]);
   const global = getGlobalMetrics(data);
+  const activeSeries = useMemo(
+    () => data.series.find((s) => s.status === "active") ?? null,
+    [data.series]
+  );
 
   const showToast = useCallback(
     (text: string, type: ToastState["type"] = "info", duration = 3200) => {
@@ -82,29 +112,54 @@ function App() {
 
   const handleSaveWeight = useCallback(
     (exerciseId: string, weight: number) => {
-      if (selectedSeriesId == null) return;
+      const sid = weightModalSeriesId ?? selectedSeriesId;
+      if (sid == null) return;
       setData((prev) =>
-        addExerciseWeightEntry(prev, selectedSeriesId, exerciseId, weight)
+        addExerciseWeightEntry(prev, sid, exerciseId, weight)
       );
     },
-    [selectedSeriesId]
+    [weightModalSeriesId, selectedSeriesId]
   );
 
+  const openWeightModal = useCallback((ex: Exercise, seriesId: string) => {
+    setWeightModalSeriesId(seriesId);
+    setWeightExercise(ex);
+  }, []);
+
+  const closeWeightModal = useCallback(() => {
+    setWeightExercise(null);
+    setWeightModalSeriesId(null);
+  }, []);
+
   const handleSeriesSave = useCallback(
-    (payload: {
-      name: string;
-      startDate: string;
-      endDate: string;
-      status: Series["status"];
-    }) => {
+    (payload: SeriesManagerSavePayload) => {
       setData((prev) => {
         if (seriesToEdit != null) {
-          return updateSeries(prev, seriesToEdit.id, payload);
+          let next = prev;
+          if (
+            payload.templateId &&
+            payload.templateId !== seriesToEdit.templateId
+          ) {
+            next = applyTemplateToSeries(prev, seriesToEdit.id, payload.templateId);
+          }
+          return updateSeries(next, seriesToEdit.id, {
+            name: payload.name,
+            startDate: payload.startDate,
+            endDate: payload.endDate,
+            status: payload.status,
+          });
         }
-        return createSeries(prev, payload);
+        return createSeries(prev, {
+          name: payload.name,
+          startDate: payload.startDate,
+          endDate: payload.endDate,
+          status: payload.status,
+          templateId: payload.templateId,
+        });
       });
       setSeriesModalOpen(false);
       setSeriesToEdit(null);
+      setDefaultTemplateIdForModal(null);
     },
     [seriesToEdit]
   );
@@ -120,10 +175,23 @@ function App() {
         return next;
       });
       setSeriesToEdit(null);
+      setDefaultTemplateIdForModal(null);
       setSeriesModalOpen(false);
     },
     [selectedSeriesId]
   );
+
+  const handleCreateFromTemplate = useCallback((templateId: string) => {
+    setSeriesToEdit(null);
+    setDefaultTemplateIdForModal(templateId);
+    setSeriesModalOpen(true);
+  }, []);
+
+  const handleCloseSeriesModal = useCallback(() => {
+    setSeriesModalOpen(false);
+    setSeriesToEdit(null);
+    setDefaultTemplateIdForModal(null);
+  }, []);
 
   const handleProgressPhoto = useCallback(
     (photo: { date: string; note: string; src: string }) => {
@@ -189,7 +257,8 @@ function App() {
         try {
           const imported = JSON.parse(reader.result as string) as
             | AppData
-            | ExerciseLibrary;
+            | ExerciseLibrary
+            | TemplateLibrary;
           if (
             imported != null &&
             "profile" in imported &&
@@ -202,11 +271,23 @@ function App() {
             showToast("Dados importados com sucesso!", "success");
           } else if (
             imported != null &&
+            "templates" in imported &&
+            Array.isArray((imported as TemplateLibrary).templates)
+          ) {
+            const lib = imported as TemplateLibrary;
+            saveTemplateLibrary(lib);
+            setTemplateLibrary(lib);
+            showToast("Planos (templates) atualizados!", "success");
+          } else if (
+            imported != null &&
             Array.isArray((imported as ExerciseLibrary).groups)
           ) {
-            saveExerciseLibrary(imported as ExerciseLibrary);
-            setExerciseData(imported as ExerciseLibrary);
-            showToast("Biblioteca de exercícios atualizada!", "success");
+            const lib = exerciseLibraryToTemplateLibrary(
+              imported as ExerciseLibrary
+            );
+            saveTemplateLibrary(lib);
+            setTemplateLibrary(lib);
+            showToast("Planos (templates) atualizados!", "success");
           } else {
             showToast("Formato inválido.", "error");
           }
@@ -227,16 +308,27 @@ function App() {
         <LandingPage
           data={data}
           onSelectSeries={(id) => {
+            const s = getSeriesById(data, id);
+            const gs =
+              s?.exercisesByGroup && Object.keys(s.exercisesByGroup).length > 0
+                ? Object.keys(s.exercisesByGroup)
+                : templates[0]?.groups?.map((g) => g.group) ?? ["A", "B", "C", "D", "E"];
             setSelectedSeriesId(id);
             setView("series");
-            setActiveGroup("A");
+            setActiveGroup(gs[0] ?? "A");
           }}
           onOpenMetricsModal={() => setMetricsModalOpen(true)}
           onGoToMetrics={() => setView("metrics")}
           onOpenSeriesModal={() => {
             setSeriesToEdit(null);
+            setDefaultTemplateIdForModal(null);
             setSeriesModalOpen(true);
           }}
+          onCreateFromTemplate={handleCreateFromTemplate}
+          activeSeries={activeSeries}
+          templates={templates}
+          onPlayVideo={setVideoUrl}
+          onEditWeightInSeries={openWeightModal}
           onEditSeries={(s) => {
             setSeriesToEdit(s);
             setSeriesModalOpen(true);
@@ -290,7 +382,11 @@ function App() {
             </div>
           </header>
           <main className="tw-p-4 tw-space-y-4">
-            <TabBar active={activeGroup} onChange={setActiveGroup} />
+            <TabBar
+              groups={seriesGroups}
+              active={activeGroup}
+              onChange={setActiveGroup}
+            />
             <div className="tw-space-y-3">
               {currentExercises.map((ex) => (
                 <ExerciseCard
@@ -298,7 +394,7 @@ function App() {
                   exercise={ex}
                   currentWeight={getCurrentExerciseWeight(currentSeries, ex.id)}
                   onPlayVideo={setVideoUrl}
-                  onEditWeight={setWeightExercise}
+                  onEditWeight={(ex) => selectedSeriesId && openWeightModal(ex, selectedSeriesId)}
                 />
               ))}
             </div>
@@ -316,6 +412,7 @@ function App() {
 
       {view === "history" && currentSeries != null && (
         <HistoryPage
+          groups={seriesGroups}
           exercisesFlat={exercisesFlat}
           series={currentSeries}
           onBack={() => setView("series")}
@@ -331,22 +428,28 @@ function App() {
       <WeightModal
         open={weightExercise != null}
         exercise={weightExercise}
-        series={currentSeries}
+        series={
+          weightModalSeriesId != null
+            ? getSeriesById(data, weightModalSeriesId)
+            : currentSeries
+        }
         currentWeight={
-          weightExercise != null && currentSeries != null
-            ? getCurrentExerciseWeight(currentSeries, weightExercise.id)
+          weightExercise != null && (weightModalSeriesId != null || currentSeries != null)
+            ? getCurrentExerciseWeight(
+                (weightModalSeriesId != null ? getSeriesById(data, weightModalSeriesId) : currentSeries)!,
+                weightExercise.id
+              )
             : ""
         }
-        onClose={() => setWeightExercise(null)}
+        onClose={closeWeightModal}
         onSave={handleSaveWeight}
       />
       <SeriesManagerModal
         open={seriesModalOpen}
-        onClose={() => {
-          setSeriesModalOpen(false);
-          setSeriesToEdit(null);
-        }}
+        onClose={handleCloseSeriesModal}
         series={seriesToEdit}
+        templates={templates}
+        defaultTemplateId={defaultTemplateIdForModal}
         onSave={handleSeriesSave}
         onDelete={handleSeriesDelete}
       />

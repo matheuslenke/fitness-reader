@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+## Fitness Reader Business Logic
+
+- **Profile + App data**: `AppData` stores the user’s profile (name, metrics, progress photos) and every training block (previously called “series”). Each block collects exercise weights, metrics, and a reference to the plan template it came from, if any.
+
+- **Plan templates & library**: The imported JSON becomes a `TemplateLibrary` containing one or more `PlanTemplate`s (each with `id`, `name`, and `groups` such as days “A/B/C…”). These templates are the reusable blueprints that define which exercises belong to each day/group.
+
+- **Training blocks (series)**: When you create a new series, you select a plan template; the app clones the template’s exercises into the block’s own `exercisesByGroup`. That lets every block keep its own editable exercise list and historical weights (`exerciseWeights`) independently of the shared library. Editing a block can also re-apply a different template while keeping measurements/weights intact.
+
+- **Library vs instance**: The library (template collection) is the read-only source of truth for blueprints. Training blocks are the live instances—what you actually perform and track, including start/end dates, status (`active | completed | archived`), and any custom exercise edits. Tabs, exercise cards, and history views now derive groups and exercises from the training block’s `exercisesByGroup` (falling back to the first template when legacy data lacks per-block copies).
+
+- **Import/export behavior**: Importing JSON can replace profile+series data or update the template library. Library imports normalize legacy shapes (`groups` arrays) into the new template model, ensuring every new training block can select a plan and receive its cloned exercises.

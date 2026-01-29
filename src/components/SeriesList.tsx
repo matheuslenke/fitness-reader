@@ -33,13 +33,6 @@ export function SeriesList({
     <div className="tw-px-4 tw-space-y-3">
       <div className="tw-flex tw-items-center tw-justify-between">
         <h2 className="tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">Séries</h2>
-        <button
-          type="button"
-          className="touch-target tw-px-4 tw-py-2 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-text-sm"
-          onClick={onCreate}
-        >
-          Nova série
-        </button>
       </div>
       {series.length === 0 ? (
         <div className="tw-bg-surface tw-rounded-2xl tw-p-8 tw-text-center tw-border tw-border-slate-700/50 tw-shadow-lg">

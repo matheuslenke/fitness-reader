@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
-import type { Series } from "../types/fitness";
+import type { PlanTemplate, Series } from "../types/fitness";
 import { todayStr } from "../lib/utils";
 import { Modal } from "./Modal";
+
+export interface SeriesManagerSavePayload {
+  name: string;
+  startDate: string;
+  endDate: string;
+  status: Series["status"];
+  templateId?: string;
+}
 
 interface SeriesManagerModalProps {
   open: boolean;
   onClose: () => void;
   series: Series | null;
-  onSave: (payload: {
-    name: string;
-    startDate: string;
-    endDate: string;
-    status: Series["status"];
-  }) => void;
+  templates: PlanTemplate[];
+  defaultTemplateId?: string | null;
+  onSave: (payload: SeriesManagerSavePayload) => void;
   onDelete: (id: string) => void;
 }
 
@@ -20,15 +25,21 @@ export function SeriesManagerModal({
   open,
   onClose,
   series,
+  templates,
+  defaultTemplateId,
   onSave,
   onDelete,
 }: SeriesManagerModalProps) {
   const isEdit = series != null;
+  const firstId = templates[0]?.id ?? "";
   const [name, setName] = useState(series?.name ?? "");
   const [startDate, setStartDate] = useState(series?.startDate ?? todayStr());
   const [endDate, setEndDate] = useState(series?.endDate ?? todayStr());
   const [status, setStatus] = useState<Series["status"]>(
     series?.status ?? "active"
+  );
+  const [selectedTemplateId, setSelectedTemplateId] = useState(
+    defaultTemplateId ?? series?.templateId ?? firstId
   );
 
   useEffect(() => {
@@ -37,12 +48,22 @@ export function SeriesManagerModal({
       setStartDate(series?.startDate ?? todayStr());
       setEndDate(series?.endDate ?? todayStr());
       setStatus(series?.status ?? "active");
+      setSelectedTemplateId(defaultTemplateId ?? series?.templateId ?? firstId);
     }
-  }, [open, series]);
+  }, [open, series, firstId, defaultTemplateId]);
 
   const handleSubmit = () => {
     if (!name.trim()) return;
-    onSave({ name: name.trim(), startDate, endDate, status });
+    const tid = templates.some((t) => t.id === selectedTemplateId)
+      ? selectedTemplateId
+      : firstId;
+    onSave({
+      name: name.trim(),
+      startDate,
+      endDate,
+      status,
+      templateId: tid || undefined,
+    });
     onClose();
   };
 
@@ -50,9 +71,27 @@ export function SeriesManagerModal({
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? "Editar série" : "Nova série"}
+      title={isEdit ? "Editar treino" : "Novo treino"}
     >
       <div className="tw-space-y-4">
+        {templates.length > 0 && (
+          <div>
+            <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
+              Plano (template)
+            </label>
+            <select
+              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
+              value={selectedTemplateId}
+              onChange={(e) => setSelectedTemplateId(e.target.value)}
+            >
+              {templates.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div>
           <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
             Nome
@@ -111,7 +150,7 @@ export function SeriesManagerModal({
               type="button"
               className="tw-py-3 tw-px-4 tw-rounded-xl tw-bg-danger/20 tw-text-red-400 tw-font-medium tw-border tw-border-danger/40"
               onClick={() => {
-                if (window.confirm("Excluir esta série?")) {
+                if (window.confirm("Excluir este treino?")) {
                   onDelete(series.id);
                   onClose();
                 }

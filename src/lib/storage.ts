@@ -1,16 +1,20 @@
-import { defaultExerciseLibrary } from "../data/exercises";
+import { defaultTemplateLibrary } from "../data/exercises";
 import type {
   AppData,
+  Exercise,
   ExerciseLibrary,
   Metric,
+  PlanTemplate,
   ProgressPhoto,
   Series,
+  TemplateLibrary,
 } from "../types/fitness";
 import { generateId, todayStr } from "./utils";
 
 const STORAGE_KEY = "fitness-tracker-v2";
 const LEGACY_STORAGE_KEY = "fitness-tracker-weights";
 const LIBRARY_KEY = "fitness-tracker-library";
+const TEMPLATES_KEY = "fitness-tracker-templates";
 export const DEFAULT_PROFILE_NAME = "Matheus Lenke Coutinho";
 
 export function ensureProfileExtras(data: AppData): AppData {
@@ -94,8 +98,19 @@ export function createSeries(
     startDate?: string;
     endDate?: string;
     status?: Series["status"];
+    templateId?: string;
   },
 ): AppData {
+  let exercisesByGroup: Record<string, Exercise[]> | undefined;
+  let templateId: string | undefined;
+  if (payload.templateId) {
+    const lib = loadTemplateLibrary();
+    const template = getTemplateById(lib, payload.templateId);
+    if (template) {
+      templateId = template.id;
+      exercisesByGroup = instantiateExercisesFromTemplate(template);
+    }
+  }
   const series: Series = {
     id: generateId(),
     name: payload.name ?? "Nova série",
@@ -104,6 +119,8 @@ export function createSeries(
     status: payload.status ?? "active",
     exerciseWeights: {},
     metrics: [],
+    templateId,
+    exercisesByGroup,
   };
   const next: AppData = { ...data, series: [...data.series, series] };
   saveAppData(next);
@@ -121,6 +138,19 @@ export function updateSeries(
   };
   saveAppData(next);
   return next;
+}
+
+/** Clone template exercises into an existing series and update it. */
+export function applyTemplateToSeries(
+  data: AppData,
+  seriesId: string,
+  templateId: string,
+): AppData {
+  const lib = loadTemplateLibrary();
+  const template = getTemplateById(lib, templateId);
+  if (!template) return data;
+  const exercisesByGroup = instantiateExercisesFromTemplate(template);
+  return updateSeries(data, seriesId, { templateId, exercisesByGroup });
 }
 
 export function deleteSeries(data: AppData, id: string): AppData {
@@ -235,19 +265,79 @@ export function getGlobalMetrics(data: AppData): GlobalMetricsResult {
   return { weight, bodyFat, exerciseCount, allMetrics: metrics };
 }
 
-export function loadExerciseLibrary(): ExerciseLibrary {
+export function exerciseLibraryToTemplateLibrary(
+  lib: ExerciseLibrary,
+): TemplateLibrary {
+  const groups = Array.isArray(lib.groups) ? lib.groups : [];
+  return {
+    templates: [
+      {
+        id: "default",
+        name: "Default",
+        groups,
+      },
+    ],
+  };
+}
+
+export function loadTemplateLibrary(): TemplateLibrary {
   try {
-    const raw = localStorage.getItem(LIBRARY_KEY);
+    const raw = localStorage.getItem(TEMPLATES_KEY);
     if (raw) {
-      const parsed = JSON.parse(raw) as ExerciseLibrary;
-      if (parsed && Array.isArray(parsed.groups)) return parsed;
+      const parsed = JSON.parse(raw) as TemplateLibrary;
+      if (parsed?.templates && Array.isArray(parsed.templates)) return parsed;
+    }
+    const legacyRaw = localStorage.getItem(LIBRARY_KEY);
+    if (legacyRaw) {
+      const legacy = JSON.parse(legacyRaw) as ExerciseLibrary;
+      if (legacy?.groups && Array.isArray(legacy.groups)) {
+        const converted = exerciseLibraryToTemplateLibrary(legacy);
+        saveTemplateLibrary(converted);
+        return converted;
+      }
     }
   } catch {
     // ignore
   }
-  return defaultExerciseLibrary;
+  return defaultTemplateLibrary;
+}
+
+export function saveTemplateLibrary(lib: TemplateLibrary): void {
+  localStorage.setItem(TEMPLATES_KEY, JSON.stringify(lib));
+}
+
+export function getTemplateById(
+  lib: TemplateLibrary,
+  id: string,
+): PlanTemplate | null {
+  return lib.templates.find((t) => t.id === id) ?? null;
+}
+
+function deepCloneExercises(exercises: Exercise[]): Exercise[] {
+  return exercises.map((e) => ({ ...e }));
+}
+
+/** Build exercisesByGroup from a plan template (deep clone). */
+export function instantiateExercisesFromTemplate(
+  template: PlanTemplate,
+): Record<string, Exercise[]> {
+  const out: Record<string, Exercise[]> = {};
+  for (const g of template.groups) {
+    const list = g.exercises ?? [];
+    out[g.group] = deepCloneExercises(list);
+  }
+  return out;
+}
+
+export function loadExerciseLibrary(): ExerciseLibrary {
+  const lib = loadTemplateLibrary();
+  const t = lib.templates[0];
+  return {
+    groups: t ? t.groups : [],
+  };
 }
 
 export function saveExerciseLibrary(lib: ExerciseLibrary): void {
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  const converted = exerciseLibraryToTemplateLibrary(lib);
+  saveTemplateLibrary(converted);
 }
