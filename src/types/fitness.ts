@@ -42,9 +42,30 @@ export interface Series {
   exercisesByGroup?: Record<string, Exercise[]>;
 }
 
+export type SessionStatus = "ongoing" | "finished" | "canceled";
+
+export type SessionExerciseStatus = "pending" | "completed" | "skipped";
+
+export interface SessionExercise {
+  exerciseId: string;
+  weight: number | null;
+  status: SessionExerciseStatus;
+}
+
+export interface Session {
+  id: string;
+  seriesId: string;
+  group: string;
+  status: SessionStatus;
+  startedAt: string;
+  finishedAt: string | null;
+  exercises: SessionExercise[];
+}
+
 export interface AppData {
   profile: Profile;
   series: Series[];
+  sessions: Session[];
 }
 
 export interface Exercise {
@@ -83,7 +104,13 @@ export interface TemplateLibrary {
   templates: PlanTemplate[];
 }
 
-export type ViewKey = "landing" | "series" | "metrics" | "history";
+export type ViewKey =
+  | "landing"
+  | "series"
+  | "metrics"
+  | "history"
+  | "sessions"
+  | "session-tracker";
 
 export type ToastType = "info" | "success" | "error";
 

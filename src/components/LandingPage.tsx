@@ -25,6 +25,7 @@ interface LandingPageProps {
   isExporting: boolean;
   isImporting: boolean;
   onOpenPhotoModal: () => void;
+  onGoToSessions: () => void;
 }
 
 const statusLabel: Record<string, string> = {
@@ -56,6 +57,7 @@ export function LandingPage({
   isExporting,
   isImporting,
   onOpenPhotoModal,
+  onGoToSessions,
 }: LandingPageProps) {
   const global = getGlobalMetrics(data);
   const photos = data.profile.progressPhotos ?? [];
@@ -115,6 +117,13 @@ export function LandingPage({
         >
           Fotos
         </button>
+        <button
+          type="button"
+          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-border tw-border-slate-500/50 tw-text-slate-50 tw-text-sm tw-uppercase tw-tracking-[0.2em]"
+          onClick={onGoToSessions}
+        >
+          Sessões
+        </button>
       </div>
 
       {/* 1. Progress */}
@@ -167,28 +176,35 @@ export function LandingPage({
               </button>
             </div>
             <div className="tw-p-4 tw-space-y-4">
-              {activeGroups.map((group) => {
-                const exercises = activeExercisesByGroup[group] ?? [];
-                if (exercises.length === 0) return null;
-                return (
-                  <div key={group}>
-                    <h4 className="tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-2">
-                      Grupo {group}
-                    </h4>
-                    <div className="tw-space-y-3">
-                      {exercises.map((ex) => (
-                        <ExerciseCard
-                          key={ex.id}
-                          exercise={ex}
-                          currentWeight={getCurrentExerciseWeight(activeSeries, ex.id)}
-                          onPlayVideo={onPlayVideo}
-                          onEditWeight={(ex) => onEditWeightInSeries(ex, activeSeries.id)}
-                        />
-                      ))}
-                    </div>
+            {activeGroups.map((group) => {
+              const exercises = activeExercisesByGroup[group] ?? [];
+              if (exercises.length === 0) return null;
+              return (
+                <details
+                  key={group}
+                  className="tw-rounded-2xl tw-border tw-border-slate-700/50 tw-bg-slate-900/30"
+                >
+                  <summary className="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-px-4 tw-py-3 tw-text-sm tw-font-medium tw-text-slate-50 tw-cursor-pointer">
+                    <span>Grupo {group}</span>
+                    <span className="tw-text-xs tw-text-slate-400">
+                      {exercises.length} exercício
+                      {exercises.length !== 1 ? "s" : ""}
+                    </span>
+                  </summary>
+                  <div className="tw-px-4 tw-pt-2 tw-pb-4 tw-space-y-3">
+                    {exercises.map((ex) => (
+                      <ExerciseCard
+                        key={ex.id}
+                        exercise={ex}
+                        currentWeight={getCurrentExerciseWeight(activeSeries, ex.id)}
+                        onPlayVideo={onPlayVideo}
+                        onEditWeight={(ex) => onEditWeightInSeries(ex, activeSeries.id)}
+                      />
+                    ))}
                   </div>
-                );
-              })}
+                </details>
+              );
+            })}
             </div>
           </div>
         )}

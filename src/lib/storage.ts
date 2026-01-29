@@ -7,9 +7,12 @@ import type {
   PlanTemplate,
   ProgressPhoto,
   Series,
+  Session,
+  SessionExercise,
+  SessionStatus,
   TemplateLibrary,
 } from "../types/fitness";
-import { generateId, todayStr } from "./utils";
+import { generateId, nowIso, todayStr } from "./utils";
 
 const STORAGE_KEY = "fitness-tracker-v2";
 const LEGACY_STORAGE_KEY = "fitness-tracker-weights";
@@ -23,6 +26,7 @@ export function ensureProfileExtras(data: AppData): AppData {
     metrics: [],
     progressPhotos: [],
   };
+  const sessions = Array.isArray(data.sessions) ? data.sessions : [];
   return {
     ...data,
     profile: {
@@ -32,6 +36,7 @@ export function ensureProfileExtras(data: AppData): AppData {
         ? profile.progressPhotos
         : [],
     },
+    sessions,
   };
 }
 
@@ -65,6 +70,7 @@ export function loadAppData(): AppData {
               metrics: [],
             },
           ],
+          sessions: [],
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
         return ensureProfileExtras(migrated);
@@ -80,6 +86,7 @@ export function loadAppData(): AppData {
       progressPhotos: [],
     },
     series: [],
+    sessions: [],
   });
 }
 
@@ -340,4 +347,96 @@ export function loadExerciseLibrary(): ExerciseLibrary {
 export function saveExerciseLibrary(lib: ExerciseLibrary): void {
   const converted = exerciseLibraryToTemplateLibrary(lib);
   saveTemplateLibrary(converted);
+}
+
+export function getSessionById(data: AppData, id: string): Session | null {
+  return data.sessions.find((s) => s.id === id) ?? null;
+}
+
+function updateSessionInData(
+  data: AppData,
+  sessionId: string,
+  patch: Partial<Session>,
+): AppData {
+  const next: AppData = {
+    ...data,
+    sessions: data.sessions.map((s) =>
+      s.id === sessionId ? { ...s, ...patch } : s,
+    ),
+  };
+  saveAppData(next);
+  return next;
+}
+
+export function createSession(
+  data: AppData,
+  seriesId: string,
+  group: string,
+): AppData {
+  const series = getSeriesById(data, seriesId);
+  if (!series) return data;
+  const exercisesInGroup = series.exercisesByGroup?.[group] ?? [];
+  const exercises: SessionExercise[] = exercisesInGroup.map((ex) => ({
+    exerciseId: ex.id,
+    weight: null,
+    status: "pending" as const,
+  }));
+  const session: Session = {
+    id: generateId(),
+    seriesId,
+    group,
+    status: "ongoing",
+    startedAt: nowIso(),
+    finishedAt: null,
+    exercises,
+  };
+  const next: AppData = {
+    ...data,
+    sessions: [session, ...data.sessions],
+  };
+  saveAppData(next);
+  return next;
+}
+
+export function updateSessionStatus(
+  data: AppData,
+  sessionId: string,
+  status: SessionStatus,
+): AppData {
+  const session = getSessionById(data, sessionId);
+  if (!session) return data;
+  const finishedAt = status === "ongoing" ? null : nowIso();
+  let next = updateSessionInData(data, sessionId, { status, finishedAt });
+  if (status === "finished") {
+    for (const se of session.exercises) {
+      if (se.status === "completed" && se.weight != null && se.weight > 0) {
+        next = addExerciseWeightEntry(
+          next,
+          session.seriesId,
+          se.exerciseId,
+          se.weight,
+        );
+      }
+    }
+  }
+  return next;
+}
+
+export function updateSessionExercise(
+  data: AppData,
+  sessionId: string,
+  exerciseId: string,
+  payload: { weight?: number | null; status?: SessionExercise["status"] },
+): AppData {
+  const session = getSessionById(data, sessionId);
+  if (!session) return data;
+  const exercises = session.exercises.map((se) => {
+    if (se.exerciseId !== exerciseId) return se;
+    return {
+      ...se,
+      ...(payload.weight !== undefined && { weight: payload.weight }),
+      ...(payload.status !== undefined && { status: payload.status }),
+    };
+  });
+  return updateSessionInData(data, sessionId, { exercises });
 }

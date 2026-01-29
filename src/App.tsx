@@ -1,5 +1,13 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import type { AppData, Exercise, ExerciseLibrary, Series, TemplateLibrary, ToastState } from "./types/fitness";
+import type {
+  AppData,
+  Exercise,
+  ExerciseLibrary,
+  Series,
+  TemplateLibrary,
+  ToastState,
+  ViewKey,
+} from "./types/fitness";
 import {
   loadAppData,
   saveAppData,
@@ -8,6 +16,9 @@ import {
   createSeries,
   updateSeries,
   deleteSeries,
+  createSession,
+  updateSessionStatus,
+  updateSessionExercise,
   addProfileMetric,
   addSeriesMetric,
   addProgressPhoto,
@@ -32,8 +43,8 @@ import { SeriesManagerModal } from "./components/SeriesManagerModal";
 import { MetricsModal } from "./components/MetricsModal";
 import { ProgressPhotoModal } from "./components/ProgressPhotoModal";
 import { Toast } from "./components/Toast";
-
-type ViewKey = "landing" | "series" | "metrics" | "history";
+import { SessionsPage } from "./components/SessionsPage";
+import { SessionTrackerPage } from "./components/SessionTrackerPage";
 
 function App() {
   const [data, setData] = useState<AppData>(loadAppData);
@@ -42,6 +53,7 @@ function App() {
   );
   const [view, setView] = useState<ViewKey>("landing");
   const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(null);
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
   const [activeGroup, setActiveGroup] = useState("A");
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [weightExercise, setWeightExercise] = useState<Exercise | null>(null);
@@ -229,7 +241,11 @@ function App() {
     setTimeout(() => {
       try {
         const payload = JSON.stringify(
-          { profile: data.profile, series: data.series },
+          {
+            profile: data.profile,
+            series: data.series,
+            sessions: data.sessions ?? [],
+          },
           null,
           2
         );
@@ -302,6 +318,65 @@ function App() {
     [showToast]
   );
 
+  const handleStartSession = useCallback(() => {
+    if (selectedSeriesId == null) return;
+    setData((prev) => {
+      const next = createSession(prev, selectedSeriesId, activeGroup);
+      const newSessionId = next.sessions[0]?.id ?? null;
+      if (newSessionId != null) {
+        setTimeout(() => {
+          setSelectedSessionId(newSessionId);
+          setView("session-tracker");
+        }, 0);
+      }
+      return next;
+    });
+  }, [selectedSeriesId, activeGroup]);
+
+  const handleFinishSession = useCallback((sessionId: string) => {
+    setData((prev) => updateSessionStatus(prev, sessionId, "finished"));
+    setView("sessions");
+    setSelectedSessionId(null);
+  }, []);
+
+  const handleCancelSession = useCallback((sessionId: string) => {
+    setData((prev) => updateSessionStatus(prev, sessionId, "canceled"));
+    if (selectedSessionId === sessionId) {
+      setSelectedSessionId(null);
+      setView("sessions");
+    }
+  }, [selectedSessionId]);
+
+  const handleUpdateSessionExercise = useCallback(
+    (
+      sessionId: string,
+      exerciseId: string,
+      payload: {
+        weight?: number | null;
+        status?: import("./types/fitness").SessionExerciseStatus;
+      },
+    ) => {
+      setData((prev) =>
+        updateSessionExercise(prev, sessionId, exerciseId, payload),
+      );
+    },
+    [],
+  );
+
+  const handleSelectSession = useCallback((sessionId: string) => {
+    setSelectedSessionId(sessionId);
+    setView("session-tracker");
+  }, []);
+
+  const handleBackFromSessionTracker = useCallback(() => {
+    setSelectedSessionId(null);
+    setView("sessions");
+  }, []);
+
+  const handleBackFromSessions = useCallback(() => {
+    setView("landing");
+  }, []);
+
   return (
     <>
       {view === "landing" && (
@@ -338,6 +413,28 @@ function App() {
           isExporting={isExporting}
           isImporting={isImporting}
           onOpenPhotoModal={() => setPhotoModalOpen(true)}
+          onGoToSessions={() => setView("sessions")}
+        />
+      )}
+
+      {view === "sessions" && (
+        <SessionsPage
+          data={data}
+          onBack={handleBackFromSessions}
+          onSelectSession={handleSelectSession}
+          onCancelSession={handleCancelSession}
+        />
+      )}
+
+      {view === "session-tracker" && selectedSessionId != null && (
+        <SessionTrackerPage
+          data={data}
+          sessionId={selectedSessionId}
+          onBack={handleBackFromSessionTracker}
+          onFinish={handleFinishSession}
+          onCancel={handleCancelSession}
+          onUpdateExercise={handleUpdateSessionExercise}
+          onPlayVideo={setVideoUrl}
         />
       )}
 
@@ -382,6 +479,18 @@ function App() {
             </div>
           </header>
           <main className="tw-p-4 tw-space-y-4">
+            <div className="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-p-3 tw-rounded-2xl tw-bg-surface tw-border tw-border-slate-700/50">
+              <span className="tw-text-slate-50 tw-font-medium">
+                Dia {activeGroup}
+              </span>
+              <button
+                type="button"
+                className="touch-target tw-px-4 tw-py-2 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-text-sm"
+                onClick={handleStartSession}
+              >
+                Iniciar agora
+              </button>
+            </div>
             <TabBar
               groups={seriesGroups}
               active={activeGroup}

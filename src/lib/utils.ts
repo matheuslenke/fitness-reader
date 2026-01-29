@@ -42,3 +42,26 @@ export function generateId(): string {
 export function todayStr(): string {
   return new Date().toISOString().slice(0, 10);
 }
+
+export function nowIso(): string {
+  return new Date().toISOString();
+}
+
+export function formatDateTime(iso: string | undefined): string {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    const date = d.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const time = d.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${date} ${time}`;
+  } catch {
+    return iso;
+  }
+}
