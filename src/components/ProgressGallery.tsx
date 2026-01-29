@@ -10,17 +10,17 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
   return (
     <div className="tw-px-4 tw-space-y-3">
       <div className="tw-flex tw-items-center tw-justify-between">
-        <h2 className="tw-text-lg tw-font-semibold">Progresso</h2>
+        <h2 className="tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">Progresso</h2>
         <button
           type="button"
-          className="touch-target tw-px-3 tw-py-1.5 tw-rounded-full tw-border tw-border-white/20 tw-text-xs tw-uppercase tw-tracking-wider"
+          className="touch-target tw-px-3 tw-py-1.5 tw-rounded-full tw-border tw-border-slate-500/50 tw-text-slate-50 tw-text-xs tw-uppercase tw-tracking-wider"
           onClick={onAdd}
         >
           Adicionar foto
         </button>
       </div>
       {photos.length === 0 ? (
-        <div className="glass-panel tw-px-4 tw-py-6 tw-rounded-3xl tw-text-center tw-text-sm tw-text-zinc-300">
+        <div className="glass-panel tw-px-4 tw-py-6 tw-rounded-3xl tw-text-center tw-text-sm tw-text-slate-400">
           Registre fotos do progresso semanalmente para comparar evolução.
         </div>
       ) : (
@@ -28,17 +28,17 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
           {photos.slice(0, 4).map((photo) => (
             <div
               key={photo.id}
-              className="photo-card tw-bg-gradient-to-br tw-from-white/10 tw-to-white/5 tw-border tw-border-white/5 tw-shadow-lg"
+              className="photo-card tw-bg-surface tw-border tw-border-slate-700/50 tw-shadow-lg"
             >
               <img
                 src={photo.src}
                 alt={`Progresso ${photo.date}`}
                 className="tw-w-full tw-h-32 tw-object-cover"
               />
-              <div className="tw-p-2 tw-text-xs tw-text-zinc-100/90 tw-bg-black/40 tw-backdrop-blur-sm">
+              <div className="tw-p-2 tw-text-xs tw-text-slate-100 tw-bg-black/40 tw-backdrop-blur-sm">
                 <p>{formatDate(photo.date)}</p>
                 {photo.note != null && photo.note !== "" && (
-                  <p className="tw-text-[0.6rem] tw-text-zinc-200">
+                  <p className="tw-text-[0.6rem] tw-text-slate-200">
                     {photo.note}
                   </p>
                 )}
@@ -47,7 +47,7 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
           ))}
           {photos.length > 4 && (
             <div className="photo-card tw-flex tw-items-center tw-justify-center glass-panel">
-              <span className="tw-text-sm tw-font-semibold">
+              <span className="tw-text-sm tw-font-display tw-font-bold tw-text-slate-50">
                 +{photos.length - 4} a mais
               </span>
             </div>

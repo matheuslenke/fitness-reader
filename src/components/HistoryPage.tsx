@@ -28,19 +28,19 @@ export function HistoryPage({
 
   return (
     <div className="page-enter tw-min-h-full">
-      <div className="tw-sticky tw-top-0 tw-pt-[var(--safe-top)] tw-pb-3 tw-px-4 tw-bg-zinc-100 tw-dark:tw-bg-zinc-900 tw-border-b tw-border-zinc-200 tw-dark:tw-border-zinc-800 tw-flex tw-items-center tw-justify-between tw-gap-2">
+      <div className="tw-sticky tw-top-0 tw-pt-[var(--safe-top)] tw-pb-3 tw-px-4 tw-bg-gradient-to-b tw-from-background tw-to-background/95 tw-border-b tw-border-slate-700/50 tw-flex tw-items-center tw-justify-between tw-gap-2">
         <button
           type="button"
-          className="touch-target tw-text-emerald-600 tw-dark:tw-text-emerald-400 tw-font-medium"
+          className="touch-target tw-text-primary tw-font-medium"
           onClick={onBack}
         >
           ← Voltar
         </button>
-        <h1 className="tw-text-lg tw-font-semibold">
+        <h1 className="tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">
           Histórico de cargas
         </h1>
         <select
-          className="tw-px-3 tw-py-2 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-800 tw-text-sm"
+          className="tw-px-3 tw-py-2 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-surface tw-text-slate-50 tw-text-sm"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
@@ -54,7 +54,7 @@ export function HistoryPage({
       </div>
       <div className="tw-p-4 tw-space-y-4">
         {!hasAny && (
-          <p className="tw-text-zinc-500 tw-dark:tw-text-zinc-400 tw-text-center tw-py-8">
+          <p className="tw-text-slate-400 tw-text-center tw-py-8">
             Nenhum registro de carga ainda.
           </p>
         )}
@@ -64,13 +64,13 @@ export function HistoryPage({
           return (
             <div
               key={ex.id}
-              className="tw-bg-white tw-dark:tw-bg-zinc-800 tw-rounded-2xl tw-p-4 tw-border tw-border-zinc-200 tw-dark:tw-border-zinc-700"
+              className="tw-bg-surface tw-rounded-2xl tw-p-4 tw-border tw-border-slate-700/50"
             >
-              <p className="tw-font-medium tw-text-sm tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+              <p className="tw-font-medium tw-text-sm tw-text-slate-400">
                 Grupo {ex.group}
               </p>
-              <h3 className="tw-font-semibold">{ex.name}</h3>
-              <ul className="tw-mt-2 tw-text-sm tw-space-y-1 tw-text-zinc-600 tw-dark:tw-text-zinc-400">
+              <h3 className="tw-font-display tw-font-bold tw-text-slate-50">{ex.name}</h3>
+              <ul className="tw-mt-2 tw-text-sm tw-space-y-1 tw-text-slate-400">
                 {hist.map((entry, i) => (
                   <li key={i}>
                     {entry.date}: {entry.weight} kg
@@ -85,7 +85,7 @@ export function HistoryPage({
         <div className="tw-px-4 tw-pb-4">
           <button
             type="button"
-            className="tw-w-full tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-text-sm tw-font-medium touch-target"
+            className="tw-w-full tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-surface/80 tw-text-slate-50 tw-text-sm tw-font-medium touch-target"
             onClick={onExport}
           >
             Exportar JSON

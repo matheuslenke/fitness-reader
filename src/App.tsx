@@ -251,10 +251,10 @@ function App() {
 
       {view === "series" && currentSeries != null && (
         <div className="page-enter">
-          <header className="tw-sticky tw-top-0 tw-z-10 tw-pt-[var(--safe-top)] tw-px-4 tw-py-3 tw-bg-zinc-100 tw-dark:tw-bg-zinc-900 tw-border-b tw-border-zinc-200 tw-dark:tw-border-zinc-800 tw-flex tw-items-center tw-justify-between tw-gap-2">
+          <header className="tw-sticky tw-top-0 tw-z-10 tw-pt-[var(--safe-top)] tw-px-4 tw-py-3 tw-bg-gradient-to-b tw-from-background tw-to-background/95 tw-border-b tw-border-slate-700/50 tw-flex tw-items-center tw-justify-between tw-gap-2">
             <button
               type="button"
-              className="touch-target tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-font-medium"
+              className="touch-target tw-text-primary tw-font-medium"
               onClick={() => {
                 setView("landing");
                 setSelectedSeriesId(null);
@@ -263,10 +263,10 @@ function App() {
               ← Série
             </button>
             <div className="tw-flex-1 tw-min-w-0 tw-text-center">
-              <h1 className="tw-text-lg tw-font-bold tw-truncate">
+              <h1 className="tw-font-display tw-text-lg tw-font-bold tw-truncate tw-text-slate-50">
                 {currentSeries.name}
               </h1>
-              <p className="tw-text-xs tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+              <p className="tw-text-xs tw-text-slate-400">
                 {formatDate(currentSeries.startDate)} –{" "}
                 {formatDate(currentSeries.endDate)}
               </p>
@@ -274,7 +274,7 @@ function App() {
             <div className="tw-flex tw-items-center tw-gap-1">
               <button
                 type="button"
-                className="touch-target tw-w-9 tw-h-9 tw-rounded-lg tw-bg-zinc-200 tw-dark:tw-bg-zinc-700 tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-text-sm"
+                className="touch-target tw-w-9 tw-h-9 tw-rounded-lg tw-bg-surface tw-border tw-border-slate-600/50 tw-text-slate-300 tw-text-sm"
                 onClick={() => setMetricsModalOpen(true)}
                 aria-label="Peso"
               >
@@ -282,7 +282,7 @@ function App() {
               </button>
               <button
                 type="button"
-                className="touch-target tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-font-medium"
+                className="touch-target tw-text-secondary tw-font-medium"
                 onClick={() => setView("history")}
               >
                 Histórico

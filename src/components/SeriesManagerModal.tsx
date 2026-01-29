@@ -54,12 +54,12 @@ export function SeriesManagerModal({
     >
       <div className="tw-space-y-4">
         <div>
-          <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+          <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
             Nome
           </label>
           <input
             type="text"
-            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Ex: Ciclo Jan-Mar 2026"
@@ -67,23 +67,23 @@ export function SeriesManagerModal({
         </div>
         <div className="tw-grid tw-grid-cols-2 tw-gap-3">
           <div>
-            <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+            <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
               Início
             </label>
             <input
               type="date"
-              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
           <div>
-            <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+            <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
               Fim
             </label>
             <input
               type="date"
-              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
@@ -91,11 +91,11 @@ export function SeriesManagerModal({
         </div>
         {isEdit && (
           <div>
-            <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+            <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
               Status
             </label>
             <select
-              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
               value={status}
               onChange={(e) => setStatus(e.target.value as Series["status"])}
             >
@@ -109,7 +109,7 @@ export function SeriesManagerModal({
           {isEdit && series != null && (
             <button
               type="button"
-              className="tw-py-3 tw-px-4 tw-rounded-xl tw-bg-red-100 tw-text-red-600 tw-dark:tw-bg-red-900/30 tw-dark:tw-text-red-400 tw-font-medium"
+              className="tw-py-3 tw-px-4 tw-rounded-xl tw-bg-danger/20 tw-text-red-400 tw-font-medium tw-border tw-border-danger/40"
               onClick={() => {
                 if (window.confirm("Excluir esta série?")) {
                   onDelete(series.id);
@@ -122,14 +122,14 @@ export function SeriesManagerModal({
           )}
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-zinc-200 tw-dark:tw-bg-zinc-700 tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-font-medium"
             onClick={onClose}
           >
             Cancelar
           </button>
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold"
             onClick={handleSubmit}
           >
             {isEdit ? "Salvar" : "Criar"}

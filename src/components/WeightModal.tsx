@@ -43,7 +43,7 @@ export function WeightModal({
     <Modal open={open} onClose={onClose} title={exercise.name}>
       <div className="tw-space-y-4">
         <div>
-          <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+          <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
             Carga (kg)
           </label>
           <input
@@ -51,7 +51,7 @@ export function WeightModal({
             inputMode="decimal"
             step="0.5"
             min={0}
-            className="tw-w-full tw-px-4 tw-py-3 tw-text-lg tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+            className="tw-w-full tw-px-4 tw-py-3 tw-text-lg tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Ex: 50"
@@ -59,10 +59,10 @@ export function WeightModal({
         </div>
         {history.length > 0 && (
           <div>
-            <p className="tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-2">
+            <p className="tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-2">
               Histórico recente
             </p>
-            <ul className="tw-space-y-1 tw-text-sm tw-text-zinc-600 tw-dark:tw-text-zinc-400">
+            <ul className="tw-space-y-1 tw-text-sm tw-text-slate-300">
               {history.slice(0, 5).map((entry, i) => (
                 <li key={i}>
                   {entry.date}: {entry.weight} kg
@@ -74,14 +74,14 @@ export function WeightModal({
         <div className="tw-flex tw-gap-3 tw-pt-2">
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-zinc-200 tw-dark:tw-bg-zinc-700 tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-font-medium"
             onClick={onClose}
           >
             Cancelar
           </button>
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold"
             onClick={handleSave}
           >
             Salvar

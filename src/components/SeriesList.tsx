@@ -16,11 +16,11 @@ const statusLabel: Record<string, string> = {
 
 const statusClass: Record<string, string> = {
   active:
-    "tw-bg-emerald-100 tw-text-emerald-700 tw-dark:tw-bg-emerald-900/40 tw-dark:tw-text-emerald-300",
+    "tw-bg-primary-dim tw-text-primary tw-border tw-border-primary/30",
   completed:
-    "tw-bg-zinc-200 tw-text-zinc-700 tw-dark:tw-bg-zinc-700 tw-dark:tw-text-zinc-300",
+    "tw-bg-slate-700/50 tw-text-slate-300 tw-border tw-border-slate-600/50",
   archived:
-    "tw-bg-zinc-100 tw-text-zinc-600 tw-dark:tw-bg-zinc-800 tw-dark:tw-text-zinc-400",
+    "tw-bg-slate-700/30 tw-text-slate-400 tw-border tw-border-slate-600/30",
 };
 
 export function SeriesList({
@@ -32,23 +32,23 @@ export function SeriesList({
   return (
     <div className="tw-px-4 tw-space-y-3">
       <div className="tw-flex tw-items-center tw-justify-between">
-        <h2 className="tw-text-lg tw-font-semibold">Séries</h2>
+        <h2 className="tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">Séries</h2>
         <button
           type="button"
-          className="touch-target tw-px-4 tw-py-2 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-text-sm tw-font-medium"
+          className="touch-target tw-px-4 tw-py-2 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-text-sm"
           onClick={onCreate}
         >
           Nova série
         </button>
       </div>
       {series.length === 0 ? (
-        <div className="tw-bg-white tw-dark:tw-bg-zinc-800 tw-rounded-2xl tw-p-8 tw-text-center tw-border tw-border-zinc-200 tw-dark:tw-border-zinc-700">
-          <p className="tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+        <div className="tw-bg-surface tw-rounded-2xl tw-p-8 tw-text-center tw-border tw-border-slate-700/50 tw-shadow-lg">
+          <p className="tw-text-slate-400">
             Nenhuma série ainda.
           </p>
           <button
             type="button"
-            className="tw-mt-4 tw-px-4 tw-py-2 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-text-sm tw-font-medium touch-target"
+            className="tw-mt-4 tw-px-4 tw-py-2 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-text-sm touch-target"
             onClick={onCreate}
           >
             Criar primeira série
@@ -65,12 +65,12 @@ export function SeriesList({
           return (
             <div
               key={s.id}
-              className="tw-bg-white tw-dark:tw-bg-zinc-800 tw-rounded-2xl tw-p-4 tw-shadow-sm tw-border tw-border-zinc-200 tw-dark:tw-border-zinc-700 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer active:tw-opacity-90"
+              className="tw-bg-surface tw-rounded-2xl tw-p-4 tw-shadow-lg tw-border tw-border-slate-700/50 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer active:tw-opacity-90"
               onClick={() => onSelect(s.id)}
             >
               <div className="tw-flex-1 tw-min-w-0">
                 <div className="tw-flex tw-items-center tw-gap-2 tw-flex-wrap">
-                  <h3 className="tw-font-semibold">{s.name}</h3>
+                  <h3 className="tw-font-display tw-font-bold tw-text-slate-50">{s.name}</h3>
                   <span
                     className={`tw-text-xs tw-px-2 tw-py-0.5 tw-rounded-full tw-font-medium ${
                       statusClass[s.status] ?? statusClass.archived
@@ -79,18 +79,18 @@ export function SeriesList({
                     {statusLabel[s.status] ?? s.status}
                   </span>
                 </div>
-                <p className="tw-text-sm tw-text-zinc-500 tw-dark:tw-text-zinc-400 tw-mt-1">
+                <p className="tw-text-sm tw-text-slate-400 tw-mt-1">
                   {formatDate(s.startDate)} – {formatDate(s.endDate)} · {days}{" "}
                   dias
                 </p>
-                <p className="tw-text-xs tw-text-zinc-400 tw-dark:tw-text-zinc-500 tw-mt-0.5">
+                <p className="tw-text-xs tw-text-slate-500 tw-mt-0.5">
                   {count} exercícios com carga
                 </p>
               </div>
               <div className="tw-flex tw-items-center tw-gap-2 tw-shrink-0">
                 <button
                   type="button"
-                  className="touch-target tw-w-10 tw-h-10 tw-rounded-xl tw-bg-zinc-100 tw-dark:tw-bg-zinc-700 tw-text-zinc-600 tw-dark:tw-text-zinc-400"
+                  className="touch-target tw-w-10 tw-h-10 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-300"
                   onClick={(e) => {
                     e.stopPropagation();
                     onEdit(s);
@@ -100,7 +100,7 @@ export function SeriesList({
                   ✎
                 </button>
                 <span
-                  className="touch-target tw-w-10 tw-h-10 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-inline-flex tw-items-center tw-justify-center"
+                  className="touch-target tw-w-10 tw-h-10 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-inline-flex tw-items-center tw-justify-center"
                   aria-hidden
                 >
                   →

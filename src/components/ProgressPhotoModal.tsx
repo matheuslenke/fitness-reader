@@ -58,57 +58,57 @@ export function ProgressPhotoModal({
     <Modal open onClose={onClose} title="Nova foto de progresso">
       <div className="tw-space-y-4">
         <div>
-          <label className="tw-text-xs tw-uppercase tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+          <label className="tw-text-xs tw-uppercase tw-text-slate-400">
             Data
           </label>
           <input
             type="date"
-            className="tw-w-full tw-rounded-2xl tw-px-3 tw-py-2 tw-mt-1 tw-bg-white/10 tw-border tw-border-white/20 tw-text-sm"
+            className="tw-w-full tw-rounded-2xl tw-px-3 tw-py-2 tw-mt-1 tw-bg-background tw-border tw-border-slate-600 tw-text-slate-50 tw-text-sm"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
         <div>
-          <label className="tw-text-xs tw-uppercase tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+          <label className="tw-text-xs tw-uppercase tw-text-slate-400">
             Nota
           </label>
           <input
             type="text"
-            className="tw-w-full tw-rounded-2xl tw-px-3 tw-py-2 tw-mt-1 tw-bg-white/10 tw-border tw-border-white/20 tw-text-sm"
+            className="tw-w-full tw-rounded-2xl tw-px-3 tw-py-2 tw-mt-1 tw-bg-background tw-border tw-border-slate-600 tw-text-slate-50 tw-text-sm"
             placeholder="Ex: Foco no core"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
         </div>
         <div>
-          <label className="tw-text-xs tw-uppercase tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+          <label className="tw-text-xs tw-uppercase tw-text-slate-400">
             Imagem
           </label>
           <input
             type="file"
             accept="image/*"
             onChange={handleFile}
-            className="tw-w-full tw-mt-2 tw-text-xs tw-text-zinc-300"
+            className="tw-w-full tw-mt-2 tw-text-xs tw-text-slate-400"
           />
           {preview != null && (
             <img
               src={preview}
               alt="Preview"
-              className="tw-mt-2 tw-w-full tw-rounded-2xl tw-border tw-border-white/20 tw-object-cover tw-h-36"
+              className="tw-mt-2 tw-w-full tw-rounded-2xl tw-border tw-border-slate-600 tw-object-cover tw-h-36"
             />
           )}
         </div>
         <div className="tw-flex tw-gap-3">
           <button
             type="button"
-            className="tw-flex-1 tw-rounded-xl tw-bg-zinc-200 tw-dark:tw-bg-zinc-700 tw-py-3"
+            className="tw-flex-1 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-py-3 tw-font-medium"
             onClick={onClose}
           >
             Cancelar
           </button>
           <button
             type="button"
-            className="tw-flex-1 tw-rounded-xl tw-bg-emerald-500 tw-text-white tw-py-3"
+            className="tw-flex-1 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-py-3"
             onClick={handleSave}
           >
             Salvar

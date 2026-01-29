@@ -15,12 +15,12 @@ export function SimpleLineChart({
   data,
   valueKey,
   labelKey: _labelKey,
-  color = "#10b981",
+  color = "#bef264",
 }: SimpleLineChartProps) {
   const points = (data ?? []).slice(0, 30).reverse();
   if (points.length === 0) {
     return (
-      <p className="tw-text-sm tw-text-zinc-500 tw-dark:tw-text-zinc-400 tw-py-4">
+      <p className="tw-text-sm tw-text-slate-400 tw-py-4">
         Sem dados
       </p>
     );

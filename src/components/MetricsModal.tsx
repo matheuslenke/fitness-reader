@@ -45,7 +45,7 @@ export function MetricsModal({
     <Modal open={open} onClose={onClose} title="Peso e gordura corporal">
       <div className="tw-space-y-4">
         <div>
-          <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+          <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
             Peso (kg)
           </label>
           <input
@@ -53,14 +53,14 @@ export function MetricsModal({
             inputMode="decimal"
             step="0.1"
             min={0}
-            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
             value={bodyWeight}
             onChange={(e) => setBodyWeight(e.target.value)}
             placeholder="Ex: 78"
           />
         </div>
         <div>
-          <label className="tw-block tw-text-sm tw-font-medium tw-text-zinc-600 tw-dark:tw-text-zinc-400 tw-mb-1">
+          <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
             Gordura corporal (%)
           </label>
           <input
@@ -69,7 +69,7 @@ export function MetricsModal({
             step="0.1"
             min={0}
             max={100}
-            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-zinc-300 tw-dark:tw-border-zinc-600 tw-dark:tw-bg-zinc-900 tw-dark:tw-text-zinc-100"
+            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
             value={bodyFatPercent}
             onChange={(e) => setBodyFatPercent(e.target.value)}
             placeholder="Opcional"
@@ -78,14 +78,14 @@ export function MetricsModal({
         <div className="tw-flex tw-gap-3 tw-pt-2">
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-zinc-200 tw-dark:tw-bg-zinc-700 tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-font-medium"
             onClick={onClose}
           >
             Cancelar
           </button>
           <button
             type="button"
-            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-emerald-600 tw-text-white tw-font-medium"
+            className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold"
             onClick={handleSave}
           >
             Salvar

@@ -48,21 +48,21 @@ export function LandingPage({
       <div className="tw-flex tw-flex-wrap tw-gap-3 tw-justify-center tw-mb-4 tw-px-4">
         <button
           type="button"
-          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-bg-gradient-to-r tw-from-emerald-500 tw-to-teal-400 tw-text-black tw-font-semibold tw-shadow-lg"
+          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-shadow-lg hover:tw-scale-[1.02] tw-transition-transform"
           onClick={onOpenMetricsModal}
         >
           Registro rápido
         </button>
         <button
           type="button"
-          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-border tw-border-white/20 tw-text-sm tw-uppercase tw-tracking-[0.2em]"
+          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-border tw-border-slate-500/50 tw-text-slate-50 tw-text-sm tw-uppercase tw-tracking-[0.2em]"
           onClick={onGoToMetrics}
         >
           Métricas
         </button>
         <button
           type="button"
-          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-border tw-border-white/20 tw-text-sm tw-uppercase tw-tracking-[0.2em]"
+          className="touch-target tw-px-5 tw-py-2 tw-rounded-2xl tw-border tw-border-slate-500/50 tw-text-slate-50 tw-text-sm tw-uppercase tw-tracking-[0.2em]"
           onClick={onOpenPhotoModal}
         >
           Fotos
@@ -75,17 +75,17 @@ export function LandingPage({
         onEdit={onEditSeries}
         onCreate={onOpenSeriesModal}
       />
-      <div className="tw-px-4 tw-py-6 tw-flex tw-flex-wrap tw-gap-3 tw-justify-center tw-text-sm tw-text-zinc-300">
+      <div className="tw-px-4 tw-py-6 tw-flex tw-flex-wrap tw-gap-3 tw-justify-center tw-text-sm tw-text-slate-400">
         <button
           type="button"
-          className={`touch-target tw-px-4 tw-py-2 tw-rounded-full tw-border tw-border-white/30 tw-bg-white/5 tw-text-white tw-text-sm tw-opacity-100 disabled:tw-opacity-60`}
+          className={`touch-target tw-px-4 tw-py-2 tw-rounded-full tw-border tw-border-slate-500/50 tw-bg-surface/80 tw-text-slate-50 tw-text-sm tw-opacity-100 disabled:tw-opacity-60`}
           onClick={onExport}
           disabled={isExporting}
         >
           {isExporting ? "Exportando…" : "Exportar dados"}
         </button>
         <label
-          className={`tw-px-4 tw-py-2 tw-rounded-full tw-border tw-border-white/30 tw-bg-white/5 tw-text-white tw-text-sm touch-target ${
+          className={`tw-px-4 tw-py-2 tw-rounded-full tw-border tw-border-slate-500/50 tw-bg-surface/80 tw-text-slate-50 tw-text-sm touch-target ${
             isImporting ? "tw-opacity-60 tw-pointer-events-none" : "tw-cursor-pointer"
           }`}
         >

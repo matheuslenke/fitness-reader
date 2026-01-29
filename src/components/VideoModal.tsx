@@ -20,7 +20,7 @@ export function VideoModal({ open, url, onClose }: VideoModalProps) {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         />
       ) : (
-        <p className="tw-text-zinc-500 tw-dark:tw-text-zinc-400">
+        <p className="tw-text-slate-400">
           Vídeo não disponível.
         </p>
       )}
