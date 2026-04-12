@@ -1,6 +1,7 @@
 import { defaultTemplateLibrary } from "../data/exercises";
 import type {
   AppData,
+  AppSnapshot,
   Exercise,
   ExerciseLibrary,
   Metric,
@@ -14,18 +15,30 @@ import type {
 } from "../types/fitness";
 import { generateId, nowIso, todayStr } from "./utils";
 
-const STORAGE_KEY = "fitness-tracker-v2";
-const LEGACY_STORAGE_KEY = "fitness-tracker-weights";
-const LIBRARY_KEY = "fitness-tracker-library";
-const TEMPLATES_KEY = "fitness-tracker-templates";
 export const DEFAULT_PROFILE_NAME = "Matheus Lenke Coutinho";
 
-export function ensureProfileExtras(data: AppData): AppData {
-  const profile = data.profile ?? {
-    name: DEFAULT_PROFILE_NAME,
-    metrics: [],
-    progressPhotos: [],
+export function buildDefaultAppData(): AppData {
+  return {
+    profile: {
+      name: DEFAULT_PROFILE_NAME,
+      metrics: [],
+      progressPhotos: [],
+    },
+    series: [],
+    sessions: [],
   };
+}
+
+export function buildDefaultSnapshot(): AppSnapshot {
+  return {
+    ...buildDefaultAppData(),
+    templateLibrary: defaultTemplateLibrary,
+  };
+}
+
+export function ensureProfileExtras(data: AppData): AppData {
+  const fallback = buildDefaultAppData();
+  const profile = data.profile ?? fallback.profile;
   const sessions = Array.isArray(data.sessions) ? data.sessions : [];
   return {
     ...data,
@@ -40,66 +53,125 @@ export function ensureProfileExtras(data: AppData): AppData {
   };
 }
 
-export function loadAppData(): AppData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const data = ensureProfileExtras(JSON.parse(raw) as AppData);
-      if (data.profile && Array.isArray(data.series)) return data;
-    }
-    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
-    if (legacy) {
-      const old = JSON.parse(legacy) as {
-        weights?: Record<string, { date: string; weight: number }[]>;
-      };
-      if (old.weights && typeof old.weights === "object") {
-        const migrated: AppData = {
-          profile: {
-            name: DEFAULT_PROFILE_NAME,
-            metrics: [],
-            progressPhotos: [],
-          },
-          series: [
-            {
-              id: generateId(),
-              name: "Série 1",
-              startDate: todayStr(),
-              endDate: todayStr(),
-              status: "active",
-              exerciseWeights: old.weights,
-              metrics: [],
-            },
-          ],
-          sessions: [],
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
-        return ensureProfileExtras(migrated);
-      }
-    }
-  } catch {
-    // ignore
-  }
-  return ensureProfileExtras({
-    profile: {
-      name: DEFAULT_PROFILE_NAME,
-      metrics: [],
-      progressPhotos: [],
-    },
-    series: [],
-    sessions: [],
+export function ensureAppSnapshot(
+  snapshot: Partial<AppSnapshot> | null | undefined,
+): AppSnapshot {
+  const fallback = buildDefaultSnapshot();
+  const data = ensureProfileExtras({
+    profile: snapshot?.profile ?? fallback.profile,
+    series: Array.isArray(snapshot?.series) ? snapshot.series : fallback.series,
+    sessions: Array.isArray(snapshot?.sessions)
+      ? snapshot.sessions
+      : fallback.sessions,
   });
+
+  return {
+    ...data,
+    series: normalizeSeriesStatuses(data.series),
+    templateLibrary: normalizeTemplateLibrary(snapshot?.templateLibrary),
+  };
 }
 
-export function saveAppData(data: AppData): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+function normalizeTemplateLibrary(
+  templateLibrary: TemplateLibrary | null | undefined,
+): TemplateLibrary {
+  if (
+    templateLibrary != null &&
+    Array.isArray(templateLibrary.templates)
+  ) {
+    return templateLibrary;
+  }
+  return defaultTemplateLibrary;
 }
 
 export function getSeriesById(data: AppData, id: string): Series | null {
-  return data.series.find((s) => s.id === id) ?? null;
+  return data.series.find((series) => series.id === id) ?? null;
+}
+
+function getPreferredActiveSeriesId(series: Series[]): string | null {
+  let preferredSeries: Series | null = null;
+
+  for (const candidateSeries of series) {
+    if (candidateSeries.status !== "active") {
+      continue;
+    }
+
+    if (
+      preferredSeries == null ||
+      candidateSeries.startDate > preferredSeries.startDate ||
+      (candidateSeries.startDate === preferredSeries.startDate &&
+        candidateSeries.endDate >= preferredSeries.endDate)
+    ) {
+      preferredSeries = candidateSeries;
+    }
+  }
+
+  return preferredSeries?.id ?? null;
+}
+
+function normalizeSeriesStatuses(series: Series[]): Series[] {
+  const preferredActiveSeriesId = getPreferredActiveSeriesId(series);
+
+  if (preferredActiveSeriesId == null) {
+    return series;
+  }
+
+  let activeSeriesCount = 0;
+  for (const currentSeries of series) {
+    if (currentSeries.status === "active") {
+      activeSeriesCount++;
+    }
+  }
+
+  if (activeSeriesCount <= 1) {
+    return series;
+  }
+
+  return series.map((currentSeries) => {
+    if (
+      currentSeries.status !== "active" ||
+      currentSeries.id === preferredActiveSeriesId
+    ) {
+      return currentSeries;
+    }
+
+    return {
+      ...currentSeries,
+      status: "completed",
+    };
+  });
+}
+
+function resolveCompletionEndDate(
+  currentEndDate: string,
+  completedOn: string,
+): string {
+  return currentEndDate < completedOn ? currentEndDate : completedOn;
+}
+
+function completeOtherActiveSeries(
+  series: Series[],
+  nextActiveSeriesId: string,
+  completedOn: string = todayStr(),
+): Series[] {
+  return series.map((currentSeries) => {
+    if (
+      currentSeries.id === nextActiveSeriesId ||
+      currentSeries.status !== "active"
+    ) {
+      return currentSeries;
+    }
+
+    return {
+      ...currentSeries,
+      status: "completed",
+      endDate: resolveCompletionEndDate(currentSeries.endDate, completedOn),
+    };
+  });
 }
 
 export function createSeries(
-  data: AppData,
+  snapshot: AppSnapshot,
   payload: {
     name?: string;
     startDate?: string;
@@ -107,17 +179,18 @@ export function createSeries(
     status?: Series["status"];
     templateId?: string;
   },
-): AppData {
+): AppSnapshot {
   let exercisesByGroup: Record<string, Exercise[]> | undefined;
   let templateId: string | undefined;
+
   if (payload.templateId) {
-    const lib = loadTemplateLibrary();
-    const template = getTemplateById(lib, payload.templateId);
+    const template = getTemplateById(snapshot.templateLibrary, payload.templateId);
     if (template) {
       templateId = template.id;
       exercisesByGroup = instantiateExercisesFromTemplate(template);
     }
   }
+
   const series: Series = {
     id: generateId(),
     name: payload.name ?? "Nova série",
@@ -129,90 +202,113 @@ export function createSeries(
     templateId,
     exercisesByGroup,
   };
-  const next: AppData = { ...data, series: [...data.series, series] };
-  saveAppData(next);
-  return next;
+
+  const nextSeries = [...snapshot.series, series];
+
+  return {
+    ...snapshot,
+    series:
+      series.status === "active"
+        ? completeOtherActiveSeries(nextSeries, series.id)
+        : normalizeSeriesStatuses(nextSeries),
+  };
 }
 
 export function updateSeries(
-  data: AppData,
+  snapshot: AppSnapshot,
   id: string,
   payload: Partial<Series>,
-): AppData {
-  const next: AppData = {
-    ...data,
-    series: data.series.map((s) => (s.id === id ? { ...s, ...payload } : s)),
+): AppSnapshot {
+  const nextSeries = snapshot.series.map((series) =>
+    series.id === id ? { ...series, ...payload } : series,
+  );
+
+  return {
+    ...snapshot,
+    series:
+      payload.status === "active"
+        ? completeOtherActiveSeries(nextSeries, id)
+        : normalizeSeriesStatuses(nextSeries),
   };
-  saveAppData(next);
-  return next;
 }
 
-/** Clone template exercises into an existing series and update it. */
 export function applyTemplateToSeries(
-  data: AppData,
+  snapshot: AppSnapshot,
   seriesId: string,
   templateId: string,
-): AppData {
-  const lib = loadTemplateLibrary();
-  const template = getTemplateById(lib, templateId);
-  if (!template) return data;
+): AppSnapshot {
+  const template = getTemplateById(snapshot.templateLibrary, templateId);
+  if (!template) return snapshot;
   const exercisesByGroup = instantiateExercisesFromTemplate(template);
-  return updateSeries(data, seriesId, { templateId, exercisesByGroup });
+  return updateSeries(snapshot, seriesId, {
+    templateId,
+    exercisesByGroup,
+  });
 }
 
-export function deleteSeries(data: AppData, id: string): AppData {
-  const next: AppData = {
-    ...data,
-    series: data.series.filter((s) => s.id !== id),
+export function deleteSeries(snapshot: AppSnapshot, id: string): AppSnapshot {
+  return {
+    ...snapshot,
+    series: normalizeSeriesStatuses(
+      snapshot.series.filter((series) => series.id !== id),
+    ),
   };
-  saveAppData(next);
-  return next;
 }
 
 export function addProfileMetric(
-  data: AppData,
+  snapshot: AppSnapshot,
   bodyWeight: number,
   bodyFatPercent: number | null,
-): AppData {
-  const date = todayStr();
-  const metric: Metric = { date, bodyWeight, bodyFatPercent };
-  const metrics = [metric, ...(data.profile.metrics ?? [])];
-  const next: AppData = {
-    ...data,
-    profile: { ...data.profile, metrics },
+): AppSnapshot {
+  const metric: Metric = {
+    date: todayStr(),
+    bodyWeight,
+    bodyFatPercent,
   };
-  saveAppData(next);
-  return next;
+
+  return {
+    ...snapshot,
+    profile: {
+      ...snapshot.profile,
+      metrics: [metric, ...(snapshot.profile.metrics ?? [])],
+    },
+  };
 }
 
 export function addSeriesMetric(
-  data: AppData,
+  snapshot: AppSnapshot,
   seriesId: string,
   bodyWeight: number,
   bodyFatPercent: number | null,
-): AppData {
-  const series = getSeriesById(data, seriesId);
-  if (!series) return data;
-  const date = todayStr();
-  const metric: Metric = { date, bodyWeight, bodyFatPercent };
-  const metrics = [metric, ...(series.metrics ?? [])];
-  return updateSeries(data, seriesId, { metrics });
+): AppSnapshot {
+  const series = getSeriesById(snapshot, seriesId);
+  if (!series) return snapshot;
+
+  const metric: Metric = {
+    date: todayStr(),
+    bodyWeight,
+    bodyFatPercent,
+  };
+
+  return updateSeries(snapshot, seriesId, {
+    metrics: [metric, ...(series.metrics ?? [])],
+  });
 }
 
 export function addProgressPhoto(
-  data: AppData,
+  snapshot: AppSnapshot,
   photo: Omit<ProgressPhoto, "id">,
-): AppData {
-  const progressPhotos = [
-    ...(data.profile.progressPhotos ?? []),
-    { ...photo, id: generateId() },
-  ];
-  const next: AppData = {
-    ...data,
-    profile: { ...data.profile, progressPhotos },
+): AppSnapshot {
+  return {
+    ...snapshot,
+    profile: {
+      ...snapshot.profile,
+      progressPhotos: [
+        ...(snapshot.profile.progressPhotos ?? []),
+        { ...photo, id: generateId() },
+      ],
+    },
   };
-  saveAppData(next);
-  return next;
 }
 
 export function getExerciseHistory(
@@ -228,23 +324,24 @@ export function getCurrentExerciseWeight(
   exerciseId: string,
 ): string {
   const history = getExerciseHistory(series, exerciseId);
-  return history.length ? String(history[0]!.weight) : "";
+  return history.length > 0 ? String(history[0]!.weight) : "";
 }
 
 export function addExerciseWeightEntry(
-  data: AppData,
+  snapshot: AppSnapshot,
   seriesId: string,
   exerciseId: string,
   weight: number,
-): AppData {
-  const series = getSeriesById(data, seriesId);
-  if (!series) return data;
-  const date = todayStr();
+): AppSnapshot {
+  const series = getSeriesById(snapshot, seriesId);
+  if (!series) return snapshot;
+
   const exerciseWeights = { ...(series.exerciseWeights ?? {}) };
   const list = [...(exerciseWeights[exerciseId] ?? [])];
-  list.unshift({ date, weight });
+  list.unshift({ date: todayStr(), weight });
   exerciseWeights[exerciseId] = list.slice(0, 50);
-  return updateSeries(data, seriesId, { exerciseWeights });
+
+  return updateSeries(snapshot, seriesId, { exerciseWeights });
 }
 
 export interface GlobalMetricsResult {
@@ -262,20 +359,24 @@ export function getGlobalMetrics(data: AppData): GlobalMetricsResult {
     latest != null && latest.bodyFatPercent != null
       ? latest.bodyFatPercent
       : null;
+
   let exerciseCount = 0;
-  for (const s of data.series) {
-    const ew = s.exerciseWeights ?? {};
-    for (const id of Object.keys(ew)) {
-      if ((ew[id] ?? []).length > 0) exerciseCount++;
+  for (const series of data.series) {
+    const exerciseWeights = series.exerciseWeights ?? {};
+    for (const exerciseId of Object.keys(exerciseWeights)) {
+      if ((exerciseWeights[exerciseId] ?? []).length > 0) {
+        exerciseCount++;
+      }
     }
   }
+
   return { weight, bodyFat, exerciseCount, allMetrics: metrics };
 }
 
 export function exerciseLibraryToTemplateLibrary(
-  lib: ExerciseLibrary,
+  library: ExerciseLibrary,
 ): TemplateLibrary {
-  const groups = Array.isArray(lib.groups) ? lib.groups : [];
+  const groups = Array.isArray(library.groups) ? library.groups : [];
   return {
     templates: [
       {
@@ -287,100 +388,81 @@ export function exerciseLibraryToTemplateLibrary(
   };
 }
 
-export function loadTemplateLibrary(): TemplateLibrary {
-  try {
-    const raw = localStorage.getItem(TEMPLATES_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as TemplateLibrary;
-      if (parsed?.templates && Array.isArray(parsed.templates)) return parsed;
-    }
-    const legacyRaw = localStorage.getItem(LIBRARY_KEY);
-    if (legacyRaw) {
-      const legacy = JSON.parse(legacyRaw) as ExerciseLibrary;
-      if (legacy?.groups && Array.isArray(legacy.groups)) {
-        const converted = exerciseLibraryToTemplateLibrary(legacy);
-        saveTemplateLibrary(converted);
-        return converted;
-      }
-    }
-  } catch {
-    // ignore
-  }
-  return defaultTemplateLibrary;
+export function replaceAppData(
+  snapshot: AppSnapshot,
+  data: AppData,
+): AppSnapshot {
+  const nextData = ensureProfileExtras(data);
+  return {
+    ...snapshot,
+    ...nextData,
+    series: normalizeSeriesStatuses(nextData.series),
+  };
 }
 
-export function saveTemplateLibrary(lib: TemplateLibrary): void {
-  localStorage.setItem(TEMPLATES_KEY, JSON.stringify(lib));
+export function replaceTemplateLibrary(
+  snapshot: AppSnapshot,
+  templateLibrary: TemplateLibrary,
+): AppSnapshot {
+  return {
+    ...snapshot,
+    templateLibrary: normalizeTemplateLibrary(templateLibrary),
+  };
 }
 
 export function getTemplateById(
-  lib: TemplateLibrary,
+  templateLibrary: TemplateLibrary,
   id: string,
 ): PlanTemplate | null {
-  return lib.templates.find((t) => t.id === id) ?? null;
+  return templateLibrary.templates.find((template) => template.id === id) ?? null;
 }
 
 function deepCloneExercises(exercises: Exercise[]): Exercise[] {
-  return exercises.map((e) => ({ ...e }));
+  return exercises.map((exercise) => ({ ...exercise }));
 }
 
-/** Build exercisesByGroup from a plan template (deep clone). */
 export function instantiateExercisesFromTemplate(
   template: PlanTemplate,
 ): Record<string, Exercise[]> {
-  const out: Record<string, Exercise[]> = {};
-  for (const g of template.groups) {
-    const list = g.exercises ?? [];
-    out[g.group] = deepCloneExercises(list);
+  const exercisesByGroup: Record<string, Exercise[]> = {};
+  for (const group of template.groups) {
+    exercisesByGroup[group.group] = deepCloneExercises(group.exercises ?? []);
   }
-  return out;
-}
-
-export function loadExerciseLibrary(): ExerciseLibrary {
-  const lib = loadTemplateLibrary();
-  const t = lib.templates[0];
-  return {
-    groups: t ? t.groups : [],
-  };
-}
-
-export function saveExerciseLibrary(lib: ExerciseLibrary): void {
-  const converted = exerciseLibraryToTemplateLibrary(lib);
-  saveTemplateLibrary(converted);
+  return exercisesByGroup;
 }
 
 export function getSessionById(data: AppData, id: string): Session | null {
-  return data.sessions.find((s) => s.id === id) ?? null;
+  return data.sessions.find((session) => session.id === id) ?? null;
 }
 
-function updateSessionInData(
-  data: AppData,
+function updateSessionInSnapshot(
+  snapshot: AppSnapshot,
   sessionId: string,
   patch: Partial<Session>,
-): AppData {
-  const next: AppData = {
-    ...data,
-    sessions: data.sessions.map((s) =>
-      s.id === sessionId ? { ...s, ...patch } : s,
+): AppSnapshot {
+  return {
+    ...snapshot,
+    sessions: snapshot.sessions.map((session) =>
+      session.id === sessionId ? { ...session, ...patch } : session,
     ),
   };
-  saveAppData(next);
-  return next;
 }
 
 export function createSession(
-  data: AppData,
+  snapshot: AppSnapshot,
   seriesId: string,
   group: string,
-): AppData {
-  const series = getSeriesById(data, seriesId);
-  if (!series) return data;
+): AppSnapshot {
+  const series = getSeriesById(snapshot, seriesId);
+  if (!series) return snapshot;
+
   const exercisesInGroup = series.exercisesByGroup?.[group] ?? [];
-  const exercises: SessionExercise[] = exercisesInGroup.map((ex) => ({
-    exerciseId: ex.id,
+  const exercises: SessionExercise[] = exercisesInGroup.map((exercise) => ({
+    exerciseId: exercise.id,
     weight: null,
-    status: "pending" as const,
+    status: "pending",
   }));
+
   const session: Session = {
     id: generateId(),
     seriesId,
@@ -390,53 +472,65 @@ export function createSession(
     finishedAt: null,
     exercises,
   };
-  const next: AppData = {
-    ...data,
-    sessions: [session, ...data.sessions],
+
+  return {
+    ...snapshot,
+    sessions: [session, ...snapshot.sessions],
   };
-  saveAppData(next);
-  return next;
 }
 
 export function updateSessionStatus(
-  data: AppData,
+  snapshot: AppSnapshot,
   sessionId: string,
   status: SessionStatus,
-): AppData {
-  const session = getSessionById(data, sessionId);
-  if (!session) return data;
+): AppSnapshot {
+  const session = getSessionById(snapshot, sessionId);
+  if (!session) return snapshot;
+
   const finishedAt = status === "ongoing" ? null : nowIso();
-  let next = updateSessionInData(data, sessionId, { status, finishedAt });
-  if (status === "finished") {
-    for (const se of session.exercises) {
-      if (se.status === "completed" && se.weight != null && se.weight > 0) {
-        next = addExerciseWeightEntry(
-          next,
-          session.seriesId,
-          se.exerciseId,
-          se.weight,
-        );
-      }
+  let nextSnapshot = updateSessionInSnapshot(snapshot, sessionId, {
+    status,
+    finishedAt,
+  });
+
+  if (status !== "finished") {
+    return nextSnapshot;
+  }
+
+  for (const exercise of session.exercises) {
+    if (exercise.status === "completed" && exercise.weight != null && exercise.weight > 0) {
+      nextSnapshot = addExerciseWeightEntry(
+        nextSnapshot,
+        session.seriesId,
+        exercise.exerciseId,
+        exercise.weight,
+      );
     }
   }
-  return next;
+
+  return nextSnapshot;
 }
 
 export function updateSessionExercise(
-  data: AppData,
+  snapshot: AppSnapshot,
   sessionId: string,
   exerciseId: string,
-  payload: { weight?: number | null; status?: SessionExercise["status"] },
-): AppData {
-  const session = getSessionById(data, sessionId);
-  if (!session) return data;
-  const exercises = session.exercises.map((se) => {
-    if (se.exerciseId !== exerciseId) return se;
+  payload: {
+    weight?: number | null;
+    status?: SessionExercise["status"];
+  },
+): AppSnapshot {
+  const session = getSessionById(snapshot, sessionId);
+  if (!session) return snapshot;
+
+  const exercises = session.exercises.map((exercise) => {
+    if (exercise.exerciseId !== exerciseId) return exercise;
     return {
-      ...se,
-      ...(payload.weight !== undefined && { weight: payload.weight }),
-      ...(payload.status !== undefined && { status: payload.status }),
+      ...exercise,
+      ...(payload.weight !== undefined ? { weight: payload.weight } : {}),
+      ...(payload.status !== undefined ? { status: payload.status } : {}),
     };
   });
-  return updateSessionInData(data, sessionId, { exercises });
+
+  return updateSessionInSnapshot(snapshot, sessionId, { exercises });
 }

@@ -15,6 +15,7 @@ interface SeriesManagerModalProps {
   open: boolean;
   onClose: () => void;
   series: Series | null;
+  currentActiveSeries: Series | null;
   templates: PlanTemplate[];
   defaultTemplateId?: string | null;
   onSave: (payload: SeriesManagerSavePayload) => void;
@@ -25,6 +26,7 @@ export function SeriesManagerModal({
   open,
   onClose,
   series,
+  currentActiveSeries,
   templates,
   defaultTemplateId,
   onSave,
@@ -52,6 +54,11 @@ export function SeriesManagerModal({
     }
   }, [open, series, firstId, defaultTemplateId]);
 
+  const willReplaceActiveSeries =
+    status === "active" &&
+    currentActiveSeries != null &&
+    currentActiveSeries.id !== series?.id;
+
   const handleSubmit = () => {
     if (!name.trim()) return;
     const tid = templates.some((t) => t.id === selectedTemplateId)
@@ -64,16 +71,21 @@ export function SeriesManagerModal({
       status,
       templateId: tid || undefined,
     });
-    onClose();
   };
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? "Editar treino" : "Novo treino"}
+      title={isEdit ? "Editar série" : "Nova série"}
     >
       <div className="tw-space-y-4">
+        {willReplaceActiveSeries && (
+          <div className="tw-rounded-2xl tw-border tw-border-primary/30 tw-bg-primary-dim/50 tw-p-4 tw-text-sm tw-text-slate-200">
+            Ao salvar esta série como ativa, &quot;{currentActiveSeries.name}
+            &quot; será concluída automaticamente.
+          </div>
+        )}
         {templates.length > 0 && (
           <div>
             <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
@@ -128,22 +140,20 @@ export function SeriesManagerModal({
             />
           </div>
         </div>
-        {isEdit && (
-          <div>
-            <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
-              Status
-            </label>
-            <select
-              className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
-              value={status}
-              onChange={(e) => setStatus(e.target.value as Series["status"])}
-            >
-              <option value="active">Ativa</option>
-              <option value="completed">Concluída</option>
-              <option value="archived">Arquivada</option>
-            </select>
-          </div>
-        )}
+        <div>
+          <label className="tw-block tw-text-sm tw-font-medium tw-text-slate-400 tw-mb-1">
+            Status
+          </label>
+          <select
+            className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
+            value={status}
+            onChange={(e) => setStatus(e.target.value as Series["status"])}
+          >
+            <option value="active">Ativa</option>
+            <option value="completed">Concluída</option>
+            <option value="archived">Arquivada</option>
+          </select>
+        </div>
         <div className="tw-flex tw-gap-3 tw-pt-2">
           {isEdit && series != null && (
             <button
@@ -171,7 +181,7 @@ export function SeriesManagerModal({
             className="tw-flex-1 tw-py-3 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold"
             onClick={handleSubmit}
           >
-            {isEdit ? "Salvar" : "Criar"}
+            {isEdit ? "Salvar" : "Criar série"}
           </button>
         </div>
       </div>

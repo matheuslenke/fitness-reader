@@ -12,7 +12,9 @@ interface LandingPageProps {
   data: AppData;
   activeSeries: Series | null;
   templates: PlanTemplate[];
+  username: string;
   onSelectSeries: (id: string) => void;
+  onSwitchSeries: (series: Series) => void;
   onOpenMetricsModal: () => void;
   onGoToMetrics: () => void;
   onOpenSeriesModal: () => void;
@@ -26,6 +28,7 @@ interface LandingPageProps {
   isImporting: boolean;
   onOpenPhotoModal: () => void;
   onGoToSessions: () => void;
+  onLogout: () => void;
 }
 
 const statusLabel: Record<string, string> = {
@@ -44,7 +47,9 @@ export function LandingPage({
   data,
   activeSeries,
   templates,
+  username,
   onSelectSeries,
+  onSwitchSeries,
   onOpenMetricsModal,
   onGoToMetrics,
   onOpenSeriesModal,
@@ -57,6 +62,7 @@ export function LandingPage({
   isImporting,
   onOpenPhotoModal,
   onGoToSessions,
+  onLogout,
 }: LandingPageProps) {
   const global = getGlobalMetrics(data);
   const photos = data.profile.progressPhotos ?? [];
@@ -88,7 +94,11 @@ export function LandingPage({
     <div className="tw-min-h-full page-enter tw-relative tw-overflow-hidden">
       <div className="hero-spark one" aria-hidden />
       <div className="hero-spark two" aria-hidden />
-      <ProfileHeader name={data.profile.name} />
+      <ProfileHeader
+        name={data.profile.name}
+        username={username}
+        onLogout={onLogout}
+      />
       <GlobalMetricsCards
         weight={global.weight}
         bodyFat={global.bodyFat}
@@ -166,13 +176,22 @@ export function LandingPage({
                   {formatDate(activeSeries.startDate)} – {formatDate(activeSeries.endDate)}
                 </p>
               </div>
-              <button
-                type="button"
-                className="touch-target tw-px-3 tw-py-1.5 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-text-sm tw-font-medium tw-shrink-0"
-                onClick={() => onSelectSeries(activeSeries.id)}
-              >
-                Abrir treino
-              </button>
+              <div className="tw-flex tw-flex-col tw-gap-2 tw-shrink-0">
+                <button
+                  type="button"
+                  className="touch-target tw-px-3 tw-py-1.5 tw-rounded-xl tw-bg-slate-700/80 tw-text-slate-50 tw-text-sm tw-font-medium"
+                  onClick={() => onSelectSeries(activeSeries.id)}
+                >
+                  Abrir treino
+                </button>
+                <button
+                  type="button"
+                  className="touch-target tw-px-3 tw-py-1.5 tw-rounded-xl tw-border tw-border-primary/30 tw-bg-primary-dim tw-text-primary tw-text-sm tw-font-medium"
+                  onClick={() => onSwitchSeries(activeSeries)}
+                >
+                  Trocar atual
+                </button>
+              </div>
             </div>
             <div className="tw-p-4 tw-space-y-4">
             {activeGroups.map((group) => {

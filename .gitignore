@@ -6,3 +6,5 @@ tsconfig.tsbuildinfo
 *.cache
 .vscode/
 .env
+.env*.local
+.vercel

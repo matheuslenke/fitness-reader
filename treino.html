@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualizador de Treino</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --border: #334155;
+      --chip: #0b5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .header, .card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .header {
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .meta-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    input, select {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .group-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .group-card {
+      overflow: hidden;
+    }
+
+    .group-header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(31,41,55,1) 0%, rgba(17,24,39,1) 100%);
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #052e16;
+      font-weight: 800;
+    }
+
+    .focus {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .group-body {
+      padding: 0 20px 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .exercise-name {
+      font-weight: 600;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #86efac;
+      font-size: 12px;
+      border: 1px solid rgba(34, 197, 94, 0.22);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .group-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      td {
+        border: none;
+        padding: 6px 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="header">
+      <h1>Plano de Treino</h1>
+      <p class="subtitle">Visualização simples do treino de <strong>Matheus Lenke Coutinho</strong>, organizada por séries e exercícios.</p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">Objetivo</div>
+          <div>Ganhar força, massa magra e reduzir gordura</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Frequência planejada</div>
+          <div>4 a 5 vezes por semana</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Descanso</div>
+          <div>50 seg a 1 min.</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Entrega</div>
+          <div>3/12 • 2026-03-08</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Professor</div>
+          <div>Júnior Teixeira</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Peso atual</div>
+          <div>78kg</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <input id="searchInput" type="text" placeholder="Buscar exercício, foco ou grupo..." />
+      <select id="groupFilter">
+        <option value="all">Todos os grupos</option>
+      </select>
+    </div>
+
+    <section id="groupList" class="group-list"></section>
+
+    <section class="sections">
+      <div class="card">
+        <h3>Instruções gerais</h3>
+        <ul id="generalNotes"></ul>
+      </div>
+      <div class="card">
+        <h3>Orientações de acompanhamento</h3>
+        <ul id="consultingGuidance"></ul>
+      </div>
+    </section>
+
+    <p class="footer-note">Dica: você pode usar este arquivo como base e depois adicionar links de vídeos para cada exercício.</p>
+  </div>
+
+  <script>
+    const data = {
+      athlete: { name: "Matheus Lenke Coutinho" },
+      plan: {
+        product: "Plano Anual",
+        purchase_date: "2026-01",
+        delivery_number: "3/12",
+        delivery_date: "2026-03-08"
+      },
+      training_parameters: {
+        repetitions_general: null,
+        cadence: "-",
+        rest: "50 seg a 1 min."
+      },
+      groups: [
+        {
+          group: "A",
+          focus: "Costas e bíceps",
+          exercises: [
+            { name: "PULLEY FRENTE ABERTO", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "PULLEY FECHADO SUPINADO", sets: null, repetitions: "falha acima de 8 - bi-set", load: null },
+            { name: "REMADA BAIXA TRIÂNGULO", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "REMADA MÁQUINA ABERTA PRONADA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "REMADA MÁQUINA NEUTRA", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "ROSCA DIRETA NA BARRA W", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "ROSCA ALTERNADA COM ISOMETRIA", sets: null, repetitions: "FALHA ACIMA DE 12 - BISET", load: null },
+            { name: "ROSCA SCOTH", sets: "5", repetitions: "8 A 10", load: null }
+          ]
+        },
+        {
+          group: "B",
+          focus: "Pernas e abdômen",
+          exercises: [
+            { name: "CADEIRA EXTENSORA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "CADEIRA EXTENSORA CURTINHO", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "AGACHAMENTO LIVRE NA BARRA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "AGACHAMENTO ISOMETRIA", sets: null, repetitions: "10 A 15 SEGUNDOS BI-SET", load: null },
+            { name: "LEG PRESS 45", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "CADEIRA ADUTORA", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "ABDOME BANCO INFRA", sets: "4", repetitions: "12 a 15", load: null },
+            { name: "ABDOME MAQUINA", sets: "4", repetitions: "12 a 15", load: null }
+          ]
+        },
+        {
+          group: "C",
+          focus: "Peito e tríceps",
+          exercises: [
+            { name: "SUPINO RETO NA BARRA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "FLEXÃO DE BRAÇO NO SOLO", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "CRUCIFIXO INCLINADO", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "PECK DECK", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "FLEXÃO DE BRAÇO FECHADA", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "CRUCIFIXO INFRA NO CROSS", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "TRÍCEPS PULLEY BARRA W", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "TRÍCEPS CORDA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "FLEXÃO PARA TRICEPS", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "TRICEPS TESTA COM BARRA W", sets: "4", repetitions: "8 A 10", load: null }
+          ]
+        },
+        {
+          group: "D",
+          focus: "Ombros, trapézio e abdômen",
+          exercises: [
+            { name: "ELEVAÇÃO FRONTAL COM CORDA NO CROSS", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "ELEVAÇÃO FRONTAL ALTERNADA HALTERES", sets: null, repetitions: "FALHA ACIMA DE 10 BI-SET", load: null },
+            { name: "DESENVOLVIMENTO MAQUINA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "ELEVAÇÃO LATERAL HALTERES", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "REMADA ALTA COM BARRA LIVRE", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "ENCOLHIMENTO C/HALTERES", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "FLY INVERTIDO", sets: "4", repetitions: "8 a 12", load: null },
+            { name: "ABDOME TRADICIONAL C/ CARGA", sets: "3 ou 4", repetitions: "10 a 15", load: null },
+            { name: "ABDOME BANCO OBLIQUO", sets: "3 ou 4", repetitions: "10 a 15", load: null }
+          ]
+        },
+        {
+          group: "E",
+          focus: "Posteriores, glúteos e panturrilha",
+          exercises: [
+            { name: "MESA FLEXORA", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "MESA FLEXORA ALTERNANDO", sets: null, repetitions: "falha acima de 8 BI-SET", load: null },
+            { name: "LEVANTAMENTO TERRA SUMÔ", sets: "4", repetitions: "8 A 10", load: null },
+            { name: "LEG PRESS HORIZONTAL ABDUZIDO", sets: "4", repetitions: "8 a 10 BI-SET c o proximo", load: null },
+            { name: "AFUNDO LIVRE C/ HALTERES", sets: null, repetitions: "10 cada perna bi-set", load: null },
+            { name: "CADEIRA ABDUTORA", sets: "4", repetitions: "12 a 15", load: null },
+            { name: "PANTURRILHA NO BANCO", sets: "4", repetitions: "12 a 15", load: null }
+          ]
+        }
+      ],
+      instructions: {
+        general_notes: [
+          "Antes de iniciar aquecer no 1º exercício do dia, fazendo 1 série de 20 repetições.",
+          "Fazer 1 treino por dia.",
+          "Ex: Dia 1 (treino A), dia 2 (treino B), dia 3 (treino C), dia 4 (treino D), dia 5 (treino E).",
+          "Evite mudar a ordem dos exercícios do dia.",
+          "Nos exercícios que são bi-sets, fazer os dois direto (sem descansar) e colocar carga para chegar a falha ou próximo a ela dentro do nº de repetições exigidos em cada exercício.",
+          "Nos demais exercícios, deve-se colocar carga para chegar a falha ou próximo a ela, dentro do numero de repetições especificadas em cada um.",
+          "3x na semana ao final dos treinos, fazer 15 min de CAMINHADA INCLINADA ou ESCADA.",
+          "Ótimos treinos!!!"
+        ],
+        consulting_guidance: [
+          "Novos resultados nos convidam a adotar novos comportamentos.",
+          "Tire uma foto 30 dias depois, e escreva sobre como foi sua experiência.",
+          "O que mudou na sua forma de pensar, sentir e agir?",
+          "Como você se enxerga?",
+          "Compartilhe isso comigo - é também a partir disso que criaremos a estratégia para a próxima etapa.",
+          "A largada está dada, vamos com tudo!"
+        ]
+      }
+    };
+
+    const groupList = document.getElementById('groupList');
+    const searchInput = document.getElementById('searchInput');
+    const groupFilter = document.getElementById('groupFilter');
+    const generalNotes = document.getElementById('generalNotes');
+    const consultingGuidance = document.getElementById('consultingGuidance');
+
+    function isBiSet(repetitions = '') {
+      return repetitions.toLowerCase().includes('bi-set') || repetitions.toLowerCase().includes('biset');
+    }
+
+    function populateFilters() {
+      data.groups.forEach(group => {
+        const option = document.createElement('option');
+        option.value = group.group;
+        option.textContent = `Grupo ${group.group} · ${group.focus}`;
+        groupFilter.appendChild(option);
+      });
+    }
+
+    function renderLists() {
+      generalNotes.innerHTML = data.instructions.general_notes.map(item => `<li>${item}</li>`).join('');
+      consultingGuidance.innerHTML = data.instructions.consulting_guidance.map(item => `<li>${item}</li>`).join('');
+    }
+
+    function renderGroups() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedGroup = groupFilter.value;
+
+      const filteredGroups = data.groups
+        .filter(group => selectedGroup === 'all' || group.group === selectedGroup)
+        .map(group => {
+          const exercises = group.exercises.filter(ex => {
+            const haystack = `${group.group} ${group.focus} ${ex.name} ${ex.repetitions || ''}`.toLowerCase();
+            return haystack.includes(query);
+          });
+          return { ...group, exercises };
+        })
+        .filter(group => group.exercises.length > 0 || query === '');
+
+      groupList.innerHTML = filteredGroups.map((group, index) => `
+        <article class="card group-card">
+          <div class="group-header" data-target="group-${group.group}">
+            <div class="group-title">
+              <span class="badge">${group.group}</span>
+              <div>
+                <h2>Treino ${group.group}</h2>
+                <div class="focus">${group.focus}</div>
+              </div>
+            </div>
+            <div class="count">${group.exercises.length} exercício(s)</div>
+          </div>
+          <div class="group-body ${index === 0 ? '' : 'hidden'}" id="group-${group.group}">
+            <table>
+              <thead>
+                <tr>
+                  <th>Exercício</th>
+                  <th>Séries</th>
+                  <th>Repetições</th>
+                  <th>Carga</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${group.exercises.map(ex => `
+                  <tr>
+                    <td data-label="Exercício">
+                      <div class="exercise-name">${ex.name}</div>
+                      ${isBiSet(ex.repetitions) ? '<span class="tag">Bi-set</span>' : ''}
+                    </td>
+                    <td data-label="Séries">${ex.sets || '-'}</td>
+                    <td data-label="Repetições">${ex.repetitions || '-'}</td>
+                    <td data-label="Carga">${ex.load || '-'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      `).join('');
+
+      document.querySelectorAll('.group-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const target = document.getElementById(header.dataset.target);
+          target.classList.toggle('hidden');
+        });
+      });
+    }
+
+    searchInput.addEventListener('input', renderGroups);
+    groupFilter.addEventListener('change', renderGroups);
+
+    populateFilters();
+    renderLists();
+    renderGroups();
+  </script>
+</body>
+</html>

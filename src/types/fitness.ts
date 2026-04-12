@@ -75,10 +75,12 @@ export interface Exercise {
   sets: string;
   reps: string;
   group: string;
+  load?: string | null;
 }
 
 export interface ExerciseGroup {
   group: string;
+  focus?: string;
   exercises: Exercise[];
 }
 
@@ -95,6 +97,7 @@ export interface PlanTemplate {
   id: string;
   name: string;
   groups: ExerciseGroup[];
+  metadata?: PlanMetadata;
 }
 
 /**
@@ -102,6 +105,57 @@ export interface PlanTemplate {
  */
 export interface TemplateLibrary {
   templates: PlanTemplate[];
+}
+
+export interface TrainingParameters {
+  repetitionsGeneral: string | null;
+  cadence: string | null;
+  rest: string | null;
+}
+
+export interface TrainingInstructions {
+  generalNotes: string[];
+  consultingGuidance: string[];
+}
+
+export interface QuestionnaireContext {
+  goal: string;
+  height: string;
+  currentWeight: string;
+  trainingBackground: string;
+  plannedFrequency: string;
+  trainingLocation: string;
+  bodyDiscomfortsOrGoals: string;
+  medicalConditionsOrLimitations: string;
+  nutritionFollowUp: string;
+  relevantNotes: string;
+  anabolicOrHormonalUse: string;
+  age: string;
+  dietDifficulty: string;
+}
+
+export interface SourceMetadata {
+  trainerName: string;
+  planName: string;
+  studentSince: string;
+  lastTrainingReceived: string;
+  lastPurchaseDate: string;
+}
+
+export interface PlanMetadata {
+  athleteName: string;
+  product: string;
+  purchaseDate: string;
+  deliveryNumber: string;
+  deliveryDate: string;
+  trainingParameters: TrainingParameters;
+  instructions: TrainingInstructions;
+  questionnaireContext: QuestionnaireContext;
+  sourceMetadata: SourceMetadata;
+}
+
+export interface AppSnapshot extends AppData {
+  templateLibrary: TemplateLibrary;
 }
 
 export type ViewKey =

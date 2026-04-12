@@ -3,6 +3,7 @@ import type {
   Exercise,
   SessionExerciseStatus,
 } from "../types/fitness";
+import { useEffect, useState } from "react";
 import { getSeriesById, getSessionById } from "../lib/storage";
 import { formatDateTime, getEmbedUrl } from "../lib/utils";
 
@@ -40,6 +41,19 @@ export function SessionTrackerPage({
 }: SessionTrackerPageProps) {
   const session = getSessionById(data, sessionId);
   const series = session ? getSeriesById(data, session.seriesId) : null;
+  const [weightDrafts, setWeightDrafts] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!session) return;
+    setWeightDrafts(
+      Object.fromEntries(
+        session.exercises.map((exercise) => [
+          exercise.exerciseId,
+          exercise.weight != null ? String(exercise.weight) : "",
+        ]),
+      ),
+    );
+  }, [session]);
 
   if (!session || !series) {
     return (
@@ -113,10 +127,16 @@ export function SessionTrackerPage({
                         min="0"
                         placeholder="Carga (kg)"
                         className="tw-w-24 tw-px-3 tw-py-2 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50 tw-text-sm"
-                        value={se.weight ?? ""}
+                        value={weightDrafts[se.exerciseId] ?? ""}
                         onChange={(e) => {
-                          const v = e.target.value;
-                          const num = v === "" ? null : parseFloat(v);
+                          setWeightDrafts((current) => ({
+                            ...current,
+                            [se.exerciseId]: e.target.value,
+                          }));
+                        }}
+                        onBlur={() => {
+                          const value = weightDrafts[se.exerciseId] ?? "";
+                          const num = value === "" ? null : parseFloat(value);
                           if (num === null || (!Number.isNaN(num) && num >= 0)) {
                             onUpdateExercise(sessionId, se.exerciseId, {
                               weight: num ?? null,
