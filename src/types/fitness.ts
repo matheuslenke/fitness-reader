@@ -162,6 +162,8 @@ export type ViewKey =
   | "landing"
   | "series"
   | "metrics"
+  | "profile"
+  | "more"
   | "history"
   | "sessions"
   | "session-tracker";

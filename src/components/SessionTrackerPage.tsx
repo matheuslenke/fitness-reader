@@ -6,6 +6,7 @@ import type {
 import { useEffect, useState } from "react";
 import { getSeriesById, getSessionById } from "../lib/storage";
 import { formatDateTime, getEmbedUrl } from "../lib/utils";
+import { WeightHistory } from "./WeightHistory";
 
 interface SessionTrackerPageProps {
   data: AppData;
@@ -21,7 +22,7 @@ interface SessionTrackerPageProps {
       status?: SessionExerciseStatus;
     },
   ) => void;
-  onPlayVideo: (url: string) => void;
+  onPlayVideo: (exercise: Exercise) => void;
 }
 
 const EXERCISE_STATUS_LABEL: Record<SessionExerciseStatus, string> = {
@@ -105,7 +106,7 @@ export function SessionTrackerPage({
           return (
             <div
               key={se.exerciseId}
-              className="tw-bg-surface tw-rounded-2xl tw-p-4 tw-border tw-border-slate-700/50"
+              className="app-card tw-rounded-3xl tw-p-4"
             >
               <div className="tw-flex tw-items-start tw-gap-3">
                 <div className="tw-flex-1 tw-min-w-0">
@@ -202,14 +203,17 @@ export function SessionTrackerPage({
                 {embedUrl && (
                   <button
                     type="button"
-                    className="touch-target tw-shrink-0 tw-w-12 tw-h-12 tw-rounded-full tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-flex tw-items-center tw-justify-center"
-                    onClick={() => onPlayVideo(exercise.videoUrl)}
+                    className="play-button touch-target tw-shrink-0 tw-w-12 tw-h-12 tw-rounded-2xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-flex tw-items-center tw-justify-center tw-transition-transform active:tw-scale-[0.96]"
+                    onClick={() => onPlayVideo(exercise)}
                     aria-label="Ver vídeo"
                   >
                     ▶
                   </button>
                 )}
               </div>
+              <WeightHistory
+                entries={series.exerciseWeights?.[exercise.id] ?? []}
+              />
             </div>
           );
         })}
