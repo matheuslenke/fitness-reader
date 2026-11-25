@@ -25,7 +25,7 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
         </div>
       ) : (
         <div className="tw-grid tw-grid-cols-2 tw-gap-3">
-          {photos.slice(0, 4).map((photo) => (
+          {photos.map((photo) => (
             <div
               key={photo.id}
               className="photo-card tw-bg-surface tw-border tw-border-slate-700/50 tw-shadow-lg"
@@ -33,7 +33,7 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
               <img
                 src={photo.src}
                 alt={`Progresso ${photo.date}`}
-                className="tw-w-full tw-h-32 tw-object-cover"
+                className="progress-photo tw-w-full tw-h-40 tw-object-cover"
               />
               <div className="tw-p-2 tw-text-xs tw-text-slate-100 tw-bg-black/40 tw-backdrop-blur-sm">
                 <p>{formatDate(photo.date)}</p>
@@ -45,13 +45,6 @@ export function ProgressGallery({ photos, onAdd }: ProgressGalleryProps) {
               </div>
             </div>
           ))}
-          {photos.length > 4 && (
-            <div className="photo-card tw-flex tw-items-center tw-justify-center glass-panel">
-              <span className="tw-text-sm tw-font-display tw-font-bold tw-text-slate-50">
-                +{photos.length - 4} a mais
-              </span>
-            </div>
-          )}
         </div>
       )}
     </div>

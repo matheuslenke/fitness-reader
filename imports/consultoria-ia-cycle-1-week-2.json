@@ -1,0 +1,67 @@
+{
+  "templates": [
+    {
+      "id": "consultoria-ia-cycle-1-week-2",
+      "name": "Consultoria IA · Ciclo 1 · Semana 2",
+      "createdAt": "2026-08-03",
+      "groups": [
+        {
+          "group": "A",
+          "focus": "Costas e Peito",
+          "exercises": [
+            { "id": "consultoria-ia-c1-w2-a-01", "name": "Puxada Aberta no Pulley", "videoUrl": "https://www.youtube.com/watch?v=SapM-j_3M20", "sets": "4", "reps": "6-8", "group": "A", "rest": "120s" },
+            { "id": "consultoria-ia-c1-w2-a-02", "name": "Remada Curvada com Barra", "videoUrl": "https://www.youtube.com/watch?v=T7Xlz9AlD-A", "sets": "4", "reps": "6-8", "group": "A", "rest": "120s" },
+            { "id": "consultoria-ia-c1-w2-a-03", "name": "Remada Máquina Pegada Neutra", "videoUrl": "https://www.youtube.com/watch?v=Sq7rWvJtzDY", "sets": "4", "reps": "8-10", "group": "A", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-a-04", "name": "Remada Unilateral com Halter", "videoUrl": "", "sets": "4", "reps": "8-10", "group": "A", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-a-05", "name": "Supino Reto com Barra", "videoUrl": "https://www.youtube.com/watch?v=rT7DgCr-3pg", "sets": "4", "reps": "6-8", "group": "A", "rest": "120s" },
+            { "id": "consultoria-ia-c1-w2-a-06", "name": "Supino Inclinado com Halteres", "videoUrl": "https://www.youtube.com/watch?v=8iPEnn-ltC8", "sets": "4", "reps": "8-10", "group": "A", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-a-07", "name": "Crucifixo Máquina", "videoUrl": "https://www.youtube.com/watch?v=9BEQWr0u-ac", "sets": "4", "reps": "10-12", "group": "A", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-a-08", "name": "Flexão de Braço", "videoUrl": "https://www.youtube.com/watch?v=Azw6BZ8-wSM", "sets": "4", "reps": "Máx. Reps", "group": "A", "rest": "60s" }
+          ]
+        },
+        {
+          "group": "B",
+          "focus": "Pernas - Glúteo e Abdômen",
+          "exercises": [
+            { "id": "consultoria-ia-c1-w2-b-01", "name": "Elevação Pélvica com Barra", "videoUrl": "https://www.youtube.com/watch?v=ptK0azwOXwM", "sets": "4", "reps": "8-10", "group": "B", "rest": "120s" },
+            { "id": "consultoria-ia-c1-w2-b-02", "name": "Afundo com Halteres", "videoUrl": "", "sets": "4", "reps": "8-10 (cada perna)", "group": "B", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-b-03", "name": "Cadeira Abdutora", "videoUrl": "https://www.youtube.com/watch?v=GljAOyT5xLI", "sets": "4", "reps": "10-12", "group": "B", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-b-04", "name": "Cadeira Extensora (para aquecimento e pré-exaustão)", "videoUrl": "https://www.youtube.com/watch?v=zq9o1BrNX94", "sets": "4", "reps": "12-15", "group": "B", "rest": "60s" },
+            { "id": "consultoria-ia-c1-w2-b-05", "name": "Prancha Abdominal", "videoUrl": "https://www.youtube.com/watch?v=ffHr8a6DRvU", "sets": "4", "reps": "30-45s", "group": "B", "rest": "60s" },
+            { "id": "consultoria-ia-c1-w2-b-06", "name": "Rotação Russa", "videoUrl": "https://www.youtube.com/watch?v=8hnozF9z1_U", "sets": "4", "reps": "15-20 (cada lado)", "group": "B", "rest": "60s" }
+          ]
+        },
+        {
+          "group": "C",
+          "focus": "Bíceps e Tríceps",
+          "exercises": [
+            { "id": "consultoria-ia-c1-w2-c-01", "name": "Rosca Direta com Barra", "videoUrl": "https://www.youtube.com/watch?v=Yp-SuCCqui8", "sets": "4", "reps": "8-10", "group": "C", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-c-02", "name": "Rosca Alternada com Halteres", "videoUrl": "https://www.youtube.com/watch?v=M4hvbi_f-Q8", "sets": "4", "reps": "10-12", "group": "C", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-c-03", "name": "Rosca Concentrada", "videoUrl": "https://www.youtube.com/watch?v=EEpvOQAAtRo", "sets": "4", "reps": "10-12", "group": "C", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-c-04", "name": "Rosca Martelo Cross", "videoUrl": "https://www.youtube.com/watch?v=O8kVrIpJtM0", "sets": "4", "reps": "10-12", "group": "C", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-c-05", "name": "Tríceps Testa com Halteres", "videoUrl": "https://www.youtube.com/watch?v=VakpIeaaeXA", "sets": "4", "reps": "8-10", "group": "C", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-c-06", "name": "Tríceps Pulley Corda", "videoUrl": "https://www.youtube.com/watch?v=-9QOMRXUSIg", "sets": "4", "reps": "10-12", "group": "C", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-c-07", "name": "Tríceps Mergulho no Banco", "videoUrl": "https://www.youtube.com/watch?v=8s_uiH1_-Ss", "sets": "4", "reps": "Máx. Reps", "group": "C", "rest": "60s" },
+            { "id": "consultoria-ia-c1-w2-c-08", "name": "Tríceps Francês Unilateral", "videoUrl": "https://www.youtube.com/watch?v=8u8qb4V3no4", "sets": "4", "reps": "10-12 (cada braço)", "group": "C", "rest": "75s" }
+          ]
+        },
+        {
+          "group": "D",
+          "focus": "Pernas - Quadríceps, Ombros e Abdômen",
+          "exercises": [
+            { "id": "consultoria-ia-c1-w2-d-01", "name": "Agachamento Livre com Barra", "videoUrl": "https://www.youtube.com/watch?v=iGLzCCZr_Xw", "sets": "4", "reps": "6-8", "group": "D", "rest": "120s" },
+            { "id": "consultoria-ia-c1-w2-d-02", "name": "Leg Press 45°", "videoUrl": "https://www.youtube.com/watch?v=waAxlYvtCcI", "sets": "4", "reps": "8-10", "group": "D", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-d-03", "name": "Cadeira Extensora", "videoUrl": "https://www.youtube.com/watch?v=el3oHblB5DM", "sets": "4", "reps": "10-12", "group": "D", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-d-04", "name": "Passada no Smith", "videoUrl": "https://www.youtube.com/watch?v=uxegMqAunr8", "sets": "4", "reps": "8-10 (cada perna)", "group": "D", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-d-05", "name": "Desenvolvimento com Halteres Sentado", "videoUrl": "https://www.youtube.com/watch?v=DFXtzdXN_iY", "sets": "4", "reps": "8-10", "group": "D", "rest": "90s" },
+            { "id": "consultoria-ia-c1-w2-d-06", "name": "Elevação Lateral com Halteres", "videoUrl": "https://www.youtube.com/watch?v=ORparUDksUk", "sets": "4", "reps": "10-12", "group": "D", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-d-07", "name": "Elevação Frontal com Halteres", "videoUrl": "https://www.youtube.com/watch?v=zetlSS0SqKw", "sets": "4", "reps": "10-12", "group": "D", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-d-08", "name": "Remada Alta com Barra", "videoUrl": "https://www.youtube.com/watch?v=emPow6X_a_E", "sets": "4", "reps": "10-12", "group": "D", "rest": "75s" },
+            { "id": "consultoria-ia-c1-w2-d-09", "name": "Abdominal Crunch na Máquina", "videoUrl": "https://www.youtube.com/watch?v=P5ySsdvCMyE", "sets": "4", "reps": "12-15", "group": "D", "rest": "60s" },
+            { "id": "consultoria-ia-c1-w2-d-10", "name": "Abdominal Bicicleta", "videoUrl": "https://www.youtube.com/watch?v=apmprS8H1MY", "sets": "4", "reps": "15-20 (cada lado)", "group": "D", "rest": "60s" }
+          ]
+        }
+      ]
+    }
+  ]
+}

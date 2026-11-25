@@ -1,0 +1,519 @@
+{
+  "templates": [
+    {
+      "id": "consultoria-ia-cycle-3-week-1",
+      "name": "Consultoria IA · Ciclo 3 · Semana 1",
+      "createdAt": "2026-11-23",
+      "cycle": 3,
+      "totalWeeks": 1,
+      "groups": [
+        {
+          "id": "da96efb1-92d8-48a8-b044-f5843ab60fd9",
+          "group": "A",
+          "focus": "Costas, Ombros e Trapézio",
+          "generatedAt": "2026-11-23T14:01:46.008797+00:00",
+          "preparation": {
+            "movements": [
+              {
+                "name": "Mobilidade de Ombros com Elástico",
+                "prescription": "2x15",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+de+ombros+com+elastico"
+              },
+              {
+                "name": "Alongamento Peitoral na Parede",
+                "prescription": "2x30s",
+                "videoUrl": "https://www.youtube.com/results?search_query=alongamento+peitoral+parede"
+              },
+              {
+                "name": "Mobilidade Torácica (Cat-Cow)",
+                "prescription": "2x10",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+toracica+gato+camelo"
+              }
+            ]
+          },
+          "exercises": [
+            {
+              "id": "3e1e57cb-7c37-48b6-bb14-114b04582be0",
+              "name": "Puxada Aberta no Pulley",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Progressiva",
+              "cadence": "3010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/SapM-j_3M20",
+              "group": "A"
+            },
+            {
+              "id": "10f94b53-009b-4452-84da-ee4b31dd6b33",
+              "name": "Remada Baixa Neutra",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Progressiva",
+              "cadence": "2011",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/fZzybnfRhqA",
+              "group": "A"
+            },
+            {
+              "id": "c17a9dbb-8946-4d56-833d-1c6a26bcb732",
+              "name": "Remada Curvada com Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "2011",
+              "rpe": "8",
+              "videoUrl": "https://www.youtube.com/embed/Vk6c7CjtM14",
+              "group": "A"
+            },
+            {
+              "id": "f2bbcad7-135d-4d5b-a002-aafe4a80573e",
+              "name": "Pull Face na Polia",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2011",
+              "rpe": "9",
+              "videoUrl": "",
+              "group": "A"
+            },
+            {
+              "id": "262dfdc4-a9cf-410e-937d-aa81d4bbb42e",
+              "name": "Desenvolvimento Máquina",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/q8qDFKSQ7xE",
+              "group": "A"
+            },
+            {
+              "id": "0dd70453-b917-4c5b-94ab-729431e06274",
+              "name": "Elevação Lateral Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Desafiadora",
+              "cadence": "2020",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/ORparUDksUk",
+              "group": "A"
+            },
+            {
+              "id": "954ddc15-06f1-4020-8d7a-4175e5b47351",
+              "name": "Elevação Frontal na Polia",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/Ed1jFL_2464",
+              "group": "A"
+            },
+            {
+              "id": "0bd40019-636a-44a7-8025-d37eb0c0473a",
+              "name": "Encolhimento com Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "1111",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/x9Im5d1H-Xw",
+              "group": "A"
+            }
+          ]
+        },
+        {
+          "id": "35f20220-5d28-4d56-b6a0-6af804fb5672",
+          "group": "B",
+          "focus": "Pernas Completo e Abdômen",
+          "generatedAt": "2026-11-23T14:01:50.552232+00:00",
+          "preparation": {
+            "movements": [
+              {
+                "name": "Mobilidade de Ombros com Elástico",
+                "prescription": "2x15",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+de+ombros+com+elastico"
+              },
+              {
+                "name": "Alongamento Peitoral na Parede",
+                "prescription": "2x30s",
+                "videoUrl": "https://www.youtube.com/results?search_query=alongamento+peitoral+parede"
+              },
+              {
+                "name": "Mobilidade Torácica (Cat-Cow)",
+                "prescription": "2x10",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+toracica+gato+camelo"
+              }
+            ]
+          },
+          "exercises": [
+            {
+              "id": "eee90470-47b5-43e6-9b67-3f97f54243c0",
+              "name": "Leg Press 45º",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "120 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/waAxlYvtCcI",
+              "group": "B"
+            },
+            {
+              "id": "9852cf05-b7df-4fbf-899e-6bdc0d313040",
+              "name": "Agachamento no Smith",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "120 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/uDBQtlCLQ0Y",
+              "group": "B"
+            },
+            {
+              "id": "22512a7c-34f3-4878-9e17-7ebe995685ff",
+              "name": "Cadeira Extensora",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2012",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/el3oHblB5DM",
+              "group": "B"
+            },
+            {
+              "id": "cd00a87e-f315-45c9-b463-9066a4187091",
+              "name": "Mesa Flexora",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2012",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/2-ULaRrQa7c",
+              "group": "B"
+            },
+            {
+              "id": "284c540d-f6ae-48b5-91f4-3cf57ab7a30f",
+              "name": "Stiff com Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Moderada",
+              "cadence": "3010",
+              "rpe": "8",
+              "videoUrl": "https://www.youtube.com/embed/KF3QpW6-jto",
+              "group": "B"
+            },
+            {
+              "id": "9deae04a-f38d-42dd-b1f0-113d8764a7d9",
+              "name": "Panturrilha Sentado",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2222",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/1NBoneuGtQo",
+              "group": "B"
+            },
+            {
+              "id": "917ead11-aa39-47b5-b327-28d810b4ba51",
+              "name": "Abdominal Supra com Anilha",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Com Carga",
+              "cadence": "2020",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/EBOCSHZ8GaQ",
+              "group": "B"
+            },
+            {
+              "id": "1b041471-fcac-411b-a760-02e0c4954f2b",
+              "name": "Prancha Isométrica",
+              "sets": "4",
+              "reps": "Até a Falha",
+              "rest": "60 seg",
+              "load": "Peso Corpo",
+              "cadence": null,
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/ffHr8a6DRvU",
+              "group": "B"
+            }
+          ]
+        },
+        {
+          "id": "8301ae50-61bb-401d-819a-31926c3b7399",
+          "group": "C",
+          "focus": "Peito, Bíceps e Tríceps",
+          "generatedAt": "2026-11-23T14:01:54.577071+00:00",
+          "preparation": {
+            "movements": [
+              {
+                "name": "Mobilidade de Ombros com Elástico",
+                "prescription": "2x15",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+de+ombros+com+elastico"
+              },
+              {
+                "name": "Alongamento Peitoral na Parede",
+                "prescription": "2x30s",
+                "videoUrl": "https://www.youtube.com/results?search_query=alongamento+peitoral+parede"
+              },
+              {
+                "name": "Mobilidade Torácica (Cat-Cow)",
+                "prescription": "2x10",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+toracica+gato+camelo"
+              }
+            ]
+          },
+          "exercises": [
+            {
+              "id": "3f4375ed-e1e4-44e2-88af-51a528822b82",
+              "name": "Supino Reto Máquina",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/dashO-xzD4E",
+              "group": "C"
+            },
+            {
+              "id": "52e3473d-a356-4caa-be7e-729f9cad6731",
+              "name": "Supino Inclinado Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "2010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/Fa-X2ByLHaY",
+              "group": "C"
+            },
+            {
+              "id": "0a1be775-634c-42fc-8d99-2d4a458a7089",
+              "name": "Crucifixo Máquina (Peck Deck)",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2012",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/FzCnfD0gOXo",
+              "group": "C"
+            },
+            {
+              "id": "d3bd34a0-9ede-42f2-b55f-7b9ce87f73de",
+              "name": "Tríceps Corda",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/-9QOMRXUSIg",
+              "group": "C"
+            },
+            {
+              "id": "15a1c7f7-f0fb-4d43-81b1-ca5f7e33598b",
+              "name": "Tríceps Francês com Halter",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/oqDJ0Bpld3E",
+              "group": "C"
+            },
+            {
+              "id": "a37cfdda-f40f-4f7d-ac86-99cf3f5eab8d",
+              "name": "Rosca Direta Polia",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/B_0N9JCoAJY",
+              "group": "C"
+            },
+            {
+              "id": "3932ad2b-54ab-473f-96cb-4d05e9223669",
+              "name": "Rosca Scott Unilateral",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "3010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/-RYeOe20o0g",
+              "group": "C"
+            },
+            {
+              "id": "4368ef2c-5618-4fbf-a57d-fd38d1593689",
+              "name": "Rosca Concentrada",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "45 seg",
+              "load": "Moderada",
+              "cadence": "2011",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/EEpvOQAAtRo",
+              "group": "C"
+            }
+          ]
+        },
+        {
+          "id": "10baa68e-bc56-4f07-b861-bfe359d777ed",
+          "group": "D",
+          "focus": "Ombros, Quadríceps e Abdômen",
+          "generatedAt": "2026-11-23T14:01:59.417366+00:00",
+          "preparation": {
+            "movements": [
+              {
+                "name": "Mobilidade de Ombros com Elástico",
+                "prescription": "2x15",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+de+ombros+com+elastico"
+              },
+              {
+                "name": "Alongamento Peitoral na Parede",
+                "prescription": "2x30s",
+                "videoUrl": "https://www.youtube.com/results?search_query=alongamento+peitoral+parede"
+              },
+              {
+                "name": "Mobilidade Torácica (Cat-Cow)",
+                "prescription": "2x10",
+                "videoUrl": "https://www.youtube.com/results?search_query=mobilidade+toracica+gato+camelo"
+              }
+            ],
+            "guidance": [
+              {
+                "title": "RPE 8-10",
+                "text": "Se a planilha pede 8 reps e você sente que faria 12 com essa carga, aumente o peso. A última repetição deve ser difícil de completar mantendo a técnica."
+              },
+              {
+                "title": "Carga Progressiva",
+                "text": "Conforme as repetições baixam (15 -> 12 -> 8 -> 6), você deve aumentar a carga em cada série."
+              },
+              {
+                "title": "Segurança",
+                "text": "Com RPE alto, o risco de lesão aumenta se a técnica falhar. Mantenha o bracing abdominal ativo em todos os exercícios."
+              }
+            ]
+          },
+          "exercises": [
+            {
+              "id": "960e9b35-66fc-4552-bddb-341dc37e8f3b",
+              "name": "Desenvolvimento Halteres",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/DFXtzdXN_iY",
+              "group": "D"
+            },
+            {
+              "id": "259746d0-1dcb-4d34-b375-da8cd1fe0a3b",
+              "name": "Elevação Lateral na Polia",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2011",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/dgpts8LHOLc",
+              "group": "D"
+            },
+            {
+              "id": "9987ecfc-97ac-4e28-9635-85caf4af0bc1",
+              "name": "Remada Alta com Barra",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Moderada",
+              "cadence": "2010",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/emPow6X_a_E",
+              "group": "D"
+            },
+            {
+              "id": "937fc317-9b2e-4aff-9852-2d13386181d8",
+              "name": "Agachamento Goblet",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Pesada",
+              "cadence": "3010",
+              "rpe": "8",
+              "videoUrl": "https://www.youtube.com/embed/ge1vdJRP0UA",
+              "group": "D"
+            },
+            {
+              "id": "eb23bb1b-913d-4153-b429-945684e64753",
+              "name": "Leg Press 45º",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "90 seg",
+              "load": "Alta",
+              "cadence": "3010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/waAxlYvtCcI",
+              "group": "D"
+            },
+            {
+              "id": "1838e7c0-ff56-4d8a-b9f7-de3523635fb5",
+              "name": "Cadeira Extensora",
+              "sets": "4",
+              "reps": "15, 12, 8, 6",
+              "rest": "60 seg",
+              "load": "Pesada",
+              "cadence": "2010",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/el3oHblB5DM",
+              "group": "D"
+            },
+            {
+              "id": "76c5b084-4702-43e1-b8cc-76f68f50d633",
+              "name": "Abdominal Infra Solo",
+              "sets": "4",
+              "reps": "15-20",
+              "rest": "60 seg",
+              "load": "Peso Corpo",
+              "cadence": "2020",
+              "rpe": "9",
+              "videoUrl": "https://www.youtube.com/embed/ixJcUH8AlL8",
+              "group": "D"
+            },
+            {
+              "id": "e59e291b-1adf-4f30-97cf-8b653779b5c2",
+              "name": "Abdominal Remador",
+              "sets": "4",
+              "reps": "15-20",
+              "rest": "60 seg",
+              "load": "Peso Corpo",
+              "cadence": "2020",
+              "rpe": "10",
+              "videoUrl": "https://www.youtube.com/embed/1VnmNj1qmjU",
+              "group": "D"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

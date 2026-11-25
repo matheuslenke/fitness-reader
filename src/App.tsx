@@ -1,13 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useAction, useMutation, useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
+import type { Session as SupabaseSession, User } from "@supabase/supabase-js";
+import { AppTabBar } from "./components/AppTabBar";
+import type { PrimaryTab } from "./components/AppTabBar";
 import { AuthPage } from "./components/AuthPage";
 import { ExerciseCard } from "./components/ExerciseCard";
 import { HistoryPage } from "./components/HistoryPage";
 import { LandingPage } from "./components/LandingPage";
+import { LoadingScreen } from "./components/LoadingScreen";
 import { MetricsModal } from "./components/MetricsModal";
-import { MetricsPage } from "./components/MetricsPage";
+import { MorePage } from "./components/MorePage";
+import { PlanTemplateEditorModal } from "./components/PlanTemplateEditorModal";
+import { ProfilePage } from "./components/ProfilePage";
 import { ProgressPhotoModal } from "./components/ProgressPhotoModal";
+import { PullToRefresh } from "./components/PullToRefresh";
 import { SeriesManagerModal } from "./components/SeriesManagerModal";
 import { SessionsPage } from "./components/SessionsPage";
 import { SessionTrackerPage } from "./components/SessionTrackerPage";
@@ -15,27 +20,51 @@ import { TabBar } from "./components/TabBar";
 import { Toast } from "./components/Toast";
 import { VideoModal } from "./components/VideoModal";
 import { WeightModal } from "./components/WeightModal";
+import { WorkoutPreparation } from "./components/WorkoutPreparation";
 import type { SeriesManagerSavePayload } from "./components/SeriesManagerModal";
 import {
-  clearStoredAuthSession,
-  getErrorMessage,
-  readStoredAuthSession,
-  writeStoredAuthSession,
-} from "./lib/auth";
-import {
+  addExerciseWeightEntry as addExerciseWeightEntryToSnapshot,
+  addProgressPhoto as addProgressPhotoToSnapshot,
+  addProfileMetric,
+  addSeriesMetric,
+  applyTemplateToSeries,
   buildDefaultSnapshot,
+  createSeries,
+  createSession,
+  deleteSeries as deleteSeriesFromSnapshot,
   ensureProfileExtras,
   exerciseLibraryToTemplateLibrary,
   getCurrentExerciseWeight,
+  getExerciseHistory,
   getGlobalMetrics,
   getSeriesById,
+  replaceAppData as replaceAppDataInSnapshot,
+  replaceTemplateLibrary as replaceTemplateLibraryInSnapshot,
+  updatePlanTemplate,
+  updateSeries,
+  updateSessionExercise as updateSessionExerciseInSnapshot,
+  updateSessionStatus,
 } from "./lib/storage";
+import {
+  getDefaultNavigationState,
+  getOngoingSession,
+  normalizeNavigationState,
+  readStoredNavigationState,
+  writeStoredNavigationState,
+} from "./lib/navigation";
+import {
+  readSupabaseAppState,
+  writeSupabaseAppState,
+} from "./lib/supabaseAppState";
+import { isSupabaseConfigured, requireSupabase, supabase } from "./lib/supabase";
 import { formatDate } from "./lib/utils";
 import type {
   AppData,
+  AppSnapshot,
   Exercise,
   ExerciseLibrary,
-  SessionExerciseStatus,
+  PlanTemplate,
+  SessionExerciseUpdate,
   Series,
   TemplateLibrary,
   ToastState,
@@ -43,9 +72,9 @@ import type {
 } from "./types/fitness";
 
 type AuthSession = {
-  sessionId: string;
   userId: string;
   username: string;
+  user: User;
 };
 
 type TrainingAppProps = {
@@ -53,50 +82,50 @@ type TrainingAppProps = {
   onLogout: () => Promise<void>;
 };
 
-type StatusScreenProps = {
-  text: string;
-};
+type SnapshotUpdate =
+  | AppSnapshot
+  | ((currentSnapshot: AppSnapshot) => AppSnapshot);
 
-function StatusScreen({ text }: StatusScreenProps) {
-  return (
-    <div className="tw-min-h-screen tw-flex tw-items-center tw-justify-center tw-bg-background tw-text-slate-300">
-      {text}
-    </div>
-  );
+function getUserDisplayName(user: User): string {
+  const metadata = user.user_metadata as Record<string, unknown>;
+  const fullName = metadata.full_name;
+  const name = metadata.name;
+
+  if (typeof fullName === "string" && fullName.trim()) {
+    return fullName.trim();
+  }
+
+  if (typeof name === "string" && name.trim()) {
+    return name.trim();
+  }
+
+  return user.email ?? "Atleta";
 }
 
 function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
-  const snapshot = useQuery(api.appState.get, {
-    authSessionId: authSession.sessionId,
-  });
-  const saveSeriesMutation = useMutation(api.appState.saveSeries);
-  const deleteSeriesMutation = useMutation(api.appState.deleteSeries);
-  const saveMetricMutation = useMutation(api.appState.saveMetric);
-  const addProgressPhotoMutation = useMutation(api.appState.addProgressPhoto);
-  const addExerciseWeightEntryMutation = useMutation(
-    api.appState.addExerciseWeightEntry,
+  const initialNavigation = useMemo(
+    () =>
+      readStoredNavigationState(authSession.userId) ?? getDefaultNavigationState(),
+    [authSession.userId],
   );
-  const replaceAppDataMutation = useMutation(api.appState.replaceAppData);
-  const replaceTemplateLibraryMutation = useMutation(
-    api.appState.replaceTemplateLibrary,
-  );
-  const startSessionMutation = useMutation(api.appState.startSession);
-  const setSessionStatusMutation = useMutation(api.appState.setSessionStatus);
-  const updateSessionExerciseMutation = useMutation(
-    api.appState.updateSessionExercise,
-  );
+  const [snapshot, setSnapshot] = useState<AppSnapshot | undefined>(undefined);
 
-  const [view, setView] = useState<ViewKey>("landing");
-  const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(null);
-  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
-  const [activeGroup, setActiveGroup] = useState("A");
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [view, setView] = useState<ViewKey>(initialNavigation.view);
+  const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(
+    initialNavigation.selectedSeriesId,
+  );
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(
+    initialNavigation.selectedSessionId,
+  );
+  const [activeGroup, setActiveGroup] = useState(initialNavigation.activeGroup);
+  const [videoExercise, setVideoExercise] = useState<Exercise | null>(null);
   const [weightExercise, setWeightExercise] = useState<Exercise | null>(null);
   const [weightModalSeriesId, setWeightModalSeriesId] = useState<string | null>(
     null,
   );
   const [seriesModalOpen, setSeriesModalOpen] = useState(false);
   const [seriesToEdit, setSeriesToEdit] = useState<Series | null>(null);
+  const [templateToEdit, setTemplateToEdit] = useState<PlanTemplate | null>(null);
   const [defaultTemplateIdForModal, setDefaultTemplateIdForModal] = useState<
     string | null
   >(null);
@@ -106,8 +135,20 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const [isImporting, setIsImporting] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const authUserRef = useRef(authSession.user);
+  const persistenceQueueRef = useRef<Promise<void>>(Promise.resolve());
+  authUserRef.current = authSession.user;
+  const navigationRef = useRef(initialNavigation);
+  navigationRef.current = {
+    view,
+    selectedSeriesId,
+    selectedSessionId,
+    activeGroup,
+  };
 
   const currentSnapshot = snapshot ?? buildDefaultSnapshot();
+  const snapshotRef = useRef(currentSnapshot);
+  snapshotRef.current = currentSnapshot;
   const data: AppData = currentSnapshot;
   const templateLibrary = currentSnapshot.templateLibrary;
   const isLoading = snapshot === undefined;
@@ -137,6 +178,9 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const currentSeries = selectedSeriesId
     ? getSeriesById(data, selectedSeriesId)
     : null;
+  const currentPreparation = templates
+    .find((template) => template.id === currentSeries?.templateId)
+    ?.groups.find((group) => group.group === activeGroup)?.preparation;
   const seriesGroups = useMemo(
     () =>
       currentSeries?.exercisesByGroup &&
@@ -160,6 +204,10 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     () => data.series.find((series) => series.status === "active") ?? null,
     [data.series],
   );
+  const ongoingSession = useMemo(
+    () => getOngoingSession(currentSnapshot),
+    [currentSnapshot],
+  );
 
   const showToast = useCallback(
     (text: string, type: ToastState["type"] = "info", duration = 3200) => {
@@ -181,6 +229,147 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     };
   }, []);
 
+  useEffect(() => {
+    let isActive = true;
+    setSnapshot(undefined);
+
+    readSupabaseAppState(authUserRef.current)
+      .then((nextSnapshot) => {
+        if (isActive) {
+          setSnapshot(nextSnapshot);
+        }
+      })
+      .catch(() => {
+        if (isActive) {
+          setSnapshot(buildDefaultSnapshot());
+          showToast("Erro ao carregar dados do Supabase.", "error");
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [authSession.userId, showToast]);
+
+  const handleRefresh = useCallback(async () => {
+    try {
+      const nextSnapshot = await readSupabaseAppState(authUserRef.current);
+      setSnapshot(nextSnapshot);
+      showToast("Dados atualizados.", "success", 2200);
+    } catch {
+      showToast("Erro ao atualizar os dados.", "error");
+    }
+  }, [showToast]);
+
+  const persistSnapshot = useCallback(
+    (update: SnapshotUpdate): Promise<AppSnapshot> => {
+      const operation = persistenceQueueRef.current.then(async () => {
+        const previousSnapshot = snapshotRef.current;
+        const nextSnapshot =
+          typeof update === "function" ? update(previousSnapshot) : update;
+
+        snapshotRef.current = nextSnapshot;
+        setSnapshot(nextSnapshot);
+
+        try {
+          const savedSnapshot = await writeSupabaseAppState(
+            authSession.userId,
+            nextSnapshot,
+          );
+          snapshotRef.current = savedSnapshot;
+          setSnapshot(savedSnapshot);
+          return savedSnapshot;
+        } catch (error) {
+          snapshotRef.current = previousSnapshot;
+          setSnapshot(previousSnapshot);
+          throw error;
+        }
+      });
+
+      persistenceQueueRef.current = operation.then(
+        () => undefined,
+        () => undefined,
+      );
+      return operation;
+    },
+    [authSession.userId],
+  );
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    const normalizedNavigation = normalizeNavigationState(currentSnapshot, {
+      view,
+      selectedSeriesId,
+      selectedSessionId,
+      activeGroup,
+    });
+
+    if (
+      normalizedNavigation.view !== view ||
+      normalizedNavigation.selectedSeriesId !== selectedSeriesId ||
+      normalizedNavigation.selectedSessionId !== selectedSessionId ||
+      normalizedNavigation.activeGroup !== activeGroup
+    ) {
+      setView(normalizedNavigation.view);
+      setSelectedSeriesId(normalizedNavigation.selectedSeriesId);
+      setSelectedSessionId(normalizedNavigation.selectedSessionId);
+      setActiveGroup(normalizedNavigation.activeGroup);
+    }
+  }, [
+    activeGroup,
+    currentSnapshot,
+    isLoading,
+    selectedSeriesId,
+    selectedSessionId,
+    view,
+  ]);
+
+  useEffect(() => {
+    const persistNavigation = () => {
+      writeStoredNavigationState(authSession.userId, navigationRef.current);
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        persistNavigation();
+      }
+    };
+
+    window.addEventListener("pagehide", persistNavigation);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      persistNavigation();
+      window.removeEventListener("pagehide", persistNavigation);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [authSession.userId]);
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    const normalizedNavigation = normalizeNavigationState(currentSnapshot, {
+      view,
+      selectedSeriesId,
+      selectedSessionId,
+      activeGroup,
+    });
+
+    writeStoredNavigationState(authSession.userId, normalizedNavigation);
+  }, [
+    activeGroup,
+    authSession.userId,
+    currentSnapshot,
+    isLoading,
+    selectedSeriesId,
+    selectedSessionId,
+    view,
+  ]);
+
   const handleSaveWeight = useCallback(
     async (exerciseId: string, weight: number) => {
       const seriesId = weightModalSeriesId ?? selectedSeriesId;
@@ -190,19 +379,21 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
       }
 
       try {
-        await addExerciseWeightEntryMutation({
-          authSessionId: authSession.sessionId,
-          seriesId,
-          exerciseId,
-          weight,
-        });
+        await persistSnapshot(
+          addExerciseWeightEntryToSnapshot(
+            currentSnapshot,
+            seriesId,
+            exerciseId,
+            weight,
+          ),
+        );
       } catch {
         showToast("Erro ao salvar a carga.", "error");
       }
     },
     [
-      addExerciseWeightEntryMutation,
-      authSession.sessionId,
+      currentSnapshot,
+      persistSnapshot,
       selectedSeriesId,
       showToast,
       weightModalSeriesId,
@@ -227,11 +418,38 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         activeSeries.id !== seriesToEdit?.id;
 
       try {
-        await saveSeriesMutation({
-          authSessionId: authSession.sessionId,
-          seriesId: seriesToEdit?.id ?? undefined,
-          payload,
-        });
+        if (!seriesToEdit) {
+          await persistSnapshot(createSeries(currentSnapshot, payload));
+        } else {
+          const currentSeriesToEdit = getSeriesById(currentSnapshot, seriesToEdit.id);
+
+          if (!currentSeriesToEdit) {
+            return;
+          }
+
+          let nextSnapshot = currentSnapshot;
+
+          if (
+            payload.templateId &&
+            payload.templateId !== currentSeriesToEdit.templateId
+          ) {
+            nextSnapshot = applyTemplateToSeries(
+              nextSnapshot,
+              seriesToEdit.id,
+              payload.templateId,
+            );
+          }
+
+          await persistSnapshot(
+            updateSeries(nextSnapshot, seriesToEdit.id, {
+              name: payload.name,
+              startDate: payload.startDate,
+              endDate: payload.endDate,
+              status: payload.status,
+            }),
+          );
+        }
+
         setSeriesModalOpen(false);
         setSeriesToEdit(null);
         setDefaultTemplateIdForModal(null);
@@ -247,8 +465,8 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     },
     [
       activeSeries,
-      authSession.sessionId,
-      saveSeriesMutation,
+      currentSnapshot,
+      persistSnapshot,
       seriesToEdit,
       showToast,
     ],
@@ -257,10 +475,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const handleSeriesDelete = useCallback(
     async (id: string) => {
       try {
-        await deleteSeriesMutation({
-          authSessionId: authSession.sessionId,
-          seriesId: id,
-        });
+        await persistSnapshot(deleteSeriesFromSnapshot(currentSnapshot, id));
 
         if (selectedSeriesId === id) {
           setSelectedSeriesId(null);
@@ -274,7 +489,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         showToast("Erro ao excluir a série.", "error");
       }
     },
-    [authSession.sessionId, deleteSeriesMutation, selectedSeriesId, showToast],
+    [currentSnapshot, persistSnapshot, selectedSeriesId, showToast],
   );
 
   const handleCreateFromTemplate = useCallback((templateId: string) => {
@@ -283,11 +498,18 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     setSeriesModalOpen(true);
   }, []);
 
-  const handleSwitchSeries = useCallback((series: Series) => {
-    setSeriesToEdit(null);
-    setDefaultTemplateIdForModal(series.templateId ?? null);
-    setSeriesModalOpen(true);
-  }, []);
+  const handleTemplateSave = useCallback(
+    async (template: PlanTemplate) => {
+      try {
+        await persistSnapshot(updatePlanTemplate(currentSnapshot, template));
+        showToast("Plano e séries vinculadas atualizados.", "success");
+      } catch (error) {
+        showToast("Erro ao salvar o plano.", "error");
+        throw error;
+      }
+    },
+    [currentSnapshot, persistSnapshot, showToast],
+  );
 
   const handleCloseSeriesModal = useCallback(() => {
     setSeriesModalOpen(false);
@@ -298,36 +520,40 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const handleProgressPhoto = useCallback(
     async (photo: { date: string; note: string; src: string }) => {
       try {
-        await addProgressPhotoMutation({
-          authSessionId: authSession.sessionId,
-          photo,
-        });
+        await persistSnapshot(addProgressPhotoToSnapshot(currentSnapshot, photo));
         showToast("Foto adicionada com sucesso.", "success");
       } catch {
         showToast("Erro ao adicionar a foto.", "error");
       }
     },
-    [addProgressPhotoMutation, authSession.sessionId, showToast],
+    [currentSnapshot, persistSnapshot, showToast],
   );
 
   const handleMetricsSave = useCallback(
     async (bodyWeight: number, bodyFatPercent: number | null) => {
       try {
-        await saveMetricMutation({
-          authSessionId: authSession.sessionId,
+        let nextSnapshot = addProfileMetric(
+          currentSnapshot,
           bodyWeight,
           bodyFatPercent,
-          seriesId:
-            view === "series" && selectedSeriesId != null
-              ? selectedSeriesId
-              : undefined,
-        });
+        );
+
+        if (view === "series" && selectedSeriesId != null) {
+          nextSnapshot = addSeriesMetric(
+            nextSnapshot,
+            selectedSeriesId,
+            bodyWeight,
+            bodyFatPercent,
+          );
+        }
+
+        await persistSnapshot(nextSnapshot);
         setMetricsModalOpen(false);
       } catch {
         showToast("Erro ao salvar as métricas.", "error");
       }
     },
-    [authSession.sessionId, saveMetricMutation, selectedSeriesId, showToast, view],
+    [currentSnapshot, persistSnapshot, selectedSeriesId, showToast, view],
   );
 
   const handleExport = useCallback(() => {
@@ -378,10 +604,12 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
             "profile" in imported &&
             Array.isArray((imported as AppData).series)
           ) {
-            await replaceAppDataMutation({
-              authSessionId: authSession.sessionId,
-              data: ensureProfileExtras(imported as AppData),
-            });
+            await persistSnapshot(
+              replaceAppDataInSnapshot(
+                currentSnapshot,
+                ensureProfileExtras(imported as AppData),
+              ),
+            );
             setSelectedSeriesId(null);
             setSelectedSessionId(null);
             setView("landing");
@@ -391,21 +619,23 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
             "templates" in imported &&
             Array.isArray((imported as TemplateLibrary).templates)
           ) {
-            await replaceTemplateLibraryMutation({
-              authSessionId: authSession.sessionId,
-              templateLibrary: imported as TemplateLibrary,
-            });
+            await persistSnapshot(
+              replaceTemplateLibraryInSnapshot(
+                currentSnapshot,
+                imported as TemplateLibrary,
+              ),
+            );
             showToast("Planos (templates) atualizados!", "success");
           } else if (
             imported != null &&
             Array.isArray((imported as ExerciseLibrary).groups)
           ) {
-            await replaceTemplateLibraryMutation({
-              authSessionId: authSession.sessionId,
-              templateLibrary: exerciseLibraryToTemplateLibrary(
-                imported as ExerciseLibrary,
+            await persistSnapshot(
+              replaceTemplateLibraryInSnapshot(
+                currentSnapshot,
+                exerciseLibraryToTemplateLibrary(imported as ExerciseLibrary),
               ),
-            });
+            );
             showToast("Planos (templates) atualizados!", "success");
           } else {
             showToast("Formato inválido.", "error");
@@ -420,9 +650,8 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
       reader.readAsText(file);
     },
     [
-      authSession.sessionId,
-      replaceAppDataMutation,
-      replaceTemplateLibraryMutation,
+      currentSnapshot,
+      persistSnapshot,
       showToast,
     ],
   );
@@ -433,14 +662,12 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     }
 
     try {
-      const result = await startSessionMutation({
-        authSessionId: authSession.sessionId,
-        seriesId: selectedSeriesId,
-        group: activeGroup,
-      });
+      const nextSnapshot = createSession(currentSnapshot, selectedSeriesId, activeGroup);
+      const latestSessionId = nextSnapshot.sessions[0]?.id ?? null;
+      await persistSnapshot(nextSnapshot);
 
-      if (result.sessionId) {
-        setSelectedSessionId(result.sessionId);
+      if (latestSessionId) {
+        setSelectedSessionId(latestSessionId);
         setView("session-tracker");
       }
     } catch {
@@ -448,19 +675,31 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     }
   }, [
     activeGroup,
-    authSession.sessionId,
+    currentSnapshot,
+    persistSnapshot,
     selectedSeriesId,
     showToast,
-    startSessionMutation,
   ]);
 
   const handleFinishSession = useCallback(
-    async (sessionId: string) => {
+    async (
+      sessionId: string,
+      exerciseUpdates: Record<string, SessionExerciseUpdate>,
+    ) => {
       try {
-        await setSessionStatusMutation({
-          authSessionId: authSession.sessionId,
-          sessionId,
-          status: "finished",
+        await persistSnapshot((latestSnapshot) => {
+          let nextSnapshot = latestSnapshot;
+
+          for (const [exerciseId, update] of Object.entries(exerciseUpdates)) {
+            nextSnapshot = updateSessionExerciseInSnapshot(
+              nextSnapshot,
+              sessionId,
+              exerciseId,
+              update,
+            );
+          }
+
+          return updateSessionStatus(nextSnapshot, sessionId, "finished");
         });
         setView("sessions");
         setSelectedSessionId(null);
@@ -468,17 +707,15 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         showToast("Erro ao finalizar a sessão.", "error");
       }
     },
-    [authSession.sessionId, setSessionStatusMutation, showToast],
+    [persistSnapshot, showToast],
   );
 
   const handleCancelSession = useCallback(
     async (sessionId: string) => {
       try {
-        await setSessionStatusMutation({
-          authSessionId: authSession.sessionId,
-          sessionId,
-          status: "canceled",
-        });
+        await persistSnapshot((latestSnapshot) =>
+          updateSessionStatus(latestSnapshot, sessionId, "canceled"),
+        );
 
         if (selectedSessionId === sessionId) {
           setSelectedSessionId(null);
@@ -488,30 +725,30 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         showToast("Erro ao cancelar a sessão.", "error");
       }
     },
-    [authSession.sessionId, selectedSessionId, setSessionStatusMutation, showToast],
+    [persistSnapshot, selectedSessionId, showToast],
   );
 
   const handleUpdateSessionExercise = useCallback(
     async (
       sessionId: string,
       exerciseId: string,
-      payload: {
-        weight?: number | null;
-        status?: SessionExerciseStatus;
-      },
+      payload: SessionExerciseUpdate,
     ) => {
       try {
-        await updateSessionExerciseMutation({
-          authSessionId: authSession.sessionId,
-          sessionId,
-          exerciseId,
-          payload,
-        });
-      } catch {
+        await persistSnapshot((latestSnapshot) =>
+          updateSessionExerciseInSnapshot(
+            latestSnapshot,
+            sessionId,
+            exerciseId,
+            payload,
+          ),
+        );
+      } catch (error) {
         showToast("Erro ao atualizar o exercício.", "error");
+        throw error;
       }
     },
-    [authSession.sessionId, showToast, updateSessionExerciseMutation],
+    [persistSnapshot, showToast],
   );
 
   const handleSelectSession = useCallback((sessionId: string) => {
@@ -524,189 +761,254 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     setView("sessions");
   }, []);
 
-  const handleBackFromSessions = useCallback(() => {
-    setView("landing");
-  }, []);
+  const openSeriesById = useCallback(
+    (seriesId: string, preferredGroup?: string) => {
+      const series = getSeriesById(data, seriesId);
+      const groups =
+        series?.exercisesByGroup &&
+        Object.keys(series.exercisesByGroup).length > 0
+          ? Object.keys(series.exercisesByGroup)
+          : templates[0]?.groups?.map((group) => group.group) ?? [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+            ];
+      const nextGroup =
+        preferredGroup && groups.includes(preferredGroup)
+          ? preferredGroup
+          : selectedSeriesId === seriesId && groups.includes(activeGroup)
+            ? activeGroup
+            : groups[0] ?? "A";
+
+      setSelectedSeriesId(seriesId);
+      setSelectedSessionId(null);
+      setActiveGroup(nextGroup);
+      setView("series");
+    },
+    [activeGroup, data, selectedSeriesId, templates],
+  );
+
+  const handlePrimaryTabChange = useCallback(
+    (tab: PrimaryTab) => {
+      if (tab === "workout") {
+        if (activeSeries) {
+          openSeriesById(activeSeries.id);
+        } else {
+          setSelectedSeriesId(null);
+          setView("more");
+        }
+        return;
+      }
+
+      setSelectedSessionId(null);
+      setSelectedSeriesId(null);
+
+      if (tab === "home") setView("landing");
+      if (tab === "sessions") setView("sessions");
+      if (tab === "profile") setView("profile");
+      if (tab === "more") setView("more");
+    },
+    [activeSeries, openSeriesById],
+  );
+
+  const primaryTab: PrimaryTab =
+    view === "series" || view === "history"
+      ? "workout"
+      : view === "sessions" || view === "session-tracker"
+        ? "sessions"
+        : view === "profile" || view === "metrics"
+          ? "profile"
+          : view === "more"
+            ? "more"
+            : "home";
+  const showPrimaryTabs = view !== "session-tracker";
 
   if (isLoading) {
-    return <StatusScreen text="Carregando dados do Convex..." />;
+    return <LoadingScreen phase="data" />;
   }
 
   return (
     <>
-      {view === "landing" && (
-        <LandingPage
-          data={data}
-          activeSeries={activeSeries}
-          templates={templates}
-          username={authSession.username}
-          onSelectSeries={(id) => {
-            const series = getSeriesById(data, id);
-            const groups =
-              series?.exercisesByGroup &&
-              Object.keys(series.exercisesByGroup).length > 0
-                ? Object.keys(series.exercisesByGroup)
-                : templates[0]?.groups?.map((group) => group.group) ?? [
-                    "A",
-                    "B",
-                    "C",
-                    "D",
-                    "E",
-                  ];
-            setSelectedSeriesId(id);
-            setView("series");
-            setActiveGroup(groups[0] ?? "A");
-          }}
-          onSwitchSeries={handleSwitchSeries}
-          onOpenMetricsModal={() => setMetricsModalOpen(true)}
-          onGoToMetrics={() => setView("metrics")}
-          onOpenSeriesModal={() => {
-            setSeriesToEdit(null);
-            setDefaultTemplateIdForModal(null);
-            setSeriesModalOpen(true);
-          }}
-          onCreateFromTemplate={handleCreateFromTemplate}
-          onPlayVideo={setVideoUrl}
-          onEditWeightInSeries={openWeightModal}
-          onEditSeries={(series) => {
-            setSeriesToEdit(series);
-            setSeriesModalOpen(true);
-          }}
-          onExport={handleExport}
-          onImport={handleImport}
-          isExporting={isExporting}
-          isImporting={isImporting}
-          onOpenPhotoModal={() => setPhotoModalOpen(true)}
-          onGoToSessions={() => setView("sessions")}
-          onLogout={() => {
-            void onLogout();
-          }}
-        />
-      )}
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className={showPrimaryTabs ? "app-shell" : ""}>
+        {view === "landing" && (
+          <LandingPage
+            data={data}
+            activeSeries={activeSeries}
+            username={authSession.username}
+            ongoingSession={ongoingSession}
+            onResumeSession={handleSelectSession}
+            onOpenActiveSeries={(group) => {
+              if (activeSeries) openSeriesById(activeSeries.id, group);
+            }}
+            onOpenProfile={() => setView("profile")}
+            onOpenSessions={() => setView("sessions")}
+            onCreateSeries={() => {
+              setSeriesToEdit(null);
+              setDefaultTemplateIdForModal(null);
+              setSeriesModalOpen(true);
+            }}
+          />
+        )}
 
-      {view === "sessions" && (
-        <SessionsPage
-          data={data}
-          onBack={handleBackFromSessions}
-          onSelectSession={handleSelectSession}
-          onCancelSession={handleCancelSession}
-        />
-      )}
+        {view === "sessions" && (
+          <SessionsPage
+            data={data}
+            onSelectSession={handleSelectSession}
+            onCancelSession={handleCancelSession}
+          />
+        )}
 
-      {view === "session-tracker" && selectedSessionId != null && (
-        <SessionTrackerPage
-          data={data}
-          sessionId={selectedSessionId}
-          onBack={handleBackFromSessionTracker}
-          onFinish={handleFinishSession}
-          onCancel={handleCancelSession}
-          onUpdateExercise={handleUpdateSessionExercise}
-          onPlayVideo={setVideoUrl}
-        />
-      )}
+        {view === "session-tracker" && selectedSessionId != null && (
+          <SessionTrackerPage
+            data={currentSnapshot}
+            sessionId={selectedSessionId}
+            onBack={handleBackFromSessionTracker}
+            onFinish={handleFinishSession}
+            onCancel={handleCancelSession}
+            onUpdateExercise={handleUpdateSessionExercise}
+            onPlayVideo={setVideoExercise}
+          />
+        )}
 
-      {view === "series" && currentSeries != null && (
-        <div className="page-enter">
-          <header className="tw-sticky tw-top-0 tw-z-10 tw-pt-[var(--safe-top)] tw-px-4 tw-py-3 tw-bg-gradient-to-b tw-from-background tw-to-background/95 tw-border-b tw-border-slate-700/50 tw-flex tw-items-center tw-justify-between tw-gap-2">
-            <button
-              type="button"
-              className="touch-target tw-text-primary tw-font-medium"
-              onClick={() => {
-                setView("landing");
-                setSelectedSeriesId(null);
-              }}
-            >
-              ← Série
-            </button>
-            <div className="tw-flex-1 tw-min-w-0 tw-text-center">
-              <h1 className="tw-font-display tw-text-lg tw-font-bold tw-truncate tw-text-slate-50">
-                {currentSeries.name}
-              </h1>
-              <p className="tw-text-xs tw-text-slate-400">
-                {formatDate(currentSeries.startDate)} -{" "}
-                {formatDate(currentSeries.endDate)}
-              </p>
-            </div>
-            <div className="tw-flex tw-items-center tw-gap-1">
-              <button
-                type="button"
-                className="touch-target tw-w-9 tw-h-9 tw-rounded-lg tw-bg-surface tw-border tw-border-slate-600/50 tw-text-slate-300 tw-text-sm"
-                onClick={() => setMetricsModalOpen(true)}
-                aria-label="Peso"
-              >
-                ⚖
-              </button>
-              <button
-                type="button"
-                className="touch-target tw-text-secondary tw-font-medium"
-                onClick={() => setView("history")}
-              >
-                Histórico
-              </button>
-            </div>
-          </header>
-          <main className="tw-p-4 tw-space-y-4">
-            <div className="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-p-3 tw-rounded-2xl tw-bg-surface tw-border tw-border-slate-700/50">
-              <span className="tw-text-slate-50 tw-font-medium">
-                Dia {activeGroup}
-              </span>
-              <button
-                type="button"
-                className="touch-target tw-px-4 tw-py-2 tw-rounded-xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-text-sm"
-                onClick={handleStartSession}
-              >
-                Iniciar agora
-              </button>
-            </div>
-            <TabBar
-              groups={seriesGroups}
-              active={activeGroup}
-              onChange={setActiveGroup}
-            />
-            <div className="tw-space-y-3">
-              {currentExercises.map((exercise) => (
-                <ExerciseCard
-                  key={exercise.id}
-                  exercise={exercise}
-                  currentWeight={getCurrentExerciseWeight(
-                    currentSeries,
-                    exercise.id,
-                  )}
-                  onPlayVideo={setVideoUrl}
-                  onEditWeight={(selectedExercise) => {
-                    if (selectedSeriesId) {
-                      openWeightModal(selectedExercise, selectedSeriesId);
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          </main>
+        {view === "series" && currentSeries != null && (
+          <div className="page-enter">
+            <header className="tw-sticky tw-top-0 tw-z-10 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-border-b tw-border-slate-700/50 tw-bg-background/95 tw-px-4 tw-pb-3 tw-pt-[calc(var(--safe-top)+0.75rem)] tw-backdrop-blur-xl">
+              <div className="tw-min-w-0 tw-flex-1">
+                <p className="tw-text-[0.65rem] tw-font-bold tw-uppercase tw-tracking-[0.18em] tw-text-primary">
+                  Treino · Dia {activeGroup}
+                </p>
+                <h1 className="tw-mt-1 tw-truncate tw-font-display tw-text-xl tw-font-bold tw-text-slate-50">
+                  {currentSeries.name}
+                </h1>
+                <p className="tw-text-xs tw-text-slate-500 tabular-nums">
+                  {formatDate(currentSeries.startDate)} — {formatDate(currentSeries.endDate)}
+                </p>
+              </div>
+              <div className="tw-flex tw-items-center tw-gap-2">
+                <button
+                  type="button"
+                  className="touch-target tw-rounded-xl tw-bg-slate-800/75 tw-px-3 tw-text-xs tw-font-semibold tw-text-secondary tw-shadow-[inset_0_0_0_1px_rgba(168,85,247,0.18)] tw-transition-transform active:tw-scale-[0.96]"
+                  onClick={() => setView("history")}
+                >
+                  Histórico
+                </button>
+              </div>
+            </header>
+            <main className="tw-space-y-4 tw-p-4">
+              <div className="home-hero-card tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-3xl tw-p-4">
+                <div>
+                  <p className="tw-text-xs tw-font-semibold tw-uppercase tw-tracking-[0.16em] tw-text-slate-500">
+                    Pronto para começar?
+                  </p>
+                  <p className="tw-mt-1 tw-font-display tw-font-bold tw-text-slate-50">
+                    {currentExercises.length} exercícios
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="touch-target tw-rounded-2xl tw-bg-active-gradient tw-px-5 tw-py-2.5 tw-font-display tw-text-sm tw-font-bold tw-text-slate-950 tw-shadow-[0_10px_24px_rgba(132,204,22,0.18)] tw-transition-transform active:tw-scale-[0.96]"
+                  onClick={handleStartSession}
+                >
+                  Iniciar agora
+                </button>
+              </div>
+              <TabBar
+                groups={seriesGroups}
+                active={activeGroup}
+                onChange={setActiveGroup}
+              />
+              <WorkoutPreparation preparation={currentPreparation} />
+              <div className="tw-space-y-3">
+                {currentExercises.map((exercise) => (
+                  <ExerciseCard
+                    key={exercise.id}
+                    exercise={exercise}
+                    currentWeight={getCurrentExerciseWeight(
+                      currentSeries,
+                      exercise.id,
+                    )}
+                    weightHistory={getExerciseHistory(
+                      currentSeries,
+                      exercise.id,
+                    )}
+                    onPlayVideo={setVideoExercise}
+                    onEditWeight={(selectedExercise) => {
+                      if (selectedSeriesId) {
+                        openWeightModal(selectedExercise, selectedSeriesId);
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+            </main>
+          </div>
+        )}
+
+        {(view === "profile" || view === "metrics") && (
+          <ProfilePage
+            data={data}
+            username={authSession.username}
+            onOpenMetricsModal={() => setMetricsModalOpen(true)}
+            onOpenPhotoModal={() => setPhotoModalOpen(true)}
+            onLogout={() => {
+              void onLogout();
+            }}
+          />
+        )}
+
+        {view === "more" && (
+          <MorePage
+            data={data}
+            templates={templates}
+            onSelectSeries={openSeriesById}
+            onEditSeries={(series) => {
+              setSeriesToEdit(series);
+              setDefaultTemplateIdForModal(series.templateId ?? null);
+              setSeriesModalOpen(true);
+            }}
+            onOpenSeriesModal={() => {
+              setSeriesToEdit(null);
+              setDefaultTemplateIdForModal(null);
+              setSeriesModalOpen(true);
+            }}
+            onCreateFromTemplate={handleCreateFromTemplate}
+            onEditTemplate={setTemplateToEdit}
+            onExport={handleExport}
+            onImport={handleImport}
+            isExporting={isExporting}
+            isImporting={isImporting}
+          />
+        )}
+
+        {view === "history" && currentSeries != null && (
+          <HistoryPage
+            groups={seriesGroups}
+            exercisesFlat={exercisesFlat}
+            series={currentSeries}
+            onBack={() => setView("series")}
+            onExport={handleExport}
+          />
+        )}
         </div>
-      )}
+      </PullToRefresh>
 
-      {view === "metrics" && (
-        <MetricsPage
-          data={data}
-          onBack={() => setView("landing")}
-          onOpenMetricsModal={() => setMetricsModalOpen(true)}
-        />
-      )}
-
-      {view === "history" && currentSeries != null && (
-        <HistoryPage
-          groups={seriesGroups}
-          exercisesFlat={exercisesFlat}
-          series={currentSeries}
-          onBack={() => setView("series")}
-          onExport={handleExport}
-        />
+      {showPrimaryTabs && (
+        <AppTabBar active={primaryTab} onChange={handlePrimaryTabChange} />
       )}
 
       <VideoModal
-        open={videoUrl != null}
-        url={videoUrl}
-        onClose={() => setVideoUrl(null)}
+        open={videoExercise != null}
+        exercise={videoExercise}
+        onClose={() => setVideoExercise(null)}
+      />
+      <PlanTemplateEditorModal
+        open={templateToEdit != null}
+        template={templateToEdit}
+        onClose={() => setTemplateToEdit(null)}
+        onSave={handleTemplateSave}
       />
       <WeightModal
         open={weightExercise != null}
@@ -760,130 +1062,118 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
 }
 
 function App() {
-  const loginAction = useAction(api.authActions.login);
-  const logoutMutation = useMutation(api.auth.logout);
-  const registerAction = useAction(api.authActions.register);
   const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [storedSession, setStoredSession] = useState<AuthSession | null>(() =>
-    readStoredAuthSession(),
-  );
-  const resolvedSession = useQuery(
-    api.auth.getSession,
-    storedSession ? { sessionId: storedSession.sessionId } : "skip",
-  );
+  const [authSession, setAuthSession] = useState<SupabaseSession | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
-    if (!storedSession || resolvedSession === undefined) {
+    if (!isSupabaseConfigured || !supabase) {
+      setIsAuthLoading(false);
       return;
     }
 
-    if (resolvedSession === null) {
-      clearStoredAuthSession();
-      setStoredSession(null);
-      setAuthErrorMessage("Sua sessão expirou. Faça login novamente.");
-      return;
-    }
+    supabase.auth
+      .getSession()
+      .then(({ data, error }) => {
+        if (error) {
+          setAuthErrorMessage("Não foi possível validar a sessão do Supabase.");
+          setAuthSession(null);
+          return;
+        }
 
-    const nextSession: AuthSession = {
-      sessionId: resolvedSession.sessionId,
-      userId: resolvedSession.userId,
-      username: resolvedSession.username,
-    };
+        setAuthSession(data.session);
+      })
+      .finally(() => setIsAuthLoading(false));
 
-    if (
-      nextSession.sessionId !== storedSession.sessionId ||
-      nextSession.userId !== storedSession.userId ||
-      nextSession.username !== storedSession.username
-    ) {
-      writeStoredAuthSession(nextSession);
-      setStoredSession(nextSession);
-    }
-  }, [resolvedSession, storedSession]);
-
-  const handleAuthenticate = useCallback(
-    async ({
-      mode,
-      password,
-      username,
-    }: {
-      mode: "login" | "register";
-      username: string;
-      password: string;
-    }) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthSession(session);
       setAuthErrorMessage(null);
-      setIsAuthenticating(true);
+      setIsAuthLoading(false);
+    });
 
-      try {
-        const nextSession =
-          mode === "register"
-            ? await registerAction({ username, password })
-            : await loginAction({ username, password });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
-        writeStoredAuthSession(nextSession);
-        setStoredSession(nextSession);
-      } catch (error) {
-        setAuthErrorMessage(
-          getErrorMessage(
-            error,
-            mode === "register"
-              ? "Não foi possível criar sua conta."
-              : "Não foi possível fazer login.",
-          ),
-        );
-      } finally {
-        setIsAuthenticating(false);
-      }
-    },
-    [loginAction, registerAction],
-  );
-
-  const handleLogout = useCallback(async () => {
-    const currentSession = storedSession;
-
-    clearStoredAuthSession();
-    setStoredSession(null);
+  const handleSignInWithGoogle = useCallback(async () => {
     setAuthErrorMessage(null);
 
-    if (!currentSession) {
+    if (!isSupabaseConfigured) {
+      setAuthErrorMessage(
+        "Supabase não está configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY.",
+      );
       return;
     }
 
-    try {
-      await logoutMutation({ sessionId: currentSession.sessionId });
-    } catch {
-      // Ignore logout cleanup failures after the local session has been cleared.
-    }
-  }, [logoutMutation, storedSession]);
+    setIsAuthenticating(true);
 
-  if (!storedSession) {
+    try {
+      const { error } = await requireSupabase().auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      setAuthErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível iniciar o login com Google.",
+      );
+      setIsAuthenticating(false);
+    }
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    setAuthErrorMessage(null);
+
+    try {
+      await requireSupabase().auth.signOut();
+      setAuthSession(null);
+    } catch {
+      setAuthErrorMessage("Não foi possível sair da conta.");
+    }
+  }, []);
+
+  if (!isSupabaseConfigured) {
     return (
       <AuthPage
-        errorMessage={authErrorMessage}
+        errorMessage={
+          authErrorMessage ??
+          "Configure VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY para habilitar o login com Google."
+        }
         isSubmitting={isAuthenticating}
-        onAuthenticate={handleAuthenticate}
+        onSignInWithGoogle={handleSignInWithGoogle}
       />
     );
   }
 
-  if (resolvedSession === undefined) {
-    return <StatusScreen text="Validando sessão..." />;
+  if (isAuthLoading) {
+    return <LoadingScreen phase="session" />;
   }
 
-  if (resolvedSession === null) {
+  if (!authSession?.user) {
     return (
       <AuthPage
         errorMessage={authErrorMessage}
         isSubmitting={isAuthenticating}
-        onAuthenticate={handleAuthenticate}
+        onSignInWithGoogle={handleSignInWithGoogle}
       />
     );
   }
 
   const activeSession: AuthSession = {
-    sessionId: resolvedSession.sessionId,
-    userId: resolvedSession.userId,
-    username: resolvedSession.username,
+    userId: authSession.user.id,
+    username: getUserDisplayName(authSession.user),
+    user: authSession.user,
   };
 
   return <TrainingApp authSession={activeSession} onLogout={handleLogout} />;

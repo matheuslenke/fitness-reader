@@ -1,0 +1,321 @@
+{
+  "templates": [
+    {
+      "id": "ptrainer-annual-2026-delivery-6",
+      "name": "Plano Anual · Entrega 6/12 · Jun/2026",
+      "createdAt": "2026-06-07",
+      "groups": [
+        {
+          "group": "A",
+          "focus": "Peito e bíceps",
+          "exercises": [
+            {
+              "id": "1329309",
+              "name": "SUPINO RETO NA BARRA",
+              "videoUrl": "https://vimeo.com/555993296",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329310",
+              "name": "SUPINO INCLINADO NA BARRA",
+              "videoUrl": "https://vimeo.com/559484433",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329311",
+              "name": "CRUCIFIXO NO CROSS EM PÉ",
+              "videoUrl": "https://vimeo.com/559484130",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329312",
+              "name": "CRUCIFIXO INFRA NO CROSS",
+              "videoUrl": "https://vimeo.com/559514568",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329313",
+              "name": "ROSCA DIRETA NA BARRA W",
+              "videoUrl": "https://vimeo.com/559520881",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329314",
+              "name": "ROSCA CONCENTRADA UNILATERAL",
+              "videoUrl": "https://www.youtube.com/watch?v=gIbJx9HAfX0",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            },
+            {
+              "id": "1329315",
+              "name": "ROSCA SCOTH",
+              "videoUrl": "https://vimeo.com/559492161",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "A"
+            }
+          ]
+        },
+        {
+          "group": "B",
+          "focus": "Pernas e abdômen",
+          "exercises": [
+            {
+              "id": "1329316",
+              "name": "CADEIRA EXTENSORA",
+              "videoUrl": "https://vimeo.com/559522622",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "B"
+            },
+            {
+              "id": "1329317",
+              "name": "AGACHAMENTO NO SMITH",
+              "videoUrl": "https://vimeo.com/555997114",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "B"
+            },
+            {
+              "id": "1329318",
+              "name": "LEG PRESS 45",
+              "videoUrl": "https://vimeo.com/555992051",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "B"
+            },
+            {
+              "id": "1329319",
+              "name": "LEVANTAMENTO TERRA SUMÔ",
+              "videoUrl": "https://vimeo.com/555992421",
+              "sets": "4",
+              "reps": "8 A 10",
+              "group": "B"
+            },
+            {
+              "id": "1329320",
+              "name": "PANTURRILHA NO BANCO",
+              "videoUrl": "https://vimeo.com/559521870",
+              "sets": "4",
+              "reps": "12 a 15",
+              "group": "B"
+            },
+            {
+              "id": "1329321",
+              "name": "ABDOME MAQUINA",
+              "videoUrl": "https://vimeo.com/559521074",
+              "sets": "4",
+              "reps": "12 a 15",
+              "group": "B"
+            },
+            {
+              "id": "1329322",
+              "name": "ABDOME BANCO INFRA",
+              "videoUrl": "https://vimeo.com/559513148",
+              "sets": "4",
+              "reps": "falha acima de 12",
+              "group": "B"
+            }
+          ]
+        },
+        {
+          "group": "C",
+          "focus": "Costas e tríceps",
+          "exercises": [
+            {
+              "id": "1329323",
+              "name": "PULLEY FRENTE ABERTO",
+              "videoUrl": "https://vimeo.com/559490899",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329324",
+              "name": "PULL DOWN CORDA",
+              "videoUrl": "https://vimeo.com/559514637",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329325",
+              "name": "REMADA CURVADA ABERTA PRONADA",
+              "videoUrl": "https://vimeo.com/559484807",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329326",
+              "name": "REMADA BAIXA TRIÂNGULO",
+              "videoUrl": "https://vimeo.com/559485176",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329327",
+              "name": "TRÍCEPS PULLEY BARRA W",
+              "videoUrl": "https://vimeo.com/559492039",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329328",
+              "name": "TRÍCEPS TESTA EM PÉ NA POLIA",
+              "videoUrl": "https://vimeo.com/559491964",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329329",
+              "name": "TRÍCEPS CRUZADO NA POLIA",
+              "videoUrl": "https://vimeo.com/559491880",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            },
+            {
+              "id": "1329330",
+              "name": "PARALELA NO GRAVITRON",
+              "videoUrl": "https://vimeo.com/559514341",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "C"
+            }
+          ]
+        },
+        {
+          "group": "D",
+          "focus": "Ombros e abdômen",
+          "exercises": [
+            {
+              "id": "1329331",
+              "name": "ELEVAÇÃO FRONTAL COM CORDA NO CROSS",
+              "videoUrl": "https://youtube.com/shorts/SS6DqB6ykAI?si=Yc7NCEbzc0k863yk",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "D"
+            },
+            {
+              "id": "1329332",
+              "name": "ELEVAÇÃO LATERAL NO CROSS",
+              "videoUrl": "https://vimeo.com/559514163",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "D"
+            },
+            {
+              "id": "1329333",
+              "name": "DESENVOLVIMENTO MAQUINA",
+              "videoUrl": "https://youtu.be/hw-_tSSpSlk",
+              "sets": "4",
+              "reps": "6 a 8",
+              "group": "D"
+            },
+            {
+              "id": "1329334",
+              "name": "CRUCIFIXO INVERTIDO NO CROSS POLIA MEDIA",
+              "videoUrl": "https://youtube.com/shorts/1Se2czrRmrE?si=5TmUpw3YM1dnknPL",
+              "sets": "5",
+              "reps": "10 a 12",
+              "group": "D"
+            },
+            {
+              "id": "1329335",
+              "name": "REMADA ALTA COM BARRA LIVRE",
+              "videoUrl": "https://www.youtube.com/watch?v=Mq4MFtnbHnI",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "D"
+            },
+            {
+              "id": "1329336",
+              "name": "ENCOLHIMENTO NA BARRA",
+              "videoUrl": "https://vimeo.com/559484953",
+              "sets": "4",
+              "reps": "10 a 12",
+              "group": "D"
+            },
+            {
+              "id": "1329337",
+              "name": "ABDOME RETO NA POLIA",
+              "videoUrl": "https://vimeo.com/559515365",
+              "sets": "4",
+              "reps": "12 a 15",
+              "group": "D"
+            },
+            {
+              "id": "1329338",
+              "name": "ABDOME LATERAL 2 PERNAS",
+              "videoUrl": "https://www.youtube.com/watch?v=HQuBZuJKAZA",
+              "sets": "4",
+              "reps": "falha acima de 12",
+              "group": "D"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "athleteName": "Matheus Lenke Coutinho",
+        "product": "Plano Anual",
+        "purchaseDate": "2026-01-07",
+        "deliveryNumber": "6/12",
+        "deliveryDate": "2026-06-07",
+        "trainingParameters": {
+          "repetitionsGeneral": null,
+          "cadence": null,
+          "rest": "50 seg a 1 min."
+        },
+        "instructions": {
+          "generalNotes": [
+            "Antes de iniciar, aquecer no primeiro exercício do dia com uma série de 20 repetições.",
+            "Fazer um treino por dia na sequência A, B, C e D. Ao treinar cinco vezes na semana, repetir o treino B no quinto dia.",
+            "Evitar mudar a ordem dos exercícios do dia.",
+            "Usar carga suficiente para chegar à falha ou próximo dela, mantendo a execução completa do movimento."
+          ],
+          "consultingGuidance": [
+            "Tirar uma nova foto após 30 dias e registrar as mudanças percebidas.",
+            "Compartilhar a experiência para orientar a estratégia da próxima etapa."
+          ]
+        },
+        "questionnaireContext": {
+          "goal": "Ganhar força, massa magra e reduzir porcentagem de gordura",
+          "height": "1,78 m",
+          "currentWeight": "78 kg",
+          "trainingBackground": "Já treinou musculação em diferentes períodos, cinco vezes por semana; no momento da avaliação estava sem treinar e corria na praia semanalmente.",
+          "plannedFrequency": "4 a 5 vezes por semana",
+          "trainingLocation": "Academia",
+          "bodyDiscomfortsOrGoals": "Reduzir barriga e desenvolver peitoral e braços.",
+          "medicalConditionsOrLimitations": "Nenhuma condição ou limitação relatada.",
+          "nutritionFollowUp": "Sem acompanhamento nutricional.",
+          "relevantNotes": "Relata dificuldade em alguns exercícios por falta de força.",
+          "anabolicOrHormonalUse": "Não",
+          "age": "27",
+          "dietDifficulty": "Intolerância à lactose; evita iogurte e queijos."
+        },
+        "sourceMetadata": {
+          "trainerName": "",
+          "planName": "Plano Anual - Entrega 6/12",
+          "studentSince": "2026-01-07",
+          "lastTrainingReceived": "2026-06-07",
+          "lastPurchaseDate": "2026-01-07"
+        }
+      }
+    }
+  ]
+}

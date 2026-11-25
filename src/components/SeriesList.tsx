@@ -33,6 +33,15 @@ export function SeriesList({
     <div className="tw-px-4 tw-space-y-3">
       <div className="tw-flex tw-items-center tw-justify-between">
         <h2 className="tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">Séries</h2>
+        {series.length > 0 && (
+          <button
+            type="button"
+            className="touch-target tw-rounded-xl tw-bg-primary-dim tw-px-3 tw-py-2 tw-text-sm tw-font-semibold tw-text-primary tw-shadow-[inset_0_0_0_1px_rgba(190,242,100,0.16)] tw-transition-transform active:tw-scale-[0.96]"
+            onClick={onCreate}
+          >
+            + Nova série
+          </button>
+        )}
       </div>
       {series.length === 0 ? (
         <div className="tw-bg-surface tw-rounded-2xl tw-p-8 tw-text-center tw-border tw-border-slate-700/50 tw-shadow-lg">
@@ -58,7 +67,7 @@ export function SeriesList({
           return (
             <div
               key={s.id}
-              className="tw-bg-surface tw-rounded-2xl tw-p-4 tw-shadow-lg tw-border tw-border-slate-700/50 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer active:tw-opacity-90"
+              className="app-card tw-rounded-3xl tw-p-4 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer tw-transition-transform active:tw-scale-[0.99]"
               onClick={() => onSelect(s.id)}
             >
               <div className="tw-flex-1 tw-min-w-0">

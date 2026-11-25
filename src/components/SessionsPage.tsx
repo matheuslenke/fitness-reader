@@ -4,7 +4,7 @@ import { formatDateTime } from "../lib/utils";
 
 interface SessionsPageProps {
   data: AppData;
-  onBack: () => void;
+  onBack?: () => void;
   onSelectSession: (sessionId: string) => void;
   onCancelSession: (sessionId: string) => void;
 }
@@ -32,13 +32,15 @@ export function SessionsPage({
   return (
     <div className="page-enter tw-min-h-full">
       <header className="tw-sticky tw-top-0 tw-z-10 tw-pt-[var(--safe-top)] tw-px-4 tw-py-3 tw-bg-gradient-to-b tw-from-background tw-to-background/95 tw-border-b tw-border-slate-700/50 tw-flex tw-items-center tw-gap-2">
-        <button
-          type="button"
-          className="touch-target tw-text-primary tw-font-medium"
-          onClick={onBack}
-        >
-          ← Voltar
-        </button>
+        {onBack != null && (
+          <button
+            type="button"
+            className="touch-target tw-text-primary tw-font-medium"
+            onClick={onBack}
+          >
+            ← Voltar
+          </button>
+        )}
         <h1 className="tw-flex-1 tw-font-display tw-text-lg tw-font-bold tw-text-slate-50">
           Sessões
         </h1>
