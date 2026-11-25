@@ -28,12 +28,13 @@ export function ExerciseCard({
           <p className="tw-text-sm tw-text-slate-400 tw-mt-1">
             {exercise.sets} × {exercise.reps}
           </p>
-          {(exercise.cadence || exercise.rest || exercise.rpe) && (
+          {(exercise.cadence || exercise.rest || exercise.rpe || exercise.load) && (
             <p className="tw-text-xs tw-text-slate-500 tw-mt-1">
               {[
                 exercise.cadence ? `Cadência ${exercise.cadence}` : null,
                 exercise.rest ? `Descanso ${exercise.rest}` : null,
                 exercise.rpe ? `RPE ${exercise.rpe}` : null,
+                exercise.load ? `Carga ${exercise.load}` : null,
               ]
                 .filter(Boolean)
                 .join(" · ")}

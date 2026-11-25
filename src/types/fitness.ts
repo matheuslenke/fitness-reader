@@ -98,7 +98,20 @@ export interface ExerciseGroup {
   group: string;
   focus?: string;
   exercises: Exercise[];
+  preparation?: TrainingPreparation;
 }
+
+export type TrainingPreparation = {
+  movements: {
+    name: string;
+    prescription: string;
+    videoUrl: string;
+  }[];
+  guidance?: {
+    title: string;
+    text: string;
+  }[];
+};
 
 /** Legacy shape for imported JSON: single set of groups (one implicit template). */
 export interface ExerciseLibrary {

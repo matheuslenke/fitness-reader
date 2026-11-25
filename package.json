@@ -14,7 +14,7 @@
     "supabase:migrate": "npx --yes supabase db push",
     "supabase:migrate:local": "npx --yes supabase migration up",
     "vercel:env:sync": "node scripts/sync-vercel-env.mjs .env.production production",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.mjs",
     "parse": "node parse-exercises.js",
     "serve": "npx --yes serve dist -l 3000"
   },

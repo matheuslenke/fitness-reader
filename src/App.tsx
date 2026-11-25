@@ -20,6 +20,7 @@ import { TabBar } from "./components/TabBar";
 import { Toast } from "./components/Toast";
 import { VideoModal } from "./components/VideoModal";
 import { WeightModal } from "./components/WeightModal";
+import { WorkoutPreparation } from "./components/WorkoutPreparation";
 import type { SeriesManagerSavePayload } from "./components/SeriesManagerModal";
 import {
   addExerciseWeightEntry as addExerciseWeightEntryToSnapshot,
@@ -177,6 +178,9 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const currentSeries = selectedSeriesId
     ? getSeriesById(data, selectedSeriesId)
     : null;
+  const currentPreparation = templates
+    .find((template) => template.id === currentSeries?.templateId)
+    ?.groups.find((group) => group.group === activeGroup)?.preparation;
   const seriesGroups = useMemo(
     () =>
       currentSeries?.exercisesByGroup &&
@@ -859,7 +863,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
 
         {view === "session-tracker" && selectedSessionId != null && (
           <SessionTrackerPage
-            data={data}
+            data={currentSnapshot}
             sessionId={selectedSessionId}
             onBack={handleBackFromSessionTracker}
             onFinish={handleFinishSession}
@@ -916,6 +920,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
                 active={activeGroup}
                 onChange={setActiveGroup}
               />
+              <WorkoutPreparation preparation={currentPreparation} />
               <div className="tw-space-y-3">
                 {currentExercises.map((exercise) => (
                   <ExerciseCard

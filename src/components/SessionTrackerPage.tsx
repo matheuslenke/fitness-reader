@@ -8,7 +8,7 @@ import {
   MAX_REPETITION_COUNT,
 } from "../lib/utils";
 import type {
-  AppData,
+  AppSnapshot,
   Exercise,
   SessionExercise,
   SessionExerciseStatus,
@@ -17,10 +17,12 @@ import type {
 } from "../types/fitness";
 import { ActivityIndicator } from "./LoadingScreen";
 import { RestTimer } from "./RestTimer";
+import { SessionExerciseList } from "./SessionExerciseList";
 import { WeightHistory } from "./WeightHistory";
+import { WorkoutPreparation } from "./WorkoutPreparation";
 
 type SessionTrackerPageProps = {
-  data: AppData;
+  data: AppSnapshot;
   sessionId: string;
   onBack: () => void;
   onFinish: (
@@ -104,8 +106,6 @@ function getInitialSetProgress(
   useSuggestedDefaults: boolean,
 ): SessionSetProgress[] {
   const setCount = Math.max(getPlannedSetCount(exercise), savedProgress?.length ?? 0);
-  const suggestedRepetitionCount = getSuggestedRepetitionCount(exercise.reps);
-
   return Array.from({ length: setCount }, (_, index) => {
     const savedSet = savedProgress?.[index];
     const shouldUseSuggestedCount =
@@ -114,7 +114,7 @@ function getInitialSetProgress(
 
     return {
       repetitions: shouldUseSuggestedCount
-        ? suggestedRepetitionCount
+        ? getSuggestedRepetitionCount(exercise.reps, index)
         : Math.max(0, savedSet.repetitions),
       completed: savedSet?.completed === true,
     };
@@ -203,6 +203,7 @@ export function SessionTrackerPage({
   }
 
   const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<"individual" | "list">("individual");
   const [selectedSetIndexes, setSelectedSetIndexes] = useState<
     Record<string, number>
   >({});
@@ -258,6 +259,7 @@ export function SessionTrackerPage({
     setWeightErrors({});
     setStatusOverrides({});
     setActiveExerciseIndex(firstPendingIndex >= 0 ? firstPendingIndex : 0);
+    setViewMode("individual");
   }, [sessionId]);
 
   useEffect(() => {
@@ -342,7 +344,8 @@ export function SessionTrackerPage({
     playerExercises.length > 0
       ? (completedExerciseCount / playerExercises.length) * 100
       : 0;
-  const ambientEmbedUrl = prefersReducedMotion
+  const videoEmbedUrl = getEmbedUrl(activeExercise?.videoUrl);
+  const ambientEmbedUrl = prefersReducedMotion || viewMode === "list"
     ? ""
     : getEmbedUrl(activeExercise?.videoUrl, { background: true });
   const isVerticalVideo = isYouTubeShortUrl(activeExercise?.videoUrl);
@@ -366,6 +369,9 @@ export function SessionTrackerPage({
   const recentWeightEntries =
     series.exerciseWeights?.[activeExerciseId] ?? [];
   const latestWeight = recentWeightEntries[0]?.weight;
+  const preparation = data.templateLibrary.templates
+    .find((template) => template.id === series.templateId)
+    ?.groups.find((group) => group.group === session.group)?.preparation;
 
   const setExerciseSaving = (exerciseId: string, isSaving: boolean) => {
     setSavingExercises((current) => ({
@@ -542,6 +548,7 @@ export function SessionTrackerPage({
       );
       if (firstInvalidIndex >= 0) {
         setActiveExerciseIndex(firstInvalidIndex);
+        setViewMode("individual");
       }
       return;
     }
@@ -577,7 +584,11 @@ export function SessionTrackerPage({
   }
 
   return (
-    <div className="session-player page-enter tw-min-h-[100dvh]">
+    <div
+      className={`session-player page-enter tw-min-h-[100dvh] ${
+        viewMode === "list" ? "session-player--list" : ""
+      }`}
+    >
       <header className="session-player__header">
         <div className="tw-flex tw-items-center tw-gap-2">
           <button
@@ -593,7 +604,9 @@ export function SessionTrackerPage({
               {series.name} · Dia {session.group}
             </p>
             <h1 className="tw-mt-0.5 tw-truncate tw-font-display tw-text-base tw-font-bold tw-text-slate-50">
-              Exercício {safeActiveIndex + 1} de {playerExercises.length}
+              {viewMode === "list"
+                ? `Todos os exercícios · ${playerExercises.length}`
+                : `Exercício ${safeActiveIndex + 1} de ${playerExercises.length}`}
             </h1>
           </div>
           {isOngoing ? (
@@ -614,6 +627,40 @@ export function SessionTrackerPage({
           )}
         </div>
         <div
+          className="session-view-switch"
+          role="group"
+          aria-label="Visualização do treino"
+        >
+          <button
+            type="button"
+            className="touch-target session-view-switch__button"
+            aria-pressed={viewMode === "individual"}
+            aria-controls="session-individual-view"
+            onClick={() => setViewMode("individual")}
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden>
+              <rect x="4" y="3" width="12" height="14" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" />
+              <path d="M7 8h6m-6 4h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+            Individual
+          </button>
+          <button
+            type="button"
+            className="touch-target session-view-switch__button"
+            aria-pressed={viewMode === "list"}
+            aria-controls="session-list-view"
+            onClick={() => setViewMode("list")}
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden>
+              <path d="M7 5h9M7 10h9M7 15h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx="3.5" cy="5" r="1" fill="currentColor" />
+              <circle cx="3.5" cy="10" r="1" fill="currentColor" />
+              <circle cx="3.5" cy="15" r="1" fill="currentColor" />
+            </svg>
+            Lista
+          </button>
+        </div>
+        <div
           className="tw-mt-3 tw-h-1.5 tw-overflow-hidden tw-rounded-full tw-bg-slate-800"
           role="progressbar"
           aria-label="Progresso da sessão"
@@ -628,7 +675,11 @@ export function SessionTrackerPage({
         </div>
       </header>
 
-      <main className="session-player__main">
+      <main
+        id="session-individual-view"
+        className="session-player__main"
+        hidden={viewMode === "list"}
+      >
         <section
           className="session-player__stage player-enter-visual"
           key={`visual-${activeExercise.id}`}
@@ -681,7 +732,7 @@ export function SessionTrackerPage({
                   {activeExercise.name}
                 </h2>
               </div>
-              {ambientEmbedUrl && (
+              {videoEmbedUrl && (
                 <button
                   type="button"
                   className="session-player__watch play-button touch-target tw-shrink-0 tw-gap-1.5 tw-rounded-full tw-px-3 tw-text-xs tw-font-bold tw-text-slate-950 tw-transition-transform active:tw-scale-[0.96]"
@@ -707,6 +758,12 @@ export function SessionTrackerPage({
                 <dt>RPE</dt>
                 <dd>{activeExercise.rpe || "—"}</dd>
               </div>
+              {activeExercise.load && (
+                <div className="session-player__metric">
+                  <dt>Carga</dt>
+                  <dd>{activeExercise.load}</dd>
+                </div>
+              )}
               <div className="session-player__metric">
                 <dt>Cadência</dt>
                 <dd>{activeExercise.cadence || "Livre"}</dd>
@@ -998,7 +1055,64 @@ export function SessionTrackerPage({
         </div>
       </main>
 
-      <footer className="session-player__footer">
+      <main
+        id="session-list-view"
+        className="session-player__list"
+        hidden={viewMode !== "list"}
+      >
+        <div className="session-player__list-content">
+          <div className="tw-mb-4 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-text-xs tw-text-slate-400">
+            <p>Toque em um exercício para continuar.</p>
+            <span className="tabular-nums tw-shrink-0 tw-font-semibold tw-text-primary">
+              {completedExerciseCount}/{playerExercises.length} feitos
+            </span>
+          </div>
+          <WorkoutPreparation preparation={preparation} />
+          <SessionExerciseList
+            exercises={playerExercises.map(({ exercise, sessionExercise }) => {
+              const sets =
+                setProgressDrafts[exercise.id] ??
+                getInitialSetProgress(
+                  exercise,
+                  sessionExercise.setProgress,
+                  isOngoing,
+                );
+              return {
+                exercise,
+                status: statusOverrides[exercise.id] ?? sessionExercise.status,
+                weight:
+                  weightDrafts[exercise.id] ??
+                  (sessionExercise.weight != null
+                    ? String(sessionExercise.weight)
+                    : ""),
+                completedSets: sets.filter((set) => set.completed).length,
+                totalSets: sets.length,
+              };
+            })}
+            activeExerciseId={activeExerciseId}
+            onSelectExercise={(exerciseId) => {
+              const index = playerExercises.findIndex(
+                ({ exercise }) => exercise.id === exerciseId,
+              );
+              if (index < 0) return;
+              setActiveExerciseIndex(index);
+              setViewMode("individual");
+            }}
+            onPlayVideo={onPlayVideo}
+          />
+          {isOngoing && (
+            <button
+              type="button"
+              className="touch-target tw-mx-auto tw-mt-4 tw-flex tw-px-4 tw-text-xs tw-text-slate-500"
+              onClick={() => onCancel(sessionId)}
+            >
+              Cancelar esta sessão
+            </button>
+          )}
+        </div>
+      </main>
+
+      <footer className="session-player__footer" hidden={viewMode === "list"}>
         <div className="session-player__footer-inner">
           <button
             type="button"

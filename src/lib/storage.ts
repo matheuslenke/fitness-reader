@@ -541,10 +541,8 @@ function createSessionSetProgress(exercise: Exercise): SessionSetProgress[] {
   const setCountMatch = exercise.sets.match(/\d+/);
   const parsedSetCount = setCountMatch ? Number(setCountMatch[0]) : 1;
   const setCount = Math.min(20, Math.max(1, parsedSetCount));
-  const suggestedRepetitionCount = getSuggestedRepetitionCount(exercise.reps);
-
-  return Array.from({ length: setCount }, () => ({
-    repetitions: suggestedRepetitionCount,
+  return Array.from({ length: setCount }, (_, index) => ({
+    repetitions: getSuggestedRepetitionCount(exercise.reps, index),
     completed: false,
   }));
 }

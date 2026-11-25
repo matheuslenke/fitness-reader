@@ -5,8 +5,14 @@ type EmbedOptions = {
 
 export const MAX_REPETITION_COUNT = 999;
 
-export function getSuggestedRepetitionCount(repetitions: string): number {
-  const suggestedCountMatch = repetitions.match(/\d+/);
+export function getSuggestedRepetitionCount(
+  repetitions: string,
+  setIndex = 0,
+): number {
+  const prescriptions = repetitions.split(",");
+  const prescription =
+    prescriptions[Math.min(setIndex, prescriptions.length - 1)] ?? repetitions;
+  const suggestedCountMatch = prescription.match(/\d+/);
   if (!suggestedCountMatch) return 0;
 
   return Math.min(MAX_REPETITION_COUNT, Number(suggestedCountMatch[0]));
@@ -102,7 +108,10 @@ export function getEmbedUrl(
     }
 
     if (hostname === "youtube.com" || hostname === "m.youtube.com") {
-      if (parsedUrl.pathname.startsWith("/shorts/")) {
+      if (
+        parsedUrl.pathname.startsWith("/shorts/") ||
+        parsedUrl.pathname.startsWith("/embed/")
+      ) {
         const id = parsedUrl.pathname.split("/").filter(Boolean)[1] ?? "";
         return id
           ? withPlaybackOptions(
