@@ -1,4 +1,6 @@
 import type { AppData, PlanTemplate, Series } from "../types/fitness";
+import { formatDate } from "../lib/utils";
+import { ActivityIndicator } from "./LoadingScreen";
 import { SeriesList } from "./SeriesList";
 
 interface MorePageProps {
@@ -8,6 +10,7 @@ interface MorePageProps {
   onEditSeries: (series: Series) => void;
   onOpenSeriesModal: () => void;
   onCreateFromTemplate: (templateId: string) => void;
+  onEditTemplate: (template: PlanTemplate) => void;
   onExport: () => void;
   onImport: (file: File) => void;
   isExporting: boolean;
@@ -21,6 +24,7 @@ export function MorePage({
   onEditSeries,
   onOpenSeriesModal,
   onCreateFromTemplate,
+  onEditTemplate,
   onExport,
   onImport,
   isExporting,
@@ -76,30 +80,47 @@ export function MorePage({
                 (count, group) => count + (group.exercises?.length ?? 0),
                 0,
               );
+              const formattedCreationDate = formatDate(template.createdAt);
 
               return (
                 <article
                   key={template.id}
-                  className="app-card tw-flex tw-items-center tw-gap-4 tw-rounded-3xl tw-p-4"
+                  className="app-card tw-rounded-3xl tw-p-4"
                 >
-                  <div className="tw-grid tw-h-12 tw-w-12 tw-shrink-0 tw-place-items-center tw-rounded-2xl tw-bg-primary-dim tw-font-display tw-text-lg tw-font-extrabold tw-text-primary">
-                    {groupCount}
+                  <div className="tw-flex tw-items-start tw-gap-3">
+                    <div className="tw-grid tw-h-12 tw-w-12 tw-shrink-0 tw-place-items-center tw-rounded-2xl tw-bg-primary-dim tw-font-display tw-text-lg tw-font-extrabold tw-text-primary">
+                      {groupCount}
+                    </div>
+                    <div className="tw-min-w-0 tw-flex-1">
+                      <h3 className="tw-text-pretty tw-font-display tw-font-bold tw-text-slate-50">
+                        {template.name}
+                      </h3>
+                      <p className="tabular-nums tw-mt-0.5 tw-text-xs tw-text-slate-400">
+                        {groupCount} grupos · {exerciseCount} exercícios
+                      </p>
+                      <p className="tabular-nums tw-mt-1 tw-text-xs tw-text-slate-500">
+                        {formattedCreationDate
+                          ? `Criado em ${formattedCreationDate}`
+                          : "Data de criação não informada"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="tw-min-w-0 tw-flex-1">
-                    <h3 className="tw-truncate tw-font-display tw-font-bold tw-text-slate-50">
-                      {template.name}
-                    </h3>
-                    <p className="tw-mt-0.5 tw-text-xs tw-text-slate-400 tabular-nums">
-                      {groupCount} grupos · {exerciseCount} exercícios
-                    </p>
+                  <div className="tw-mt-4 tw-grid tw-grid-cols-2 tw-gap-2">
+                    <button
+                      type="button"
+                      className="touch-target tw-rounded-xl tw-bg-slate-800/80 tw-px-3 tw-py-2 tw-text-sm tw-font-semibold tw-text-slate-200 tw-shadow-[inset_0_0_0_1px_rgba(148,163,184,0.14)] tw-transition-transform active:tw-scale-[0.96]"
+                      onClick={() => onEditTemplate(template)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      className="touch-target tw-rounded-xl tw-bg-slate-900/55 tw-px-3 tw-py-2 tw-text-sm tw-font-semibold tw-text-primary tw-shadow-[inset_0_0_0_1px_rgba(190,242,100,0.16)] tw-transition-transform active:tw-scale-[0.96]"
+                      onClick={() => onCreateFromTemplate(template.id)}
+                    >
+                      Usar
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="touch-target tw-shrink-0 tw-rounded-xl tw-bg-slate-900/55 tw-px-3 tw-py-2 tw-text-sm tw-font-semibold tw-text-primary tw-shadow-[inset_0_0_0_1px_rgba(190,242,100,0.16)] tw-transition-transform active:tw-scale-[0.96]"
-                    onClick={() => onCreateFromTemplate(template.id)}
-                  >
-                    Usar
-                  </button>
                 </article>
               );
             })}
@@ -117,18 +138,22 @@ export function MorePage({
         <div className="tw-grid tw-grid-cols-2 tw-gap-3 tw-mt-3">
           <button
             type="button"
-            className="touch-target app-card tw-rounded-2xl tw-px-4 tw-py-3 tw-text-sm tw-font-semibold tw-text-slate-100 tw-transition-transform active:tw-scale-[0.96] disabled:tw-opacity-60"
+            className="touch-target app-card tw-gap-2 tw-rounded-2xl tw-px-4 tw-py-3 tw-text-sm tw-font-semibold tw-text-slate-100 tw-transition-transform active:tw-scale-[0.96] disabled:tw-cursor-wait disabled:tw-opacity-60"
             onClick={onExport}
             disabled={isExporting}
+            aria-busy={isExporting}
           >
+            {isExporting && <ActivityIndicator />}
             {isExporting ? "Exportando…" : "Exportar JSON"}
           </button>
           <label
-            className={`touch-target app-card tw-rounded-2xl tw-px-4 tw-py-3 tw-text-sm tw-font-semibold tw-text-slate-100 tw-transition-transform active:tw-scale-[0.96] ${
+            className={`touch-target app-card tw-gap-2 tw-rounded-2xl tw-px-4 tw-py-3 tw-text-sm tw-font-semibold tw-text-slate-100 tw-transition-transform active:tw-scale-[0.96] ${
               isImporting ? "tw-pointer-events-none tw-opacity-60" : "tw-cursor-pointer"
             }`}
+            aria-busy={isImporting}
           >
-            {isImporting ? "Importando…" : "Importar JSON"}
+            {isImporting && <ActivityIndicator />}
+            <span>{isImporting ? "Importando…" : "Importar JSON"}</span>
             <input
               type="file"
               accept=".json,application/json"

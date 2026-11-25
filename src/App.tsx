@@ -6,10 +6,13 @@ import { AuthPage } from "./components/AuthPage";
 import { ExerciseCard } from "./components/ExerciseCard";
 import { HistoryPage } from "./components/HistoryPage";
 import { LandingPage } from "./components/LandingPage";
+import { LoadingScreen } from "./components/LoadingScreen";
 import { MetricsModal } from "./components/MetricsModal";
 import { MorePage } from "./components/MorePage";
+import { PlanTemplateEditorModal } from "./components/PlanTemplateEditorModal";
 import { ProfilePage } from "./components/ProfilePage";
 import { ProgressPhotoModal } from "./components/ProgressPhotoModal";
+import { PullToRefresh } from "./components/PullToRefresh";
 import { SeriesManagerModal } from "./components/SeriesManagerModal";
 import { SessionsPage } from "./components/SessionsPage";
 import { SessionTrackerPage } from "./components/SessionTrackerPage";
@@ -36,6 +39,7 @@ import {
   getSeriesById,
   replaceAppData as replaceAppDataInSnapshot,
   replaceTemplateLibrary as replaceTemplateLibraryInSnapshot,
+  updatePlanTemplate,
   updateSeries,
   updateSessionExercise as updateSessionExerciseInSnapshot,
   updateSessionStatus,
@@ -58,7 +62,8 @@ import type {
   AppSnapshot,
   Exercise,
   ExerciseLibrary,
-  SessionExerciseStatus,
+  PlanTemplate,
+  SessionExerciseUpdate,
   Series,
   TemplateLibrary,
   ToastState,
@@ -76,17 +81,9 @@ type TrainingAppProps = {
   onLogout: () => Promise<void>;
 };
 
-type StatusScreenProps = {
-  text: string;
-};
-
-function StatusScreen({ text }: StatusScreenProps) {
-  return (
-    <div className="tw-min-h-screen tw-flex tw-items-center tw-justify-center tw-bg-background tw-text-slate-300">
-      {text}
-    </div>
-  );
-}
+type SnapshotUpdate =
+  | AppSnapshot
+  | ((currentSnapshot: AppSnapshot) => AppSnapshot);
 
 function getUserDisplayName(user: User): string {
   const metadata = user.user_metadata as Record<string, unknown>;
@@ -127,6 +124,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   );
   const [seriesModalOpen, setSeriesModalOpen] = useState(false);
   const [seriesToEdit, setSeriesToEdit] = useState<Series | null>(null);
+  const [templateToEdit, setTemplateToEdit] = useState<PlanTemplate | null>(null);
   const [defaultTemplateIdForModal, setDefaultTemplateIdForModal] = useState<
     string | null
   >(null);
@@ -137,6 +135,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const [toast, setToast] = useState<ToastState | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const authUserRef = useRef(authSession.user);
+  const persistenceQueueRef = useRef<Promise<void>>(Promise.resolve());
   authUserRef.current = authSession.user;
   const navigationRef = useRef(initialNavigation);
   navigationRef.current = {
@@ -147,6 +146,8 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   };
 
   const currentSnapshot = snapshot ?? buildDefaultSnapshot();
+  const snapshotRef = useRef(currentSnapshot);
+  snapshotRef.current = currentSnapshot;
   const data: AppData = currentSnapshot;
   const templateLibrary = currentSnapshot.templateLibrary;
   const isLoading = snapshot === undefined;
@@ -246,14 +247,46 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     };
   }, [authSession.userId, showToast]);
 
+  const handleRefresh = useCallback(async () => {
+    try {
+      const nextSnapshot = await readSupabaseAppState(authUserRef.current);
+      setSnapshot(nextSnapshot);
+      showToast("Dados atualizados.", "success", 2200);
+    } catch {
+      showToast("Erro ao atualizar os dados.", "error");
+    }
+  }, [showToast]);
+
   const persistSnapshot = useCallback(
-    async (nextSnapshot: AppSnapshot) => {
-      const savedSnapshot = await writeSupabaseAppState(
-        authSession.userId,
-        nextSnapshot,
+    (update: SnapshotUpdate): Promise<AppSnapshot> => {
+      const operation = persistenceQueueRef.current.then(async () => {
+        const previousSnapshot = snapshotRef.current;
+        const nextSnapshot =
+          typeof update === "function" ? update(previousSnapshot) : update;
+
+        snapshotRef.current = nextSnapshot;
+        setSnapshot(nextSnapshot);
+
+        try {
+          const savedSnapshot = await writeSupabaseAppState(
+            authSession.userId,
+            nextSnapshot,
+          );
+          snapshotRef.current = savedSnapshot;
+          setSnapshot(savedSnapshot);
+          return savedSnapshot;
+        } catch (error) {
+          snapshotRef.current = previousSnapshot;
+          setSnapshot(previousSnapshot);
+          throw error;
+        }
+      });
+
+      persistenceQueueRef.current = operation.then(
+        () => undefined,
+        () => undefined,
       );
-      setSnapshot(savedSnapshot);
-      return savedSnapshot;
+      return operation;
     },
     [authSession.userId],
   );
@@ -461,6 +494,19 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
     setSeriesModalOpen(true);
   }, []);
 
+  const handleTemplateSave = useCallback(
+    async (template: PlanTemplate) => {
+      try {
+        await persistSnapshot(updatePlanTemplate(currentSnapshot, template));
+        showToast("Plano e séries vinculadas atualizados.", "success");
+      } catch (error) {
+        showToast("Erro ao salvar o plano.", "error");
+        throw error;
+      }
+    },
+    [currentSnapshot, persistSnapshot, showToast],
+  );
+
   const handleCloseSeriesModal = useCallback(() => {
     setSeriesModalOpen(false);
     setSeriesToEdit(null);
@@ -632,25 +678,39 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   ]);
 
   const handleFinishSession = useCallback(
-    async (sessionId: string) => {
+    async (
+      sessionId: string,
+      exerciseUpdates: Record<string, SessionExerciseUpdate>,
+    ) => {
       try {
-        await persistSnapshot(
-          updateSessionStatus(currentSnapshot, sessionId, "finished"),
-        );
+        await persistSnapshot((latestSnapshot) => {
+          let nextSnapshot = latestSnapshot;
+
+          for (const [exerciseId, update] of Object.entries(exerciseUpdates)) {
+            nextSnapshot = updateSessionExerciseInSnapshot(
+              nextSnapshot,
+              sessionId,
+              exerciseId,
+              update,
+            );
+          }
+
+          return updateSessionStatus(nextSnapshot, sessionId, "finished");
+        });
         setView("sessions");
         setSelectedSessionId(null);
       } catch {
         showToast("Erro ao finalizar a sessão.", "error");
       }
     },
-    [currentSnapshot, persistSnapshot, showToast],
+    [persistSnapshot, showToast],
   );
 
   const handleCancelSession = useCallback(
     async (sessionId: string) => {
       try {
-        await persistSnapshot(
-          updateSessionStatus(currentSnapshot, sessionId, "canceled"),
+        await persistSnapshot((latestSnapshot) =>
+          updateSessionStatus(latestSnapshot, sessionId, "canceled"),
         );
 
         if (selectedSessionId === sessionId) {
@@ -661,32 +721,30 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         showToast("Erro ao cancelar a sessão.", "error");
       }
     },
-    [currentSnapshot, persistSnapshot, selectedSessionId, showToast],
+    [persistSnapshot, selectedSessionId, showToast],
   );
 
   const handleUpdateSessionExercise = useCallback(
     async (
       sessionId: string,
       exerciseId: string,
-      payload: {
-        weight?: number | null;
-        status?: SessionExerciseStatus;
-      },
+      payload: SessionExerciseUpdate,
     ) => {
       try {
-        await persistSnapshot(
+        await persistSnapshot((latestSnapshot) =>
           updateSessionExerciseInSnapshot(
-            currentSnapshot,
+            latestSnapshot,
             sessionId,
             exerciseId,
             payload,
           ),
         );
-      } catch {
+      } catch (error) {
         showToast("Erro ao atualizar o exercício.", "error");
+        throw error;
       }
     },
-    [currentSnapshot, persistSnapshot, showToast],
+    [persistSnapshot, showToast],
   );
 
   const handleSelectSession = useCallback((sessionId: string) => {
@@ -764,12 +822,13 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
   const showPrimaryTabs = view !== "session-tracker";
 
   if (isLoading) {
-    return <StatusScreen text="Carregando seus dados..." />;
+    return <LoadingScreen phase="data" />;
   }
 
   return (
     <>
-      <div className={showPrimaryTabs ? "app-shell" : ""}>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className={showPrimaryTabs ? "app-shell" : ""}>
         {view === "landing" && (
           <LandingPage
             data={data}
@@ -911,6 +970,7 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
               setSeriesModalOpen(true);
             }}
             onCreateFromTemplate={handleCreateFromTemplate}
+            onEditTemplate={setTemplateToEdit}
             onExport={handleExport}
             onImport={handleImport}
             isExporting={isExporting}
@@ -927,7 +987,8 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
             onExport={handleExport}
           />
         )}
-      </div>
+        </div>
+      </PullToRefresh>
 
       {showPrimaryTabs && (
         <AppTabBar active={primaryTab} onChange={handlePrimaryTabChange} />
@@ -937,6 +998,12 @@ function TrainingApp({ authSession, onLogout }: TrainingAppProps) {
         open={videoExercise != null}
         exercise={videoExercise}
         onClose={() => setVideoExercise(null)}
+      />
+      <PlanTemplateEditorModal
+        open={templateToEdit != null}
+        template={templateToEdit}
+        onClose={() => setTemplateToEdit(null)}
+        onSave={handleTemplateSave}
       />
       <WeightModal
         open={weightExercise != null}
@@ -1085,7 +1152,7 @@ function App() {
   }
 
   if (isAuthLoading) {
-    return <StatusScreen text="Validando sessão do Supabase..." />;
+    return <LoadingScreen phase="session" />;
   }
 
   if (!authSession?.user) {

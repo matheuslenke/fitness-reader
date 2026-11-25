@@ -1,0 +1,109 @@
+{
+  "templates": [
+    {
+      "id": "matheus-hypertrophy-2026-07",
+      "name": "Acumulação e adaptação - Jul/2026",
+      "createdAt": "2026-07-05",
+      "groups": [
+        {
+          "group": "1",
+          "focus": "Costas e tríceps",
+          "exercises": [
+            { "id": "matheus-2026-07-d1-01", "name": "Puxada aberta no pulley", "videoUrl": "https://vimeo.com/559490899", "sets": "4", "reps": "10-12", "group": "1", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-02", "name": "Remada curvada com barra", "videoUrl": "", "sets": "4", "reps": "10-12", "group": "1", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-03", "name": "Pulldown com corda", "videoUrl": "", "sets": "3", "reps": "12-15", "group": "1", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-04", "name": "Remada máquina com pegada neutra", "videoUrl": "https://vimeo.com/559485176", "sets": "3", "reps": "15-20", "group": "1", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-05", "name": "Tríceps corda", "videoUrl": "https://vimeo.com/559492003", "sets": "4", "reps": "10-12", "group": "1", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-06", "name": "Coice com halteres", "videoUrl": "", "sets": "3", "reps": "12-15", "group": "1", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d1-07", "name": "Tríceps testa com barra (deitado)", "videoUrl": "", "sets": "3", "reps": "10-12", "group": "1", "cadence": "2010", "rest": "75s", "rpe": "9-10" }
+          ]
+        },
+        {
+          "group": "2",
+          "focus": "Peito e bíceps",
+          "exercises": [
+            { "id": "matheus-2026-07-d2-01", "name": "Supino inclinado com halteres", "videoUrl": "", "sets": "4", "reps": "10-12", "group": "2", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-02", "name": "Crossover na polia alta", "videoUrl": "", "sets": "4", "reps": "12-15", "group": "2", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-03", "name": "Supino reto na máquina vertical", "videoUrl": "https://vimeo.com/559484203", "sets": "3", "reps": "10-12", "group": "2", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-04", "name": "Flexões de braço no solo", "videoUrl": "", "sets": "3", "reps": "Máximo", "group": "2", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-05", "name": "Rosca direta com halteres", "videoUrl": "", "sets": "4", "reps": "10-12", "group": "2", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-06", "name": "Rosca Scott", "videoUrl": "https://vimeo.com/559492161", "sets": "3", "reps": "12-15", "group": "2", "cadence": "2011", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d2-07", "name": "Rosca martelo com halteres", "videoUrl": "", "sets": "3", "reps": "10-12", "group": "2", "cadence": "2010", "rest": "75s", "rpe": "9-10" }
+          ]
+        },
+        {
+          "group": "3",
+          "focus": "Pernas e abdômen",
+          "exercises": [
+            { "id": "matheus-2026-07-d3-01", "name": "Agachamento hack", "videoUrl": "", "sets": "4", "reps": "10-12", "group": "3", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-02", "name": "Leg press 45°", "videoUrl": "https://vimeo.com/555992051", "sets": "4", "reps": "12-15", "group": "3", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-03", "name": "Cadeira extensora", "videoUrl": "https://vimeo.com/559522622", "sets": "4", "reps": "12-15", "group": "3", "cadence": "2011", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-04", "name": "Mesa flexora", "videoUrl": "https://vimeo.com/559522501", "sets": "3", "reps": "15-20", "group": "3", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-05", "name": "Cadeira abdutora", "videoUrl": "", "sets": "4", "reps": "15-20", "group": "3", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-06", "name": "Prancha abdominal", "videoUrl": "", "sets": "3", "reps": "45-60s", "group": "3", "cadence": "Isotensão", "rest": "45s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d3-07", "name": "Abdominal infra no banco declinado", "videoUrl": "https://vimeo.com/559513148", "sets": "3", "reps": "15-20", "group": "3", "cadence": "2010", "rest": "45s", "rpe": "9-10" }
+          ]
+        },
+        {
+          "group": "4",
+          "focus": "Ombro",
+          "exercises": [
+            { "id": "matheus-2026-07-d4-01", "name": "Elevação lateral com halteres", "videoUrl": "https://vimeo.com/559514210", "sets": "4", "reps": "12-15", "group": "4", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d4-02", "name": "Desenvolvimento militar com halteres (sentado)", "videoUrl": "", "sets": "4", "reps": "10-12", "group": "4", "cadence": "2011", "rest": "90s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d4-03", "name": "Remada alta com halteres", "videoUrl": "", "sets": "3", "reps": "12-15", "group": "4", "cadence": "2010", "rest": "75s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d4-04", "name": "Crucifixo inverso na máquina", "videoUrl": "https://youtube.com/shorts/us3SsaPp310?si=4RQ0T3q6HwxhPA33", "sets": "3", "reps": "15-20", "group": "4", "cadence": "2010", "rest": "60s", "rpe": "9-10" },
+            { "id": "matheus-2026-07-d4-05", "name": "Encolhimento com barra livre", "videoUrl": "", "sets": "3", "reps": "10-12", "group": "4", "cadence": "2010", "rest": "60s", "rpe": "7" },
+            { "id": "matheus-2026-07-d4-06", "name": "Elevação frontal com corda", "videoUrl": "", "sets": "3", "reps": "10-12", "group": "4", "cadence": "2010", "rest": "60s", "rpe": "7" }
+          ]
+        }
+      ],
+      "metadata": {
+        "athleteName": "Matheus Lenke Coutinho",
+        "product": "Programa de treinamento personalizado",
+        "purchaseDate": "",
+        "deliveryNumber": "",
+        "deliveryDate": "2026-07-05",
+        "trainingParameters": {
+          "repetitionsGeneral": "10-20, conforme o exercício",
+          "cadence": "2010 ou 2011, conforme o exercício",
+          "rest": "45-90s, conforme o exercício"
+        },
+        "instructions": {
+          "generalNotes": [
+            "Objetivo: hipertrofia.",
+            "Frequência: quatro sessões de aproximadamente uma hora por semana.",
+            "Fase: acumulação inicial, técnica, volume e adaptação neuromuscular.",
+            "Interromper o exercício se houver dor e comunicar o personal trainer."
+          ],
+          "consultingGuidance": [
+            "Estabilizar as escápulas antes dos exercícios de empurrar ou puxar.",
+            "Nos exercícios de ombro, iniciar com cargas leves e progredir abaixo do limiar de dor.",
+            "Manter a coluna neutra e ativar o core nos exercícios compostos."
+          ]
+        },
+        "questionnaireContext": {
+          "goal": "Hipertrofia",
+          "height": "",
+          "currentWeight": "",
+          "trainingBackground": "Iniciante",
+          "plannedFrequency": "4x por semana, aproximadamente 1h por sessão",
+          "trainingLocation": "Academia completa; elásticos e pesos leves em casa",
+          "bodyDiscomfortsOrGoals": "Lesão prévia no manguito rotador, em melhora",
+          "medicalConditionsOrLimitations": "Controlar carga em caso de dor nos exercícios de ombro; orientação médica para manter o treinamento",
+          "nutritionFollowUp": "",
+          "relevantNotes": "Periodização ondulatória diária; semana 1 de acumulação e adaptação",
+          "anabolicOrHormonalUse": "",
+          "age": "",
+          "dietDifficulty": ""
+        },
+        "sourceMetadata": {
+          "trainerName": "",
+          "planName": "Semana 1 - Acumulação e adaptação",
+          "studentSince": "",
+          "lastTrainingReceived": "2026-07-05",
+          "lastPurchaseDate": ""
+        }
+      }
+    }
+  ]
+}

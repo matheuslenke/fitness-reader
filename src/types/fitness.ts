@@ -46,11 +46,21 @@ export type SessionStatus = "ongoing" | "finished" | "canceled";
 
 export type SessionExerciseStatus = "pending" | "completed" | "skipped";
 
+export type SessionSetProgress = {
+  repetitions: number;
+  completed: boolean;
+};
+
 export interface SessionExercise {
   exerciseId: string;
   weight: number | null;
   status: SessionExerciseStatus;
+  setProgress?: SessionSetProgress[];
 }
+
+export type SessionExerciseUpdate = Partial<
+  Pick<SessionExercise, "weight" | "status" | "setProgress">
+>;
 
 export interface Session {
   id: string;
@@ -76,6 +86,12 @@ export interface Exercise {
   reps: string;
   group: string;
   load?: string | null;
+  cadence?: string | null;
+  rest?: string | null;
+  rpe?: string | null;
+  /** Groups adjacent exercises that should be performed as one sequence. */
+  sequenceId?: string | null;
+  sequenceType?: "bi-set" | "tri-set" | "circuit" | null;
 }
 
 export interface ExerciseGroup {
@@ -96,6 +112,8 @@ export interface ExerciseLibrary {
 export interface PlanTemplate {
   id: string;
   name: string;
+  /** ISO calendar date (YYYY-MM-DD) when the plan was created. */
+  createdAt?: string;
   groups: ExerciseGroup[];
   metadata?: PlanMetadata;
 }

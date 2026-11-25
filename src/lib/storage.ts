@@ -10,10 +10,16 @@ import type {
   Series,
   Session,
   SessionExercise,
+  SessionSetProgress,
   SessionStatus,
   TemplateLibrary,
 } from "../types/fitness";
-import { generateId, nowIso, todayStr } from "./utils";
+import {
+  generateId,
+  getSuggestedRepetitionCount,
+  nowIso,
+  todayStr,
+} from "./utils";
 
 export const DEFAULT_PROFILE_NAME = "Matheus Lenke Coutinho";
 
@@ -79,7 +85,30 @@ function normalizeTemplateLibrary(
     templateLibrary != null &&
     Array.isArray(templateLibrary.templates)
   ) {
-    return templateLibrary;
+    const builtInTemplatesById = new Map(
+      defaultTemplateLibrary.templates.map((template) => [template.id, template]),
+    );
+    const templatesWithBuiltInCreationDates = templateLibrary.templates.map(
+      (template) => {
+        const builtInTemplate = builtInTemplatesById.get(template.id);
+        if (template.createdAt || !builtInTemplate?.createdAt) return template;
+
+        return { ...template, createdAt: builtInTemplate.createdAt };
+      },
+    );
+    const existingTemplateIds = new Set(
+      templatesWithBuiltInCreationDates.map((template) => template.id),
+    );
+    const missingBuiltInTemplates = defaultTemplateLibrary.templates.filter(
+      (template) => !existingTemplateIds.has(template.id),
+    );
+
+    return {
+      templates: [
+        ...templatesWithBuiltInCreationDates,
+        ...missingBuiltInTemplates,
+      ],
+    };
   }
   return defaultTemplateLibrary;
 }
@@ -382,6 +411,7 @@ export function exerciseLibraryToTemplateLibrary(
       {
         id: "default",
         name: "Default",
+        createdAt: todayStr(),
         groups,
       },
     ],
@@ -404,9 +434,68 @@ export function replaceTemplateLibrary(
   snapshot: AppSnapshot,
   templateLibrary: TemplateLibrary,
 ): AppSnapshot {
+  const importedAt = todayStr();
+  const templateLibraryWithCreationDates: TemplateLibrary = {
+    templates: templateLibrary.templates.map((template) =>
+      template.createdAt ? template : { ...template, createdAt: importedAt },
+    ),
+  };
+
   return {
     ...snapshot,
-    templateLibrary: normalizeTemplateLibrary(templateLibrary),
+    templateLibrary: normalizeTemplateLibrary(templateLibraryWithCreationDates),
+  };
+}
+
+export function updatePlanTemplate(
+  snapshot: AppSnapshot,
+  updatedTemplate: PlanTemplate,
+): AppSnapshot {
+  const existingTemplate = getTemplateById(
+    snapshot.templateLibrary,
+    updatedTemplate.id,
+  );
+  if (existingTemplate == null) return snapshot;
+
+  const videoUrls = new Map(
+    updatedTemplate.groups.flatMap((group) =>
+      group.exercises.map((exercise) => [exercise.id, exercise.videoUrl]),
+    ),
+  );
+
+  const series = snapshot.series.map((currentSeries) => {
+    if (currentSeries.templateId !== updatedTemplate.id) return currentSeries;
+
+    if (currentSeries.exercisesByGroup == null) {
+      return {
+        ...currentSeries,
+        exercisesByGroup: instantiateExercisesFromTemplate(updatedTemplate),
+      };
+    }
+
+    const exercisesByGroup = Object.fromEntries(
+      Object.entries(currentSeries.exercisesByGroup).map(
+        ([group, exercises]) => [
+          group,
+          exercises.map((exercise) => {
+            const videoUrl = videoUrls.get(exercise.id);
+            return videoUrl == null ? exercise : { ...exercise, videoUrl };
+          }),
+        ],
+      ),
+    );
+
+    return { ...currentSeries, exercisesByGroup };
+  });
+
+  return {
+    ...snapshot,
+    series,
+    templateLibrary: {
+      templates: snapshot.templateLibrary.templates.map((template) =>
+        template.id === updatedTemplate.id ? updatedTemplate : template,
+      ),
+    },
   };
 }
 
@@ -448,6 +537,18 @@ function updateSessionInSnapshot(
   };
 }
 
+function createSessionSetProgress(exercise: Exercise): SessionSetProgress[] {
+  const setCountMatch = exercise.sets.match(/\d+/);
+  const parsedSetCount = setCountMatch ? Number(setCountMatch[0]) : 1;
+  const setCount = Math.min(20, Math.max(1, parsedSetCount));
+  const suggestedRepetitionCount = getSuggestedRepetitionCount(exercise.reps);
+
+  return Array.from({ length: setCount }, () => ({
+    repetitions: suggestedRepetitionCount,
+    completed: false,
+  }));
+}
+
 export function createSession(
   snapshot: AppSnapshot,
   seriesId: string,
@@ -459,8 +560,9 @@ export function createSession(
   const exercisesInGroup = series.exercisesByGroup?.[group] ?? [];
   const exercises: SessionExercise[] = exercisesInGroup.map((exercise) => ({
     exerciseId: exercise.id,
-    weight: null,
+    weight: series.exerciseWeights?.[exercise.id]?.[0]?.weight ?? null,
     status: "pending",
+    setProgress: createSessionSetProgress(exercise),
   }));
 
   const session: Session = {
@@ -486,6 +588,7 @@ export function updateSessionStatus(
 ): AppSnapshot {
   const session = getSessionById(snapshot, sessionId);
   if (!session) return snapshot;
+  if (session.status === status) return snapshot;
 
   const finishedAt = status === "ongoing" ? null : nowIso();
   let nextSnapshot = updateSessionInSnapshot(snapshot, sessionId, {
@@ -518,6 +621,7 @@ export function updateSessionExercise(
   payload: {
     weight?: number | null;
     status?: SessionExercise["status"];
+    setProgress?: SessionSetProgress[];
   },
 ): AppSnapshot {
   const session = getSessionById(snapshot, sessionId);
@@ -529,6 +633,9 @@ export function updateSessionExercise(
       ...exercise,
       ...(payload.weight !== undefined ? { weight: payload.weight } : {}),
       ...(payload.status !== undefined ? { status: payload.status } : {}),
+      ...(payload.setProgress !== undefined
+        ? { setProgress: payload.setProgress }
+        : {}),
     };
   });
 

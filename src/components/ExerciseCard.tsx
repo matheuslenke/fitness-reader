@@ -28,6 +28,17 @@ export function ExerciseCard({
           <p className="tw-text-sm tw-text-slate-400 tw-mt-1">
             {exercise.sets} × {exercise.reps}
           </p>
+          {(exercise.cadence || exercise.rest || exercise.rpe) && (
+            <p className="tw-text-xs tw-text-slate-500 tw-mt-1">
+              {[
+                exercise.cadence ? `Cadência ${exercise.cadence}` : null,
+                exercise.rest ? `Descanso ${exercise.rest}` : null,
+                exercise.rpe ? `RPE ${exercise.rpe}` : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          )}
           <button
             type="button"
             className="tw-mt-3 tw-px-4 tw-py-2.5 tw-rounded-xl tw-bg-slate-800/80 tw-text-slate-50 tw-text-sm tw-font-semibold touch-target tw-shadow-[inset_0_0_0_1px_rgba(148,163,184,0.14)] tw-transition-transform active:tw-scale-[0.96]"
@@ -39,9 +50,9 @@ export function ExerciseCard({
         {embedUrl && (
           <button
             type="button"
-            className="play-button touch-target tw-shrink-0 tw-w-12 tw-h-12 tw-rounded-2xl tw-bg-active-gradient tw-text-slate-900 tw-font-display tw-font-bold tw-flex tw-items-center tw-justify-center tw-shadow-[0_10px_24px_rgba(132,204,22,0.2)] tw-transition-transform active:tw-scale-[0.96]"
+            className="play-button touch-target tw-h-12 tw-w-12 tw-shrink-0 tw-rounded-2xl tw-bg-active-gradient tw-font-display tw-font-bold tw-text-slate-900 tw-shadow-[0_10px_24px_rgba(132,204,22,0.2)] tw-transition-transform active:tw-scale-[0.96]"
             onClick={() => onPlayVideo(exercise)}
-            aria-label="Ver vídeo"
+            aria-label="Assistir vídeo"
           >
             <span aria-hidden>▶</span>
           </button>

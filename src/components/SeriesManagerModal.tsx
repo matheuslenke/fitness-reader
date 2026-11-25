@@ -43,16 +43,22 @@ export function SeriesManagerModal({
   const [selectedTemplateId, setSelectedTemplateId] = useState(
     defaultTemplateId ?? series?.templateId ?? firstId
   );
+  const [validationMessage, setValidationMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
-      setName(series?.name ?? "");
+      const initialTemplateId = defaultTemplateId ?? series?.templateId ?? firstId;
+      const initialTemplate = templates.find(
+        (template) => template.id === initialTemplateId,
+      );
+      setName(series?.name ?? initialTemplate?.name ?? "");
       setStartDate(series?.startDate ?? todayStr());
       setEndDate(series?.endDate ?? todayStr());
       setStatus(series?.status ?? "active");
-      setSelectedTemplateId(defaultTemplateId ?? series?.templateId ?? firstId);
+      setSelectedTemplateId(initialTemplateId);
+      setValidationMessage(null);
     }
-  }, [open, series, firstId, defaultTemplateId]);
+  }, [open, series, firstId, defaultTemplateId, templates]);
 
   const willReplaceActiveSeries =
     status === "active" &&
@@ -60,10 +66,18 @@ export function SeriesManagerModal({
     currentActiveSeries.id !== series?.id;
 
   const handleSubmit = () => {
-    if (!name.trim()) return;
+    if (!name.trim()) {
+      setValidationMessage("Informe um nome para criar a série.");
+      return;
+    }
+    if (startDate && endDate && endDate < startDate) {
+      setValidationMessage("A data final deve ser igual ou posterior à inicial.");
+      return;
+    }
     const tid = templates.some((t) => t.id === selectedTemplateId)
       ? selectedTemplateId
       : firstId;
+    setValidationMessage(null);
     onSave({
       name: name.trim(),
       startDate,
@@ -112,9 +126,18 @@ export function SeriesManagerModal({
             type="text"
             className="tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border tw-border-slate-600 tw-bg-background tw-text-slate-50"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setValidationMessage(null);
+            }}
             placeholder="Ex: Ciclo Jan-Mar 2026"
+            aria-invalid={validationMessage != null}
           />
+          {validationMessage && (
+            <p className="tw-mt-2 tw-text-sm tw-text-red-300" role="alert">
+              {validationMessage}
+            </p>
+          )}
         </div>
         <div className="tw-grid tw-grid-cols-2 tw-gap-3">
           <div>

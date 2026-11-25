@@ -1,3 +1,5 @@
+import { ActivityIndicator } from "./LoadingScreen";
+
 type AuthPageProps = {
   errorMessage: string | null;
   isSubmitting: boolean;
@@ -33,18 +35,23 @@ export function AuthPage({
 
         <button
           type="button"
-          className="touch-target tw-w-full tw-gap-3 tw-rounded-2xl tw-bg-slate-50 tw-px-4 tw-py-3 tw-font-display tw-text-base tw-font-black tw-text-slate-950 disabled:tw-opacity-70"
+          className="touch-target tw-w-full tw-gap-3 tw-rounded-2xl tw-bg-slate-50 tw-px-4 tw-py-3 tw-font-display tw-text-base tw-font-black tw-text-slate-950 tw-transition-transform active:tw-scale-[0.96] disabled:tw-cursor-wait disabled:tw-opacity-70"
           onClick={() => {
             void onSignInWithGoogle();
           }}
           disabled={isSubmitting}
+          aria-busy={isSubmitting}
         >
-          <span
-            aria-hidden
-            className="tw-flex tw-h-5 tw-w-5 tw-items-center tw-justify-center tw-rounded-full tw-bg-white tw-text-sm"
-          >
-            G
-          </span>
+          {isSubmitting ? (
+            <ActivityIndicator />
+          ) : (
+            <span
+              aria-hidden
+              className="tw-flex tw-h-5 tw-w-5 tw-items-center tw-justify-center tw-rounded-full tw-bg-white tw-text-sm"
+            >
+              G
+            </span>
+          )}
           {isSubmitting ? "Abrindo Google..." : "Continuar com Google"}
         </button>
       </div>

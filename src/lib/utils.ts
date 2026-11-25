@@ -1,17 +1,128 @@
-export function getEmbedUrl(url: string | null | undefined): string {
+type EmbedOptions = {
+  autoplay?: boolean;
+  background?: boolean;
+};
+
+export const MAX_REPETITION_COUNT = 999;
+
+export function getSuggestedRepetitionCount(repetitions: string): number {
+  const suggestedCountMatch = repetitions.match(/\d+/);
+  if (!suggestedCountMatch) return 0;
+
+  return Math.min(MAX_REPETITION_COUNT, Number(suggestedCountMatch[0]));
+}
+
+function withPlaybackOptions(
+  embedUrl: string,
+  provider: "youtube" | "vimeo",
+  options: EmbedOptions,
+  videoId: string,
+): string {
+  if (options.background) {
+    const query =
+      provider === "youtube"
+        ? new URLSearchParams({
+            autoplay: "1",
+            mute: "1",
+            playsinline: "1",
+            controls: "0",
+            loop: "1",
+            playlist: videoId,
+            rel: "0",
+            modestbranding: "1",
+            disablekb: "1",
+          })
+        : new URLSearchParams({
+            background: "1",
+            autoplay: "1",
+            muted: "1",
+            playsinline: "1",
+            loop: "1",
+            controls: "0",
+            autopause: "0",
+          });
+    return `${embedUrl}?${query.toString()}`;
+  }
+
+  if (!options.autoplay) return embedUrl;
+
+  const query =
+    provider === "youtube"
+      ? "autoplay=1&mute=1&playsinline=1&rel=0"
+      : "autoplay=1&muted=1&playsinline=1";
+  return `${embedUrl}?${query}`;
+}
+
+export function isYouTubeShortUrl(url: string | null | undefined): boolean {
+  if (!url) return false;
+
+  try {
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname.replace(/^www\./, "");
+    return (
+      (hostname === "youtube.com" || hostname === "m.youtube.com") &&
+      parsedUrl.pathname.startsWith("/shorts/")
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function getEmbedUrl(
+  url: string | null | undefined,
+  options: EmbedOptions = {},
+): string {
   if (!url) return "";
   try {
-    if (url.includes("vimeo.com/")) {
-      const id = url.split("vimeo.com/")[1]?.split("?")[0]?.split("/")[0] ?? "";
-      return `https://player.vimeo.com/video/${id}`;
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname.replace(/^www\./, "");
+
+    if (hostname === "vimeo.com") {
+      const id = parsedUrl.pathname.split("/").filter(Boolean)[0] ?? "";
+      return id
+        ? withPlaybackOptions(
+            `https://player.vimeo.com/video/${id}`,
+            "vimeo",
+            options,
+            id,
+          )
+        : "";
     }
-    if (url.includes("youtube.com/shorts/")) {
-      const id = url.split("shorts/")[1]?.split("?")[0] ?? "";
-      return `https://www.youtube.com/embed/${id}`;
+
+    if (hostname === "youtu.be") {
+      const id = parsedUrl.pathname.split("/").filter(Boolean)[0] ?? "";
+      return id
+        ? withPlaybackOptions(
+            `https://www.youtube.com/embed/${id}`,
+            "youtube",
+            options,
+            id,
+          )
+        : "";
     }
-    if (url.includes("youtube.com") && url.includes("v=")) {
-      const id = new URL(url).searchParams.get("v");
-      return id ? `https://www.youtube.com/embed/${id}` : "";
+
+    if (hostname === "youtube.com" || hostname === "m.youtube.com") {
+      if (parsedUrl.pathname.startsWith("/shorts/")) {
+        const id = parsedUrl.pathname.split("/").filter(Boolean)[1] ?? "";
+        return id
+          ? withPlaybackOptions(
+              `https://www.youtube.com/embed/${id}`,
+              "youtube",
+              options,
+              id,
+            )
+          : "";
+      }
+
+      const id = parsedUrl.searchParams.get("v");
+      return id
+        ? withPlaybackOptions(
+            `https://www.youtube.com/embed/${id}`,
+            "youtube",
+            options,
+            id,
+          )
+        : "";
     }
   } catch {
     // ignore
